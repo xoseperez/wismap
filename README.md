@@ -11,7 +11,7 @@ At the time being, there is no proper installation procedure so the only way is 
 git clone https://github.com/xoseperez/wismap
 cd wismap
 pip install -r requirements.txt
-python3 wismap.py import
+python3 wismap.py list
 ```
 
 Updating can be done is a similar fashion:
@@ -20,7 +20,7 @@ Updating can be done is a similar fashion:
 cd wismap
 git pull
 pip install -r requirements.txt
-python3 wismap.py import
+python3 wismap.py list
 ```
 
 ## Running the code
@@ -34,7 +34,7 @@ Alternative ways to run the code are available:
     virtualenv .env
     . .env/bin/activate
     pip install -r requirements.txt
-    python3 wismap.py import
+    python3 wismap.py list
     deactivate
     ```
 
@@ -42,16 +42,14 @@ Alternative ways to run the code are available:
 
     ```
     cd wismap
-    make import
+    make list
     ```
 
 ## Usage
 
 ### Import
 
-The import process downloads the latest WisBlock Pin Mapper spreadsheet (https://downloads.rakwireless.com/LoRa/WisBlock/Pin-Mapper/WisBlock-IO-Pin-Mapper.xlsx) and generates a YAML file with the definitions for each module. It also patches that file with custom definitions for some modules (these patches can be found on the `config.yml` file).
-
-It's mandatory to run it at least the first time you use the utility and advisable to do it after each update.
+The import process downloads the latest WisBlock Pin Mapper spreadsheet (https://downloads.rakwireless.com/LoRa/WisBlock/Pin-Mapper/WisBlock-IO-Pin-Mapper.xlsx) and generates a YAML file (`definitions.yml`) with the definitions for each module. It also patches that file with custom definitions for some modules (these patches can be found on the `config.yml` file). The repository includes a version of the `definitions.yml` file built in the same way, so this step is not mandatory.
 
 ```
 python3 wismap.py import
