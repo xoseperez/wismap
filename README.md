@@ -5,7 +5,7 @@ WisMAP is a CLI port written in python for the RAKwireles Pin Mapper spreadsheet
 
 ## Install / Update
 
-At the time being, there is no proper instalation procedure so the only way it to manually retrieve the code, install the dependencies and import the latest definitions from the original Pin Mapper spreadsheet.
+At the time being, there is no proper installation procedure so the only way is to manually retrieve the code, install the dependencies and import the latest definitions from the original Pin Mapper spreadsheet.
 
 ```
 git clone https://github.com/xoseperez/wismap
@@ -165,7 +165,7 @@ Mapping:
 
 ### Combine
 
-This options walks you through different menus and lets you choose a base board, a core module and IO and sensor modules for each slot in the base board and then prints out the complet pin mapping for the whole setup along with information about potential conflicts.
+This options walks you through different menus to let you choose a base board, a core module and IO and sensor modules for each slot in the base board and then prints out the pin mapping for the whole setup along with information about potential conflicts.
 
 ```
 python3 wismap.py combine
@@ -180,6 +180,7 @@ make combine
 Example output:
 
 ```
+...
 ┏━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
 ┃ Function ┃ Base board ┃ Core module ┃ IO_A slot ┃ SENSOR_A slot ┃ SENSOR_B slot ┃ SENSOR_C slot ┃ SENSOR_D slot ┃
 ┃          ┃ (RAK19007) ┃ (RAK4631)   ┃ (EMPTY)   ┃ (RAK12027)    ┃ (BLOCKED)     ┃ (RAK12002)    ┃ (RAK15006)    ┃
@@ -234,6 +235,14 @@ Documentation:
 - RAK12002 WisBlock RTC Module: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12002
 - RAK15006 WisBlock 512kB FRAM Module: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK15006
 ```
+
+## Roadmap
+
+This is a first version and there are many improvements to be done:
+
+* Review all definitions (the Pin Mapper spreadsheet is outdated for some modules and does not include all the required data).
+* Suggest which module should go to wich slot (tbh, no idea how to do it).
+* Create an HTTP service based on this so it can eventually become a webapp.
 
 ## Contribute
 
