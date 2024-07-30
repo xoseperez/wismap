@@ -14,9 +14,9 @@ import inquirer
 # Configuration
 # -----------------------------------------------------------------------------
 
-mapping_file = "config/mapping.yml"
+definitions_file = "config/definitions.yml"
 config_file = "config/config.yml"
-mapping = {}
+definitions = {}
 config = {}
 
 # -----------------------------------------------------------------------------
@@ -29,8 +29,8 @@ def action_list():
     table = Table()
     for column in ['Module', "Type", "Description"]:
         table.add_column(column)
-    for module in mapping.keys():
-        table.add_row(*[module.upper(), mapping[module]['type'], mapping[module]['description']], style='bright_green')
+    for module in definitions.keys():
+        table.add_row(*[module.upper(), definitions[module]['type'], definitions[module]['description']], style='bright_green')
     console = Console()
     console.print(table)
     print()
@@ -42,42 +42,42 @@ def action_list():
 def action_info():
 
     # Get module
-    questions = [inquirer.List('module', message="Select module", choices=[(mapping[module]['description'], module) for module in mapping.keys()], carousel=True,)]
+    questions = [inquirer.List('module', message="Select module", choices=[(definitions[module]['description'], module) for module in definitions.keys()], carousel=True,)]
     answer = inquirer.prompt(questions)
     module = answer['module']
 
     # Notes
-    notes = mapping[module].get('notes', [])
+    notes = definitions[module].get('notes', [])
 
     print(f"Module: {module.upper()}")
-    print(f"Type: {mapping[module]['type']}")
-    print(f"Description: {mapping[module]['description']}")
-    print(f"Documentation: {mapping[module]['documentation']}")
+    print(f"Type: {definitions[module]['type']}")
+    print(f"Description: {definitions[module]['description']}")
+    print(f"Documentation: {definitions[module]['documentation']}")
 
-    if mapping[module]['type'] == 'WisSensor':
-        print(f"Long: {mapping[module].get('double', False)}")
+    if definitions[module]['type'] == 'WisSensor':
+        print(f"Long: {definitions[module].get('double', False)}")
     
-    if 'i2c_address' in mapping[module]:
-        print(f"I2C Address: {mapping[module]['i2c_address']}")
+    if 'i2c_address' in definitions[module]:
+        print(f"I2C Address: {definitions[module]['i2c_address']}")
     
-    if 'mapping' in mapping[module]:
+    if 'mapping' in definitions[module]:
         print(f"Mapping:")
         table = Table()
         for column in ["PIN", "Function"]:
             table.add_column(column)
-        for row in [[str(k), v] for k, v in mapping[module]['mapping'].items()]:
+        for row in [[str(k), v] for k, v in definitions[module]['mapping'].items()]:
             table.add_row(*row, style='bright_green')
         console = Console()
         console.print(table)
     
-    if 'slots' in mapping[module]:
+    if 'slots' in definitions[module]:
 
         print(f"Slots:")
         table = Table()
         table.add_column("ID")
-        for slot in mapping[module]['slots'].keys():
-            double = (mapping[module]['slots'][slot] or {}).get('_double', False)
-            double_blocks = (mapping[module]['slots'][slot] or {}).get('_double_blocks', None)
+        for slot in definitions[module]['slots'].keys():
+            double = (definitions[module]['slots'][slot] or {}).get('_double', False)
+            double_blocks = (definitions[module]['slots'][slot] or {}).get('_double_blocks', None)
             if double_blocks:
                 notes.append(f"Accepts long sensor on {slot} slot but blocking {double_blocks} slot")
             elif double:
@@ -86,8 +86,8 @@ def action_info():
         
         slots = {}
         slot_def = config.get('slots', {})
-        for slot in mapping[module]['slots'].keys():
-            slots[slot] = merge(slot_def[slot], mapping[module]['slots'][slot] or {})
+        for slot in definitions[module]['slots'].keys():
+            slots[slot] = merge(slot_def[slot], definitions[module]['slots'][slot] or {})
 
         for i in range(1, 41):
             row = [str(i)]
@@ -118,6 +118,17 @@ def combine_pins(slot, mapping):
         output[v] = mapping.get(k, "")
     return output
 
+def count_non_empty(elements):
+    return sum(1 for element in elements if element != '')
+
+def count_unique(elements):
+    unique = []
+    for element in elements:
+        if element != '':
+            if element not in unique:
+                unique.append(element)
+    return len(unique)
+
 def function_mapping(slot_module, slots):
 
     # Populate slot mapping
@@ -126,11 +137,11 @@ def function_mapping(slot_module, slots):
         slot_mapping[slot] = {}
         module = slot_module[slot]
         if module:
-            if (mapping[module]['type'] == 'WisCore') or (mapping[module]['type'] == 'WisBase'):
-                slot_mapping[slot] = mapping[module].get('mapping', {})
-            elif (mapping[module]['type'] == 'WisIO') or (mapping[module]['type'] == 'WisSensor'):
-                slot_mapping[slot] = combine_pins(slots[slot], mapping[module].get('mapping', {}))
-            slot_mapping[slot]['I2C_ADDR'] = mapping[module].get('i2c_address', "")
+            if (definitions[module]['type'] == 'WisCore') or (definitions[module]['type'] == 'WisBase'):
+                slot_mapping[slot] = definitions[module].get('mapping', {})
+            elif (definitions[module]['type'] == 'WisIO') or (definitions[module]['type'] == 'WisSensor'):
+                slot_mapping[slot] = combine_pins(slots[slot], definitions[module].get('mapping', {}))
+            slot_mapping[slot]['I2C_ADDR'] = definitions[module].get('i2c_address', "")
 
     # Function mapping
     functions = [
@@ -150,32 +161,32 @@ def function_mapping(slot_module, slots):
 
 def detect_conflicts(function_slot):
 
-    conflicts = []    
+    functions = []
+    notes = []    
+
     for function, values in function_slot.items():
-        values = values[3:]
-        non_empty = sum(1 for value in values if value != '')
+        non_empty = count_non_empty(values[3:])
+        unique = count_unique(values[3:])
         if function == 'I2C_ADDR':
-            addresses = []
-            [x for x in addresses if x not in addresses and not addresses.append(x)]
-            if len(addresses) < non_empty:
-                conflicts.append('Possible conflict with I2C addresses')
+            if non_empty > unique:
+                notes.append('Possible conflict with I2C addresses')
+                functions.append(function)
         if function == 'AIN0':
             if non_empty > 0:
-                conflicts.append('Possible conflict with ADC_VBAT if using AIN0')
+                notes.append('Possible conflict with ADC_VBAT if using AIN0')
+                functions.append(function)
         if function in ('IO1', 'IO2', 'IO3', 'IO4', 'IO5', 'IO6', 'IO7', 'AIN0', 'AIN1', 'RXD0', 'TXD0', 'RXD1', 'TXD1'):
             if non_empty > 1:
-                conflicts.append(f"Possible conflict with {function}")
+                notes.append(f"Possible conflict with {function}")
+                functions.append(function)
         if function == 'IO2':
             if non_empty > 0:
-                values = function_slot['3V3_S']
-                values = values[3:]
-                non_empty = sum(1 for value in values if value != '')
-                if non_empty > 0:
-                    conflicts.append(f"Possible conflict with 3V3_S enable signal if using IO2")
+                if count_non_empty(function_slot['3V3_S'][3:]) > 0:
+                    notes.append(f"Possible conflict with 3V3_S enable signal if using IO2")
+                    functions.append(function)
+                    functions.append('3V3_S')
 
-        
-    
-    return conflicts
+    return [functions, notes]
 
 def action_combine():
 
@@ -186,32 +197,32 @@ def action_combine():
     slot_module={}
 
     # Select base module
-    choices = [(mapping[module]['description'], module) for module in mapping.keys() if mapping[module]['type'] == 'WisBase']
+    choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisBase']
     questions = [inquirer.List('output', message="Select Base Board", choices=choices, carousel=True)]
     slot_module['BASE'] = inquirer.prompt(questions)['output']
 
     # Get slot definitions
     slot_def = config.get('slots', {})
     slots = {}
-    for slot in mapping[slot_module['BASE']]['slots'].keys():
-        slots[slot] = merge(slot_def[slot], mapping[slot_module['BASE']]['slots'][slot] or {})
+    for slot in definitions[slot_module['BASE']]['slots'].keys():
+        slots[slot] = merge(slot_def[slot], definitions[slot_module['BASE']]['slots'][slot] or {})
 
     # Walk the different slots
     for slot in slots:
         
         if slot.startswith('CORE'):
-            choices = [(mapping[module]['description'], module) for module in mapping.keys() if mapping[module]['type'] == 'WisCore']
+            choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisCore']
             questions = [inquirer.List('output', message="Select Core Module", choices=choices, carousel=True)]
             slot_module[slot] = inquirer.prompt(questions)['output']
 
         if slot.startswith('SENSOR'):
-            choices = [(mapping[module]['description'], module) for module in mapping.keys() if mapping[module]['type'] == 'WisSensor']
+            choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisSensor']
             choices.insert(0, ("Empty", ""))
             questions = [inquirer.List('output', message=f"Select Sensor Module in slot {slot}", choices=choices, carousel=True)]
             slot_module[slot] = inquirer.prompt(questions)['output']
 
         if slot.startswith('IO'):
-            choices = [(mapping[module]['description'], module) for module in mapping.keys() if mapping[module]['type'] == 'WisIO']
+            choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisIO']
             choices.insert(0, ("Empty", ""))
             questions = [inquirer.List('output', message=f"Select IO Module in slot {slot}", choices=choices, carousel=True)]
             slot_module[slot] = inquirer.prompt(questions)['output']
@@ -221,7 +232,7 @@ def action_combine():
     # -------------------------------------------------------------------------
     
     function_slot = function_mapping(slot_module, slots)
-    conflicts = detect_conflicts(function_slot)
+    (conflict_functions, conflict_notes) = detect_conflicts(function_slot)
 
     # -------------------------------------------------------------------------
     # View
@@ -244,28 +255,29 @@ def action_combine():
     columns = ["Function\n"]
     print()
     for k, v in slot_module.items():
-        if v in mapping:
+        if v in definitions:
             columns.append(f"{slot_names[k]}\n({v.upper()})")
-            print(f"{slot_names[k]}: {mapping[v]['description']}")
+            print(f"{slot_names[k]}: {definitions[v]['description']}")
         else:
             columns.append(f"{slot_names[k]}\n")
             print(f"{slot_names[k]}: EMPTY")
 
 
-    # Get core board definitions
+    # Get core board mapping
     print()
     print("Mapping:")
     table = Table()
     for column in columns:
         table.add_column(column)
     for function, row in function_slot.items():
-        table.add_row(*row, style='bright_green')
+        style = "bright_yellow" if function in conflict_functions else "bright_green"
+        table.add_row(*row, style=style)
     console = Console()
     console.print(table)
 
-    if len(conflicts):
+    if len(conflict_notes):
         print(f"Potential conflicts:")
-        for conflict in conflicts:
+        for conflict in conflict_notes:
             print(f"- {conflict}")
 
 # -----------------------------------------------------------------------------
@@ -356,7 +368,7 @@ def action_import():
     data = merge(data, config.get('patches', {}))
 
     # Save
-    with open(mapping_file, "w") as w:
+    with open(definitions_file, "w") as w:
         yaml.dump(data, w)
 
     # Delete file
@@ -378,10 +390,10 @@ def usage():
     for action in ACTIONS:
         print(f"> wismap.py {action} {' '.join(ACTIONS[action]['arguments'])}")
 
-# Load mapping data
-if os.path.isfile(mapping_file):
-    with open(mapping_file) as f:
-        mapping = yaml.load(f, Loader=yaml.loader.SafeLoader)
+# Load definitions data
+if os.path.isfile(definitions_file):
+    with open(definitions_file) as f:
+        definitions = yaml.load(f, Loader=yaml.loader.SafeLoader)
 
 # Load configuration data
 if os.path.isfile(config_file):
