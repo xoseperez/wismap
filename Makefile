@@ -26,6 +26,9 @@ list: .venv/touchfile
 info: .venv/touchfile
 	set -e ; . .venv/bin/activate ; python wismap.py info
 
+combine: .venv/touchfile
+	set -e ; . .venv/bin/activate ; python wismap.py combine
+
 setup:
 	pip install -Ur requirements.txt
 

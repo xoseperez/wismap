@@ -1,0 +1,511 @@
+patches:
+
+  # ---------------------------------------------------------------------------
+  # WisSensor and WisIO modules
+  # ---------------------------------------------------------------------------
+
+  rak12001:
+    double: True
+  rak12011:
+    description: RAK12011 WisBlock WP Barometric Sensor
+  rak12027:
+    double: True
+  rak12033:
+    double: True
+  #rak12040:
+  #  double: True
+  #rak12059:
+  #  double: True
+  rak13011:
+    double: True
+  rak18001:
+    mapping:
+      10: PWM1 (NC)
+    notes:
+    - Swap R5 and R6 to change PWM2 to PWM1
+  rak19002:
+    mapping:
+      10: EN1 (NC)
+    notes:
+    - Swap R1 and R3 to change EN2 to EN1
+  rak1910:
+    double: True
+
+  # ---------------------------------------------------------------------------
+  # WisCore modules
+  # ---------------------------------------------------------------------------
+
+  rak11200:
+    description: RAK11200 ESP32 WisBlock Core
+  rak11310:
+    description: RAK11310 RP4020 WisBlock Core
+  rak4631:
+    description: RAK4631 nRF52840 WisBlock Core
+
+  # ---------------------------------------------------------------------------
+  # WisBase modules
+  # ---------------------------------------------------------------------------
+
+  rak19001:
+    type: WisBase
+    description: RAK19001 WisBlock Dual IO Base Board
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19001/
+    slots:
+      CORE:
+        21: ADC_VBAT
+      IO_A:
+      IO_B:
+      SENSOR_A:
+        double: True
+        double_blocks: SENSOR_B
+      SENSOR_B:
+      SENSOR_C:
+        double: True
+        double_blocks: SENSOR_D
+      SENSOR_D:
+      SENSOR_E:
+        double: True
+      SENSOR_F:
+        double: True
+    notes:  
+      - AIN0 is connected to battery (ADC_VBAT)
+  rak19003:
+    type: WisBase
+    description: RAK19003 WisBlock Mini Base Board
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19003/
+    mapping:
+      VDD: VDD
+      GND: GND
+      I2C1_SDA: I2C1_SDA
+      I2C1_SCL: I2C1_SCL
+      RXD1: RXD1
+      TXD1: TXD1
+      BOOT: BOOT
+      VBAT: VBAT
+      VIN: VIN
+      RESET: RESET
+    slots:
+      CORE:
+      SENSOR_C:
+        double: True
+        1: TXD1
+        24: RXD1
+      SENSOR_D:
+        1: TXD1
+        24: RXD1 
+  rak19007:
+    type: WisBase
+    description: RAK19007 WisBlock Base Board 2nd Gen
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19007/
+    slots:
+      CORE:
+      IO_A:
+      SENSOR_A:
+        double: True
+        double_blocks: SENSOR_B
+        1: TXD1
+        24: TXD1
+      SENSOR_B:
+      SENSOR_C:
+      SENSOR_D:
+        double: True
+        1: TXD1
+        24: TXD1
+  rak19009:
+    type: WisBase
+    description: RAK19009 WisBlock Mini Base Board with Power Slot
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19009/
+    slots:
+      CORE:
+      SENSOR_A:
+        double: True
+        1: TXD1
+        10: IO4
+        12: IO3
+        24: RXD1
+      SENSOR_B:
+        1: TXD1
+        10: IO6
+        12: IO5
+        24: RXD1 
+      POWER:
+  rak19010:
+    type: WisBase
+    description: RAK19010 WisBlock Base Board with Power Slot
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19010/
+    slots:
+      CORE:
+      IO_A:
+      SENSOR_A:
+        double: True
+        1: TXD1
+        24: TXD1
+      SENSOR_B:
+      SENSOR_C:
+      SENSOR_D:
+        double: True
+        1: TXD1
+        24: TXD1
+      POWER:
+  rak19011:
+    type: WisBase
+    description: RAK19011 WisBlock Dual IO Base Board with Power Slot
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19011/
+    slots:
+      CORE:
+        21: ADC_VBAT
+      IO_A:
+      IO_B:
+      SENSOR_A:
+        double: True
+        double_blocks: SENSOR_B
+      SENSOR_B:
+      SENSOR_C:
+        double: True
+        double_blocks: SENSOR_D
+      SENSOR_D:
+      SENSOR_E:
+        double: True
+      SENSOR_F:
+        double: True
+      POWER:
+    notes:  
+      - AIN0 is connected to battery (ADC_VBAT)
+  rak5005-o:
+    type: WisBase
+    description: RAK5005-O WisBlock Base Board
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK5005-O/
+    slots:
+      CORE:
+      IO_A:
+      SENSOR_A:
+        double: True
+        double_blocks: SENSOR_B
+        1: TXD1
+        24: TXD1
+      SENSOR_B:
+      SENSOR_C:
+        double: True
+        double_blocks: SENSOR_D
+      SENSOR_D:
+
+# -----------------------------------------------------------------------------
+# Common slot definitions (can be superseded by WisBase modules)
+# -----------------------------------------------------------------------------
+
+slots:
+  CORE:
+    1: VBAT
+    2: VBAT
+    3: GND
+    4: GND
+    5: 3V3
+    6: 3V3
+    7: USB+
+    8: USB-
+    9: VBUS
+    10: SW1
+    11: TXD0
+    12: RXD0
+    13: RESET
+    14: LED1
+    15: LED2
+    16: LED3
+    17: VDD 
+    18: VDD 
+    19: I2C1_SDA 
+    20: I2C1_SCL
+    21: AIN0 
+    22: AIN1 
+    23: BOOT0 
+    24: IO7 
+    25: SPI_CS
+    26: SPI_CLK
+    27: SPI_MISO
+    28: SPI_MOSI
+    29: IO1
+    30: IO2
+    31: IO3
+    32: IO4
+    33: TXD1
+    34: RXD1
+    35: I2C2_SDA
+    36: I2C2_SCL
+    37: IO5
+    38: IO6
+    39: GND 
+    40: GND
+  IO_A:
+    1: VBAT
+    2: VBAT
+    3: GND
+    4: GND
+    5: 3V3
+    6: 3V3_S
+    7: USB+
+    8: USB-
+    9: VBUS
+    10: SW1
+    11: TXD0
+    12: RXD0
+    13: RESET
+    14: LED1
+    15: LED2
+    16: LED3
+    17: VDD 
+    18: VDD 
+    19: I2C1_SDA 
+    20: I2C1_SCL
+    21: AIN0 
+    22: AIN1 
+    23: NC 
+    24: NC
+    25: SPI_CS
+    26: SPI_CLK
+    27: SPI_MISO
+    28: SPI_MOSI
+    29: IO1
+    30: IO2
+    31: IO3
+    32: IO4
+    33: TXD1
+    34: RXD1
+    35: I2C2_SDA
+    36: I2C2_SCL
+    37: IO5
+    38: IO6
+    39: GND 
+    40: GND
+  IO_B:
+    1: VBAT
+    2: VBAT
+    3: GND
+    4: GND
+    5: 3V3
+    6: 3V3_S
+    7: USB+
+    8: USB-
+    9: VBUS
+    10: SW1
+    11: TXD0
+    12: RXD0
+    13: RESET
+    14: LED1
+    15: LED2
+    16: LED3
+    17: VDD 
+    18: VDD 
+    19: I2C1_SDA 
+    20: I2C1_SCL
+    21: AIN0 
+    22: AIN1 
+    23: NC 
+    24: NC
+    25: SPI_CS
+    26: SPI_CLK
+    27: SPI_MISO
+    28: SPI_MOSI
+    29: IO1
+    30: IO2
+    31: IO3
+    32: IO4
+    33: TXD1
+    34: RXD1
+    35: I2C2_SDA
+    36: I2C2_SCL
+    37: IO5
+    38: IO6
+    39: GND 
+    40: GND
+  SENSOR_A:
+    1: TXD0
+    2: GND
+    3: SPI_CS
+    4: SPI_CLK
+    5: SPI_MISO
+    6: SPI_MOSI
+    7: I2C1_SCL
+    8: I2C1_SDA
+    9: VDD
+    10: IO2
+    11: 3V3_S
+    12: IO1
+    13: NC
+    14: 3V3_S
+    15: NC 
+    16: VDD
+    17: NC 
+    18: NC 
+    19: NC 
+    20: NC 
+    21: NC 
+    22: NC 
+    23: GND 
+    24: RXD0 
+  SENSOR_B:
+    1: NC
+    2: GND
+    3: SPI_CS
+    4: SPI_CLK
+    5: SPI_MISO
+    6: SPI_MOSI
+    7: I2C1_SCL
+    8: I2C1_SDA
+    9: VDD
+    10: IO1
+    11: 3V3_S
+    12: IO2
+    13: NC
+    14: 3V3_S
+    15: NC 
+    16: VDD
+    17: NC 
+    18: NC 
+    19: NC 
+    20: NC 
+    21: NC 
+    22: NC 
+    23: GND 
+    24: NC 
+  SENSOR_C:
+    1: NC
+    2: GND
+    3: SPI_CS
+    4: SPI_CLK
+    5: SPI_MISO
+    6: SPI_MOSI
+    7: I2C1_SCL
+    8: I2C1_SDA
+    9: VDD
+    10: IO4
+    11: 3V3_S
+    12: IO3
+    13: NC
+    14: 3V3_S
+    15: NC 
+    16: VDD
+    17: NC 
+    18: NC 
+    19: NC 
+    20: NC 
+    21: NC 
+    22: NC 
+    23: GND 
+    24: NC 
+  SENSOR_D:
+    1: NC
+    2: GND
+    3: SPI_CS
+    4: SPI_CLK
+    5: SPI_MISO
+    6: SPI_MOSI
+    7: I2C1_SCL
+    8: I2C1_SDA
+    9: VDD
+    10: IO6
+    11: 3V3_S
+    12: IO5
+    13: NC
+    14: 3V3_S
+    15: NC 
+    16: VDD
+    17: NC 
+    18: NC 
+    19: NC 
+    20: NC 
+    21: NC 
+    22: NC 
+    23: GND 
+    24: NC 
+  SENSOR_E:
+    1: TXD0
+    2: GND
+    3: SPI_CS
+    4: SPI_CLK
+    5: SPI_MISO
+    6: SPI_MOSI
+    7: I2C1_SCL
+    8: I2C1_SDA
+    9: VDD
+    10: IO3
+    11: 3V3_S
+    12: IO4
+    13: NC
+    14: 3V3_S
+    15: NC 
+    16: VDD
+    17: NC 
+    18: NC 
+    19: NC 
+    20: NC 
+    21: NC 
+    22: NC 
+    23: GND 
+    24: RXD0 
+  SENSOR_F:
+    1: TXD1
+    2: GND
+    3: SPI_CS
+    4: SPI_CLK
+    5: SPI_MISO
+    6: SPI_MOSI
+    7: I2C1_SCL
+    8: I2C1_SDA
+    9: VDD
+    10: IO5
+    11: 3V3_S
+    12: IO6
+    13: NC
+    14: 3V3_S
+    15: NC 
+    16: VDD
+    17: NC 
+    18: NC 
+    19: NC 
+    20: NC 
+    21: NC 
+    22: NC 
+    23: GND 
+    24: RXD1 
+  POWER:
+    1: VBAT
+    2: VBAT
+    3: GND
+    4: GND
+    5: 3V3
+    6: 3V3
+    7: USB+
+    8: USB-
+    9: VBUS
+    10: VBUS
+    11: NC
+    12: NC
+    13: RESET
+    14: LED1
+    15: LED2
+    16: NC
+    17: 3V3
+    18: 3V3
+    19: I2C1_SDA 
+    20: I2C1_SCL
+    21: AIN0 
+    22: AIN1 
+    23: NC 
+    24: NC
+    25: SPI_CS
+    26: SPI_CLK
+    27: SPI_MISO
+    28: SPI_MOSI
+    29: NC
+    30: NC
+    31: NC
+    32: NC
+    33: NC
+    34: NC
+    35: I2C2_SDA
+    36: I2C2_SCL
+    37: IO5
+    38: IO6
+    39: GND 
+    40: GND
+

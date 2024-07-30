@@ -8,14 +8,16 @@ from rich.table import Table
 from mergedeep import merge
 import openpyxl
 import requests
+import inquirer
 
 # -----------------------------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------------------------
 
 mapping_file = "config/mapping.yml"
-slots_file = "config/slots.yml"
-patches_file = "config/patches.yml"
+config_file = "config/config.yml"
+mapping = {}
+config = {}
 
 # -----------------------------------------------------------------------------
 # Action LIST
@@ -23,81 +25,70 @@ patches_file = "config/patches.yml"
 
 def action_list():
 
-    # Open data module
-    if not os.path.isfile(mapping_file):
-        print("ERROR: map file does not exist, please run import first")
-        sys.exit(1)
-    with open(mapping_file) as f:
-        data = yaml.load(f, Loader=yaml.loader.SafeLoader)
-
     print()
     table = Table()
     for column in ['Module', "Type", "Description"]:
         table.add_column(column)
-    for module in data.keys():
-        table.add_row(*[module.upper(), data[module]['type'], data[module]['description']], style='bright_green')
+    for module in mapping.keys():
+        table.add_row(*[module.upper(), mapping[module]['type'], mapping[module]['description']], style='bright_green')
     console = Console()
     console.print(table)
     print()
 
 # -----------------------------------------------------------------------------
-# Action LIST
+# Action INFO
 # -----------------------------------------------------------------------------
 
 def action_info():
 
-    # Open data module
-    if not os.path.isfile(mapping_file):
-        print("ERROR: map file does not exist, please run import first")
-        sys.exit(1)
-    with open(mapping_file) as f:
-        data = yaml.load(f, Loader=yaml.loader.SafeLoader)
+    # Get module
+    questions = [inquirer.List('module', message="Select module", choices=[(mapping[module]['description'], module) for module in mapping.keys()], carousel=True,)]
+    answer = inquirer.prompt(questions)
+    module = answer['module']
 
-    module = sys.argv[2].lower()
-    if not module in data.keys():
-        print(f"ERROR: module {module.upper()} does not exist")
-        sys.exit(1)
-    
-    if 'slots' in data[module]:
-        if not os.path.isfile(slots_file):
-            print("ERROR: slots file does not exist, please checkout project again")
-            sys.exit(1)
-        with open(slots_file) as f:
-            slot_def = yaml.load(f, Loader=yaml.loader.SafeLoader)
+    # Notes
+    notes = mapping[module].get('notes', [])
 
-    print()
-    
     print(f"Module: {module.upper()}")
-    print(f"Type: {data[module]['type']}")
-    print(f"Description: {data[module]['description']}")
-    print(f"Documentation: {data[module]['documentation']}")
+    print(f"Type: {mapping[module]['type']}")
+    print(f"Description: {mapping[module]['description']}")
+    print(f"Documentation: {mapping[module]['documentation']}")
+
+    if mapping[module]['type'] == 'WisSensor':
+        print(f"Long: {mapping[module].get('double', False)}")
     
-    if 'i2c_address' in data[module]:
-        print(f"I2C Address: {data[module]['i2c_address']}")
+    if 'i2c_address' in mapping[module]:
+        print(f"I2C Address: {mapping[module]['i2c_address']}")
     
-    if 'mapping' in data[module]:
+    if 'mapping' in mapping[module]:
         print(f"Mapping:")
         table = Table()
         for column in ["PIN", "Function"]:
             table.add_column(column)
-        for row in [[str(k), v] for k, v in data[module]['mapping'].items()]:
+        for row in [[str(k), v] for k, v in mapping[module]['mapping'].items()]:
             table.add_row(*row, style='bright_green')
         console = Console()
         console.print(table)
     
-    if 'slots' in data[module]:
+    if 'slots' in mapping[module]:
 
         print(f"Slots:")
         table = Table()
-        columns = list(data[module]['slots'].keys())
-        columns.insert(0, "ID")
-        for column in columns:
-            table.add_column(column)
+        table.add_column("ID")
+        for slot in mapping[module]['slots'].keys():
+            double = (mapping[module]['slots'][slot] or {}).get('_double', False)
+            double_blocks = (mapping[module]['slots'][slot] or {}).get('_double_blocks', None)
+            if double_blocks:
+                notes.append(f"Accepts long sensor on {slot} slot but blocking {double_blocks} slot")
+            elif double:
+                notes.append(f"Accepts long sensor on {slot} slot")
+            table.add_column(slot)
         
         slots = {}
-        for slot in data[module]['slots'].keys():
-            slots[slot] = merge(slot_def[slot], data[module]['slots'][slot] or {})
-        
+        slot_def = config.get('slots', {})
+        for slot in mapping[module]['slots'].keys():
+            slots[slot] = merge(slot_def[slot], mapping[module]['slots'][slot] or {})
+
         for i in range(1, 41):
             row = [str(i)]
             for slot in slots:
@@ -110,12 +101,172 @@ def action_info():
         console = Console()
         console.print(table)
 
-    if 'notes' in data[module]:
+    if len(notes):
         print(f"Notes:")
-        for note in data[module]['notes']:
+        for note in notes:
             print(f"- {note}")
     
     print()
+
+# -----------------------------------------------------------------------------
+# Action COMBINE
+# -----------------------------------------------------------------------------
+
+def combine_pins(slot, mapping):
+    output = {}
+    for k, v in slot.items():
+        output[v] = mapping.get(k, "")
+    return output
+
+def function_mapping(slot_module, slots):
+
+    # Populate slot mapping
+    slot_mapping = {}
+    for slot in slot_module:
+        slot_mapping[slot] = {}
+        module = slot_module[slot]
+        if module:
+            if (mapping[module]['type'] == 'WisCore') or (mapping[module]['type'] == 'WisBase'):
+                slot_mapping[slot] = mapping[module].get('mapping', {})
+            elif (mapping[module]['type'] == 'WisIO') or (mapping[module]['type'] == 'WisSensor'):
+                slot_mapping[slot] = combine_pins(slots[slot], mapping[module].get('mapping', {}))
+            slot_mapping[slot]['I2C_ADDR'] = mapping[module].get('i2c_address', "")
+
+    # Function mapping
+    functions = [
+        'I2C_ADDR', '3V3', '3V3_S', 'AIN0', 'AIN1', 'BOOT0', 'GND', 'I2C1_SCL', 'I2C1_SDA', 'I2C2_SCL', 'I2C2_SDA', 
+        'IO1', 'IO2', 'IO3', 'IO4', 'IO5', 'IO6', 'IO7', 'LED1', 'LED2', 'LED3', 'RESET', 'RXD0', 'RXD1', 
+        'SPI_CLK', 'SPI_CS', 'SPI_MISO', 'SPI_MOSI', 'SW1', 'TXD0', 'TXD1', 'USB+', 
+        'USB-', 'VBAT', 'VBAT_NRF', 'VBAT_SX', 'VBUS', 'VDD', 'VDD_NRF', 'VIN'
+    ]
+    function_slot = {}
+    for function in functions:
+        row = [function]
+        for slot in slot_mapping:
+            row.append(slot_mapping[slot].get(function, ""))
+        function_slot[function] = row
+
+    return function_slot
+
+def detect_conflicts(function_slot):
+
+    conflicts = []    
+    for function, values in function_slot.items():
+        values = values[3:]
+        non_empty = sum(1 for value in values if value != '')
+        if function == 'I2C_ADDR':
+            addresses = []
+            [x for x in addresses if x not in addresses and not addresses.append(x)]
+            if len(addresses) < non_empty:
+                conflicts.append('Possible conflict with I2C addresses')
+        if function == 'AIN0':
+            if non_empty > 0:
+                conflicts.append('Possible conflict with ADC_VBAT if using AIN0')
+        if function in ('IO1', 'IO2', 'IO3', 'IO4', 'IO5', 'IO6', 'IO7', 'AIN0', 'AIN1', 'RXD0', 'TXD0', 'RXD1', 'TXD1'):
+            if non_empty > 1:
+                conflicts.append(f"Possible conflict with {function}")
+        if function == 'IO2':
+            if non_empty > 0:
+                values = function_slot['3V3_S']
+                values = values[3:]
+                non_empty = sum(1 for value in values if value != '')
+                if non_empty > 0:
+                    conflicts.append(f"Possible conflict with 3V3_S enable signal if using IO2")
+
+        
+    
+    return conflicts
+
+def action_combine():
+
+    # -------------------------------------------------------------------------
+    # Gather info
+    # -------------------------------------------------------------------------
+
+    slot_module={}
+
+    # Select base module
+    choices = [(mapping[module]['description'], module) for module in mapping.keys() if mapping[module]['type'] == 'WisBase']
+    questions = [inquirer.List('output', message="Select Base Board", choices=choices, carousel=True)]
+    slot_module['BASE'] = inquirer.prompt(questions)['output']
+
+    # Get slot definitions
+    slot_def = config.get('slots', {})
+    slots = {}
+    for slot in mapping[slot_module['BASE']]['slots'].keys():
+        slots[slot] = merge(slot_def[slot], mapping[slot_module['BASE']]['slots'][slot] or {})
+
+    # Walk the different slots
+    for slot in slots:
+        
+        if slot.startswith('CORE'):
+            choices = [(mapping[module]['description'], module) for module in mapping.keys() if mapping[module]['type'] == 'WisCore']
+            questions = [inquirer.List('output', message="Select Core Module", choices=choices, carousel=True)]
+            slot_module[slot] = inquirer.prompt(questions)['output']
+
+        if slot.startswith('SENSOR'):
+            choices = [(mapping[module]['description'], module) for module in mapping.keys() if mapping[module]['type'] == 'WisSensor']
+            choices.insert(0, ("Empty", ""))
+            questions = [inquirer.List('output', message=f"Select Sensor Module in slot {slot}", choices=choices, carousel=True)]
+            slot_module[slot] = inquirer.prompt(questions)['output']
+
+        if slot.startswith('IO'):
+            choices = [(mapping[module]['description'], module) for module in mapping.keys() if mapping[module]['type'] == 'WisIO']
+            choices.insert(0, ("Empty", ""))
+            questions = [inquirer.List('output', message=f"Select IO Module in slot {slot}", choices=choices, carousel=True)]
+            slot_module[slot] = inquirer.prompt(questions)['output']
+
+    # -------------------------------------------------------------------------
+    # Build mapping
+    # -------------------------------------------------------------------------
+    
+    function_slot = function_mapping(slot_module, slots)
+    conflicts = detect_conflicts(function_slot)
+
+    # -------------------------------------------------------------------------
+    # View
+    # -------------------------------------------------------------------------
+
+    # Header
+    slot_names = {
+        'BASE': 'Base board',
+        'CORE': 'Core module',
+        'SENSOR_A': 'SENSOR_A slot',
+        'SENSOR_B': 'SENSOR_B slot',
+        'SENSOR_C': 'SENSOR_C slot',
+        'SENSOR_D': 'SENSOR_D slot',
+        'SENSOR_E': 'SENSOR_E slot',
+        'SENSOR_F': 'SENSOR_F slot',
+        'IO_A': 'IO_A slot',
+        'IO_B': 'IO_B slot',
+    }
+
+    columns = ["Function\n"]
+    print()
+    for k, v in slot_module.items():
+        if v in mapping:
+            columns.append(f"{slot_names[k]}\n({v.upper()})")
+            print(f"{slot_names[k]}: {mapping[v]['description']}")
+        else:
+            columns.append(f"{slot_names[k]}\n")
+            print(f"{slot_names[k]}: EMPTY")
+
+
+    # Get core board definitions
+    print()
+    print("Mapping:")
+    table = Table()
+    for column in columns:
+        table.add_column(column)
+    for function, row in function_slot.items():
+        table.add_row(*row, style='bright_green')
+    console = Console()
+    console.print(table)
+
+    if len(conflicts):
+        print(f"Potential conflicts:")
+        for conflict in conflicts:
+            print(f"- {conflict}")
 
 # -----------------------------------------------------------------------------
 # Action IMPORT
@@ -139,17 +290,19 @@ def import_sheet(data, sheet):
     data[module_code]['type'] = module_type
 
     # Get description
-    pin_column = 2
-    function_column = 4
+    key_column = 2
+    value_column = 4
+    rows = 40
     if module_type == "WisBase":
         module_description = module_code
     if module_type == "WisCore":
         module_description = module_code
-        function_column = 3
+        key_column = 3
     if module_type == "WisIO":
         module_description = sheet['C45'].value
     if module_type == "WisSensor":
         module_description = sheet['C29'].value
+        rows = 24
     data[module_code]['description'] = module_description.strip()
 
     # Get documentation
@@ -157,20 +310,20 @@ def import_sheet(data, sheet):
     data[module_code]['documentation'] = module_docs
 
     # Get mapping
-    row = 4 
     mapping = {}   
-    while True:
-        pin = str(sheet.cell(row = row, column = pin_column).value)
-        if not pin.isnumeric():
+    for row in range(4, rows+4):
+        pin = str(sheet.cell(row = row, column = key_column).value)
+        if pin == "" or pin == "Description":
             break
-        function = sheet.cell(row = row, column = function_column).value
+        function = sheet.cell(row = row, column = value_column).value
+        if pin.isnumeric():
+            pin = int(pin)
         if function != "NC":
-            mapping[int(pin)] = function
-        row = row + 1
+            mapping[pin] = function
     data[module_code]['mapping'] = mapping
 
     # I2C Address
-    address = str(sheet.cell(row = row+2, column = 3).value)
+    address = str(sheet.cell(row = row+3, column = 3).value)
     if address.startswith("I2C Address:"):
         data[module_code]['i2c_address'] = address[13:].strip()
 
@@ -200,13 +353,10 @@ def action_import():
             import_sheet(data, sheet)
 
     # Apply patches
-    if os.path.isfile(patches_file):
-        with open(patches_file) as f:
-            patches = yaml.load(f, Loader=yaml.loader.SafeLoader)
-        data = merge(data, patches)
+    data = merge(data, config.get('patches', {}))
 
     # Save
-    with open("config/mapping.yml", "w") as w:
+    with open(mapping_file, "w") as w:
         yaml.dump(data, w)
 
     # Delete file
@@ -219,13 +369,24 @@ def action_import():
 
 ACTIONS = { 
     "list" : { 'arguments': [], 'method': action_list },
-    "info" : { 'arguments': ['<module>'], 'method': action_info },
+    "info" : { 'arguments': [], 'method': action_info },
+    "combine" : { 'arguments': [], 'method': action_combine },
     "import" : { 'arguments': [], 'method': action_import },
 }
 
 def usage():
     for action in ACTIONS:
         print(f"> wismap.py {action} {' '.join(ACTIONS[action]['arguments'])}")
+
+# Load mapping data
+if os.path.isfile(mapping_file):
+    with open(mapping_file) as f:
+        mapping = yaml.load(f, Loader=yaml.loader.SafeLoader)
+
+# Load configuration data
+if os.path.isfile(config_file):
+    with open(config_file) as f:
+        config = yaml.load(f, Loader=yaml.loader.SafeLoader)
 
 # Check arguments
 if len(sys.argv) < 2:
