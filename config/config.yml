@@ -6,8 +6,6 @@ patches:
 
   rak12001:
     double: True
-  rak12011:
-    description: RAK12011 WisBlock WP Barometric Sensor
   rak12027:
     double: True
   rak12033:

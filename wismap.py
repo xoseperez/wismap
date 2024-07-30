@@ -136,7 +136,7 @@ def function_mapping(slot_module, slots):
     for slot in slot_module:
         slot_mapping[slot] = {}
         module = slot_module[slot]
-        if module:
+        if module and module != 'BLOCKED' and module != 'EMPTY':
             if (definitions[module]['type'] == 'WisCore') or (definitions[module]['type'] == 'WisBase'):
                 slot_mapping[slot] = definitions[module].get('mapping', {})
             elif (definitions[module]['type'] == 'WisIO') or (definitions[module]['type'] == 'WisSensor'):
@@ -208,22 +208,35 @@ def action_combine():
         slots[slot] = merge(slot_def[slot], definitions[slot_module['BASE']]['slots'][slot] or {})
 
     # Walk the different slots
+    blocked = []
     for slot in slots:
         
+        if slot in blocked:
+            print(f"{slot} is blocked by another sensor\n")
+            slot_module[slot] = 'BLOCKED'
+            continue
+
         if slot.startswith('CORE'):
             choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisCore']
             questions = [inquirer.List('output', message="Select Core Module", choices=choices, carousel=True)]
             slot_module[slot] = inquirer.prompt(questions)['output']
 
         if slot.startswith('SENSOR'):
-            choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisSensor']
-            choices.insert(0, ("Empty", ""))
+            is_double = slots[slot].get('double', False)
+            choices = [(definitions[module]['description'], module) for module in definitions.keys() if (definitions[module]['type'] == 'WisSensor') and (is_double or not definitions[module].get('double', False))]
+            choices.insert(0, ("Empty", "EMPTY"))
             questions = [inquirer.List('output', message=f"Select Sensor Module in slot {slot}", choices=choices, carousel=True)]
             slot_module[slot] = inquirer.prompt(questions)['output']
+            if slot_module[slot] != 'EMPTY':
+                if definitions[slot_module[slot]].get('double', False):
+                    blocks = slots[slot].get('double_blocks', None)
+                    if blocks:
+                        blocked.append(blocks)
+
 
         if slot.startswith('IO'):
             choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisIO']
-            choices.insert(0, ("Empty", ""))
+            choices.insert(0, ("Empty", "EMPTY"))
             questions = [inquirer.List('output', message=f"Select IO Module in slot {slot}", choices=choices, carousel=True)]
             slot_module[slot] = inquirer.prompt(questions)['output']
 
@@ -253,19 +266,15 @@ def action_combine():
     }
 
     columns = ["Function\n"]
-    print()
     for k, v in slot_module.items():
-        if v in definitions:
+        if v:
             columns.append(f"{slot_names[k]}\n({v.upper()})")
-            print(f"{slot_names[k]}: {definitions[v]['description']}")
         else:
             columns.append(f"{slot_names[k]}\n")
-            print(f"{slot_names[k]}: EMPTY")
 
 
     # Get core board mapping
     print()
-    print("Mapping:")
     table = Table()
     for column in columns:
         table.add_column(column)
@@ -279,6 +288,11 @@ def action_combine():
         print(f"Potential conflicts:")
         for conflict in conflict_notes:
             print(f"- {conflict}")
+
+    print(f"Documentation:")
+    for k, v in slot_module.items():
+        if v in definitions:
+            print(f"- {definitions[v]['description']}: {definitions[v]['documentation']}")
 
 # -----------------------------------------------------------------------------
 # Action IMPORT
@@ -315,7 +329,7 @@ def import_sheet(data, sheet):
     if module_type == "WisSensor":
         module_description = sheet['C29'].value
         rows = 24
-    data[module_code]['description'] = module_description.strip()
+    data[module_code]['description'] = module_description.strip(' "\'\t\r\n')
 
     # Get documentation
     module_docs = "https://docs.rakwireless.com/Product-Categories/WisBlock/" + sheet.title.upper()
@@ -337,7 +351,7 @@ def import_sheet(data, sheet):
     # I2C Address
     address = str(sheet.cell(row = row+3, column = 3).value)
     if address.startswith("I2C Address:"):
-        data[module_code]['i2c_address'] = address[13:].strip()
+        data[module_code]['i2c_address'] = address[13:].strip(' "\'\t\r\n')
 
            
 def action_import():
