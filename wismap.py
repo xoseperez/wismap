@@ -375,7 +375,7 @@ def import_sheet(data, sheet):
 
     # I2C Address
     address = str(sheet.cell(row = row+3, column = 2+column_offset).value)
-    matches = re.findall(r"0x\d\d", address)
+    matches = re.findall(r"0x[0-9a-fA-F]{2}", address)
     if len(matches):
         data[module_code]['i2c_address'] = matches[0]
 

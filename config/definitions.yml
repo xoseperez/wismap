@@ -37,7 +37,8 @@ rak1903:
     7: I2C_SCL
     8: I2C_SDA
     9: VDD
-    12: INT1
+    12: INT
+    13: INT
     16: VDD
     17: I2C_SDA
     18: I2C_SCL
@@ -572,6 +573,7 @@ rak12003:
     17: I2C_SDA
     18: I2C_SCL
     23: GND
+  i2c_address: '0x3A'
 rak12004:
   type: WisIO
   description: RAK12004 WisBlock MQ2 Gas Sensor Module
@@ -975,6 +977,7 @@ rak12029:
     38: INT
     39: GND
     40: GND
+  i2c_address: '0x2A'
 rak12031:
   description: RAK12031 WisBlock T-Beam-Fork Sensor
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12031
