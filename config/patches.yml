@@ -1334,6 +1334,7 @@ rak19009:
     IO2: EN
   slots:
     CORE:
+    POWER:
     SENSOR_A:
       double: True
       1: UART1_TX
@@ -1345,7 +1346,6 @@ rak19009:
       10: IO6
       12: IO5
       24: UART1_RX
-    POWER:
 #    notes:
 #      - Schematics in documentation are wrong, UART0 is wired
 rak19010:
@@ -1368,6 +1368,7 @@ rak19010:
     IO2: EN
   slots:
     CORE:
+    POWER:
     IO_A:
     SENSOR_A:
       double: True
@@ -1379,7 +1380,6 @@ rak19010:
       double: True
       1: UART1_TX
       24: UART1_RX
-    POWER:
 rak19011:
   type: WisBase
   description: RAK19011 WisBlock Dual IO Base Board with Power Slot
@@ -1419,6 +1419,7 @@ rak19011:
     SW1: SW1
   slots:
     CORE:
+    POWER:
     IO_A:
     IO_B:
     SENSOR_A:
@@ -1433,7 +1434,6 @@ rak19011:
       double: True
     SENSOR_F:
       double: True
-    POWER:
   notes:  
     - AIN0 is connected to battery (ADC_VBAT)
 rak5005-o:

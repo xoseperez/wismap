@@ -2354,6 +2354,7 @@ rak19009:
     VDD: VDD
   slots:
     CORE: null
+    POWER: null
     SENSOR_A:
       double: true
       1: UART1_TX
@@ -2365,7 +2366,6 @@ rak19009:
       10: IO6
       12: IO5
       24: UART1_RX
-    POWER: null
 rak19010:
   type: WisBase
   description: RAK19010 WisBlock Base Board with Power Slot
@@ -2386,6 +2386,7 @@ rak19010:
     VDD: VDD
   slots:
     CORE: null
+    POWER: null
     IO_A: null
     SENSOR_A:
       double: true
@@ -2397,7 +2398,6 @@ rak19010:
       double: true
       1: UART1_TX
       24: UART1_RX
-    POWER: null
 rak19011:
   type: WisBase
   description: RAK19011 WisBlock Dual IO Base Board with Power Slot
@@ -2437,6 +2437,7 @@ rak19011:
     VDD: VDD
   slots:
     CORE: null
+    POWER: null
     IO_A: null
     IO_B: null
     SENSOR_A:
@@ -2451,7 +2452,6 @@ rak19011:
       double: true
     SENSOR_F:
       double: true
-    POWER: null
   notes:
   - AIN0 is connected to battery (ADC_VBAT)
 rak19012:

@@ -157,14 +157,18 @@ def function_mapping(slot_module, slots):
 
     return function_slot
 
-def detect_conflicts(function_slot):
+def detect_conflicts(slot_module, function_slot):
 
     functions = []
     notes = []    
 
+    skip_columns = 3
+    if 'POWER' in slot_module.keys():
+        skip_columns = 4
+
     for function, values in function_slot.items():
-        non_empty = count_non_empty(values[3:])
-        unique = count_unique(values[3:])
+        non_empty = count_non_empty(values[skip_columns:])
+        unique = count_unique(values[skip_columns:])
         if function == 'I2C_ADDR':
             if non_empty > unique:
                 notes.append('Possible conflict with I2C addresses')
@@ -179,7 +183,7 @@ def detect_conflicts(function_slot):
                 functions.append(function)
         if function == 'IO2':
             if non_empty > 0:
-                if count_non_empty(function_slot['3V3_S'][3:]) > 0:
+                if count_non_empty(function_slot['3V3_S'][skip_columns:]) > 0:
                     notes.append(f"Possible conflict with 3V3_S enable signal if using IO2")
                     functions.append(function)
                     functions.append('3V3_S')
@@ -251,7 +255,7 @@ def action_combine():
     function_slot = function_mapping(slot_module, slots)
     
     # Get conflicts
-    (conflict_functions, conflict_notes) = detect_conflicts(function_slot)
+    (conflict_functions, conflict_notes) = detect_conflicts(slot_module, function_slot)
 
     # Get notes & documentation
     documentation = []
