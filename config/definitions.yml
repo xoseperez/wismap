@@ -1223,10 +1223,17 @@ rak13001:
     3: GND
     4: GND
     6: 3V3_S
-    31: DI
+    10: DI
+    24: DO (NC)
+    31: DI (NC)
     32: DO
+    35: DI (NC)
+    36: DO (NC)
     39: GND
     40: GND
+  notes:
+  - Remap DI signal modifying resistors R1, R4 and R7
+  - Remap DO signal modifying resistors R2, R5 and R8
 rak13002:
   type: WisIO
   description: RAK13002 WisBlock IO Module
@@ -1276,6 +1283,10 @@ rak13003:
     13: RESET
     19: SDA1
     20: SCL1
+    25: SPI_CS
+    26: SPI_SCK
+    27: SPI_MISO
+    28: SPI_MOSI
     37: INTB
     38: INTA
     39: GND
@@ -1317,11 +1328,14 @@ rak13006:
   mapping:
     3: GND
     4: GND
-    5: 3V3
+    6: 3V3_S
+    20: SPI_CS (NC)
     25: SPI_CS
     26: SPI_CLK
     27: SPI_MISO
     28: SPI_MOSI
+    29: CLKO_SF
+    31: SPI_CS (NC)
     32: INT1
     37: INT0
     38: INT
@@ -1334,10 +1348,14 @@ rak13007:
   mapping:
     3: GND
     4: GND
-    5: 3V3
+    6: 3V3_S
+    24: DO (NC)
     32: DO
+    36: DO (NC)
     39: GND
     40: GND
+  notes:
+  - Remap DO signal modifying resistors R2, R5 and R8
 rak13009:
   description: RAK13009 WisBlock QWIIC Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK13009
@@ -1358,13 +1376,15 @@ rak13010:
   description: RAK13010 WisBlock SDI Interface
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK13010
   mapping:
+    1: VBAT
+    2: VBAT
     3: GND
     4: GND
-    5: 3V3
-    30: EN 5V
+    6: 3V3_S
+    30: 5V_EN
     32: OE
-    37: RxD
-    38: TxD
+    37: RXD
+    38: TXD
     39: GND
     40: GND
 rak13011:
@@ -1402,7 +1422,7 @@ rak13102:
     2: VBAT
     3: GND
     4: GND
-    5: 3V3_S
+    5: 3V3
     6: 3V3_S
     9: EX_POWER
     11: MODULE_RX (NC)
@@ -1438,62 +1458,76 @@ rak13300:
   description: RAK13300 WisBlock LoRa Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK13300
   mapping:
-    1: VBAT
-    2: VBAT
     3: GND
     4: GND
-    18: 3V3
+    6: 3V3_S
+    24: SPI_NSS (NC)
     25: SPI_NSS
     26: SPI_CLK
     27: SPI_MISO
     28: SPI_MOSI
+    29: SPI_NSS (NC)
     31: ANT_SW
     32: RESET
     37: BUSY
     38: DIO1
     39: GND
     40: GND
+  notes:
+  - Remap SPI_NSS signal modifying resistors R2, R13 and R14
 rak13600:
   type: WisIO
   description: RAK13600 WisBlock NFC Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK13600
   mapping:
-    1: VBAT
-    2: VBAT
     3: GND
     4: GND
+    5: 3V3 (NC)
+    6: 3V3_S
     18: 3V3
-    19: I2C_SDA
-    20: I2C_SCL
-    25: SPI_NSS
-    26: SPI_CLK
-    27: SPI_MISO
-    28: SPI_MOSI
+    19: I2C1_SDA
+    20: I2C1_SCL
+    25: SPI_NSS (NC)
+    26: SPI_CLK (NC)
+    27: SPI_MISO (NC)
+    28: SPI_MOSI (NC)
     32: RSTPD_N
+    33: I2C2_SCL (NC)
+    34: I2C2_SDA (NC)
     37: RESET
-    38: WAKE_UP_MCU
+    38: WAKEUP
     39: GND
     40: GND
   i2c_address: '0x59'
+  notes:
+  - Disable 3V3_S removing R18
+  - Enable 3V3 populating R17
+  - Enable SPI interface populating R21, R22, R23 and R24
+  - Disable I2C1 removing R19 and R20
+  - Enable I2C2 populating R26 and R27
 rak13800:
   type: WisIO
-  description: RAK13600 WisBlock Ethernet Module
+  description: RAK13800 WisBlock Ethernet Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK13800
   mapping:
-    1: VBAT
-    2: VBAT
     3: GND
     4: GND
-    18: 3V3
-    25: SPI_NSS
+    6: 3V3_S
+    9: 5V
+    13: RSTn (NC)
+    25: SPI_CS
     26: SPI_CLK
     27: SPI_MISO
     28: SPI_MOSI
     31: RSTn
+    37: SPI_CS (NC)
     38: INTn
     39: GND
     40: GND
-  i2c_address: '0x59'
+  i2c_address: null
+  notes:
+  - Change CS line swapping resistors R18 and R19
+  - Change RSTn line swapping resistors R20 and R21
 rak13801:
   type: WisIO
   description: RAK13801 WisBlock UWB Module
@@ -1503,16 +1537,26 @@ rak13801:
     2: VBAT
     3: GND
     4: GND
-    18: 3V3
+    19: IRQ (NC)
+    20: RSTn (NC)
     25: SPI_CS
     26: SPI_CLK
     27: SPI_MISO
     28: SPI_MOSI
-    31: Wakeup
+    29: SPI_CS (NC)
+    30: EN (NC)
+    31: WAKEUP
+    32: WAKEUP (NC)
     37: IRQ
     38: RSTn
     39: GND
     40: GND
+  notes:
+  - Change SPI_CS line swapping resistors R5 and R9
+  - Change IRQ line swapping resistors R2 and R12
+  - Change RSTn line swapping resistors R3 and R13
+  - Change WAKEUP line swapping resistors R10 and R11
+  - Populate R19 to control power via EN signal
 rak14000:
   type: WisIO
   description: RAK14000 WisBlock E-Ink Module

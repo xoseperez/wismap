@@ -497,6 +497,41 @@ patches:
       16: VDD
       17: null
       18: null
+  rak13001:
+    mapping:
+      10: DI
+      24: DO (NC)
+      31: DI (NC)
+      32: DO
+      35: DI (NC)
+      36: DO (NC)
+    notes:
+      - Remap DI signal modifying resistors R1, R4 and R7
+      - Remap DO signal modifying resistors R2, R5 and R8
+  rak13003:
+    mapping:
+      25: SPI_CS
+      26: SPI_SCK
+      27: SPI_MISO
+      28: SPI_MOSI
+  rak13006:
+    mapping:
+      5: null
+      6: 3V3_S
+      20: SPI_CS (NC)
+      29: CLKO_SF
+      31: SPI_CS (NC)
+      32: INT1
+    #notes:
+    #  - Information about alternative CS signals is missing from docs
+  rak13007:
+    mapping:
+      5: null
+      6: 3V3_S
+      24: DO (NC)
+      36: DO (NC)
+    notes:
+      - Remap DO signal modifying resistors R2, R5 and R8
   rak13009:
     description:  RAK13009 WisBlock QWIIC Module
     documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK13009
@@ -512,6 +547,15 @@ patches:
     type: WisSensor
     notes:
       - I2C address will depend on the sensor connected to it
+  rak13010:
+    mapping:
+      1: VBAT
+      2: VBAT
+      5: null
+      6: 3V3_S
+      30: 5V_EN
+      37: RXD
+      38: TXD
   rak13011:
     description: RAK13011 WisBlock Magnetic Switch Sensor
     double: True
@@ -530,7 +574,7 @@ patches:
       2: VBAT
       3: GND
       4: GND
-      5: 3V3_S
+      5: 3V3
       6: 3V3_S
       9: EX_POWER
       11: MODULE_RX (NC)
@@ -560,6 +604,69 @@ patches:
     notes:
       - Module has 2 WisBlock sensor slots I2C, SPI, UART, IO1 and IO2
       - RXD1 and TXD1 signals are not used by the Blues module, only bridged to the first WisBlock
+  rak13300:
+    mapping:
+      1: null
+      2: null
+      6: 3V3_S
+      18: null
+      24: SPI_NSS (NC)
+      29: SPI_NSS (NC)
+    notes:
+      - Remap SPI_NSS signal modifying resistors R2, R13 and R14
+  rak13600:
+    mapping:
+      1: null
+      2: null
+      5: 3V3 (NC)
+      6: 3V3_S
+      19: I2C1_SDA
+      20: I2C1_SCL
+      25: SPI_NSS (NC)
+      26: SPI_CLK (NC)
+      27: SPI_MISO (NC)
+      28: SPI_MOSI (NC)
+      33: I2C2_SCL (NC)
+      34: I2C2_SDA (NC)
+      38: WAKEUP
+    notes:
+      - Disable 3V3_S removing R18
+      - Enable 3V3 populating R17
+      - Enable SPI interface populating R21, R22, R23 and R24
+      - Disable I2C1 removing R19 and R20
+      - Enable I2C2 populating R26 and R27
+  rak13800:
+    description: RAK13800 WisBlock Ethernet Module
+    i2c_address: null
+    mapping:
+      1: null
+      2: null
+      6: 3V3_S
+      9: 5V
+      13: RSTn (NC)
+      18: null
+      25: SPI_CS
+      37: SPI_CS (NC)
+    notes:
+      - Change CS line swapping resistors R18 and R19
+      - Change RSTn line swapping resistors R20 and R21
+  rak13801:
+    mapping:
+      18: null
+      19: IRQ (NC)
+      20: RSTn (NC)
+      29: SPI_CS (NC)
+      30: EN (NC)
+      31: WAKEUP
+      32: WAKEUP (NC)
+      39: GND
+      40: GND
+    notes:
+      - Change SPI_CS line swapping resistors R5 and R9
+      - Change IRQ line swapping resistors R2 and R12
+      - Change RSTn line swapping resistors R3 and R13
+      - Change WAKEUP line swapping resistors R10 and R11
+      - Populate R19 to control power via EN signal
   rak14004:
     i2c_address: '0x5F'
     mapping:
