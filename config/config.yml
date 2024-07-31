@@ -667,11 +667,23 @@ patches:
       - Change RSTn line swapping resistors R3 and R13
       - Change WAKEUP line swapping resistors R10 and R11
       - Populate R19 to control power via EN signal
+  rak14000:
+    mapping:
+      5: null
+      6: 3V3
   rak14004:
     i2c_address: '0x5F'
     mapping:
       33: RX
       34: TX
+  rak14006:
+    mapping:
+      19: null
+      20: null
+      38: OUT_CW
+    notes:
+      - OUT_CCW can be changed to SIGNAL_B swapping resistors R7 and R8
+      - OUT_CW can be changed to SIGNAL_A swapping resistors R9 and R10
   rak14007:
     description: RAK14007 WisBlock Interface Module
     documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK14007
@@ -755,6 +767,11 @@ patches:
     notes:
       - Requires RAK14007 WisBlock Interface Module
       - I2C address can be changed via I2C
+  rak14014:
+    mapping:
+      5: 3V3
+      37: RESET
+      38: INT
   rak15007:
     description: RAK15007 WisBlock 1MByte FRAM Module
     documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK15007

@@ -1564,7 +1564,7 @@ rak14000:
   mapping:
     3: GND
     4: GND
-    5: 3V3
+    6: 3V3
     13: EINK_RESET
     25: EINK_CS
     26: EINK_CSK
@@ -1646,13 +1646,14 @@ rak14006:
     3: GND
     4: GND
     6: 3V3_S
-    19: SDA1
-    20: SCL1
     32: OUT_CCW
     37: SW
-    38: INT
+    38: OUT_CW
     39: GND
     40: GND
+  notes:
+  - OUT_CCW can be changed to SIGNAL_B swapping resistors R7 and R8
+  - OUT_CW can be changed to SIGNAL_A swapping resistors R9 and R10
 rak14007:
   description: RAK14007 WisBlock Interface Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK14007
@@ -1744,6 +1745,7 @@ rak14014:
   mapping:
     3: GND
     4: GND
+    5: 3V3
     6: 3V3_S
     19: SDA1
     20: SCL1
@@ -1752,8 +1754,8 @@ rak14014:
     27: SPI_MISO
     28: SPI_MOSI
     32: RS
-    37: INT Buttons
-    38: INT TS
+    37: RESET
+    38: INT
     39: GND
     40: GND
   i2c_address: '0x38'
