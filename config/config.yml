@@ -22,15 +22,15 @@ functions:
   - LED2
   - LED3
   - RESET
-  - RXD0
-  - RXD1
   - SPI_CLK
   - SPI_CS
   - SPI_MISO
   - SPI_MOSI
   - SW1
-  - TXD0
-  - TXD1
+  - UART0_RX
+  - UART0_TX
+  - UART1_RX
+  - UART1_TX
   - USB+
   - USB-
   - VBAT
@@ -50,8 +50,8 @@ slots:
     8: USB-
     9: VBUS
     10: SW1
-    11: TXD0
-    12: RXD0
+    11: UART0_TX
+    12: UART0_RX
     13: RESET
     14: LED1
     15: LED2
@@ -72,8 +72,8 @@ slots:
     30: IO2
     31: IO3
     32: IO4
-    33: TXD1
-    34: RXD1
+    33: UART1_TX
+    34: UART1_RX
     35: I2C2_SDA
     36: I2C2_SCL
     37: IO5
@@ -91,8 +91,8 @@ slots:
     8: USB-
     9: VBUS
     10: SW1
-    11: TXD0
-    12: RXD0
+    11: UART0_TX
+    12: UART0_RX
     13: RESET
     14: LED1
     15: LED2
@@ -113,8 +113,8 @@ slots:
     30: IO2
     31: IO3
     32: IO4
-    33: TXD1
-    34: RXD1
+    33: UART1_TX
+    34: UART1_RX
     35: I2C2_SDA
     36: I2C2_SCL
     37: IO5
@@ -132,8 +132,8 @@ slots:
     8: USB-
     9: VBUS
     10: SW1
-    11: TXD0
-    12: RXD0
+    11: UART0_TX
+    12: UART0_RX
     13: RESET
     14: LED1
     15: LED2
@@ -154,8 +154,8 @@ slots:
     30: IO2
     31: IO3
     32: IO4
-    33: TXD1
-    34: RXD1
+    33: UART1_TX
+    34: UART1_RX
     35: I2C2_SDA
     36: I2C2_SCL
     37: IO5
@@ -163,7 +163,7 @@ slots:
     39: GND 
     40: GND
   SENSOR_A:
-    1: TXD0
+    1: UART0_TX
     2: GND
     3: SPI_CS
     4: SPI_CLK
@@ -186,7 +186,7 @@ slots:
     21: NC 
     22: NC 
     23: GND 
-    24: RXD0 
+    24: UART0_RX 
   SENSOR_B:
     1: NC
     2: GND
@@ -263,7 +263,7 @@ slots:
     23: GND 
     24: NC 
   SENSOR_E:
-    1: TXD0
+    1: UART0_TX
     2: GND
     3: SPI_CS
     4: SPI_CLK
@@ -286,9 +286,9 @@ slots:
     21: NC 
     22: NC 
     23: GND 
-    24: RXD0 
+    24: UART0_RX 
   SENSOR_F:
-    1: TXD1
+    1: UART1_TX
     2: GND
     3: SPI_CS
     4: SPI_CLK
@@ -311,7 +311,7 @@ slots:
     21: NC 
     22: NC 
     23: GND 
-    24: RXD1 
+    24: UART1_RX 
   POWER:
     1: VBAT
     2: VBAT

@@ -316,8 +316,8 @@ rak5005-o:
     SENSOR_A:
       double: true
       double_blocks: SENSOR_B
-      1: TXD1
-      24: TXD1
+      1: UART1_TX
+      24: UART1_RX
     SENSOR_B: null
     SENSOR_C:
       double: true
@@ -545,7 +545,7 @@ rak11722:
     SPI_MOSI: SPI_MOSI
     TXD1: UART1_TX
     USB+: UART0_RX
-    USB-: UART1_TX
+    USB-: UART0_TX
   type: WisCore
 rak12001:
   type: WisSensor
@@ -2275,11 +2275,11 @@ rak19003:
     CORE: null
     SENSOR_C:
       double: true
-      1: TXD1
-      24: RXD1
+      1: UART1_TX
+      24: UART1_RX
     SENSOR_D:
-      1: TXD1
-      24: RXD1
+      1: UART1_TX
+      24: UART1_RX
 rak19004:
   description: RAK19004 WisBlock Green Power Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19004
@@ -2326,14 +2326,14 @@ rak19007:
     SENSOR_A:
       double: true
       double_blocks: SENSOR_B
-      1: TXD1
-      24: TXD1
+      1: UART1_TX
+      24: UART1_RX
     SENSOR_B: null
     SENSOR_C: null
     SENSOR_D:
       double: true
-      1: TXD1
-      24: TXD1
+      1: UART1_TX
+      24: UART1_RX
 rak19008:
   description: RAK19008 IO Extension Cable
   type: Accessories
@@ -2356,15 +2356,15 @@ rak19009:
     CORE: null
     SENSOR_A:
       double: true
-      1: TXD1
+      1: UART1_TX
       10: IO4
       12: IO3
-      24: RXD1
+      24: UART1_RX
     SENSOR_B:
-      1: TXD1
+      1: UART1_TX
       10: IO6
       12: IO5
-      24: RXD1
+      24: UART1_RX
     POWER: null
 rak19010:
   type: WisBase
@@ -2389,14 +2389,14 @@ rak19010:
     IO_A: null
     SENSOR_A:
       double: true
-      1: TXD1
-      24: TXD1
+      1: UART1_TX
+      24: UART1_RX
     SENSOR_B: null
     SENSOR_C: null
     SENSOR_D:
       double: true
-      1: TXD1
-      24: TXD1
+      1: UART1_TX
+      24: UART1_RX
     POWER: null
 rak19011:
   type: WisBase

@@ -163,8 +163,8 @@ def detect_conflicts(function_slot):
     notes = []    
 
     for function, values in function_slot.items():
-        non_empty = count_non_empty(values[4:])
-        unique = count_unique(values[4:])
+        non_empty = count_non_empty(values[3:])
+        unique = count_unique(values[3:])
         if function == 'I2C_ADDR':
             if non_empty > unique:
                 notes.append('Possible conflict with I2C addresses')
@@ -173,13 +173,13 @@ def detect_conflicts(function_slot):
             if non_empty > 0:
                 notes.append('Possible conflict with ADC_VBAT if using AIN0')
                 functions.append(function)
-        if function in ('IO1', 'IO2', 'IO3', 'IO4', 'IO5', 'IO6', 'IO7', 'AIN0', 'AIN1', 'RXD0', 'TXD0', 'RXD1', 'TXD1'):
+        if function in ('IO1', 'IO2', 'IO3', 'IO4', 'IO5', 'IO6', 'IO7', 'AIN0', 'AIN1', 'UART0_RX', 'UART0_TX', 'UART1_RX', 'UART1_TX', 'LED1', 'LED2', 'LED3', "SW1"):
             if non_empty > 1:
                 notes.append(f"Possible conflict with {function}")
                 functions.append(function)
         if function == 'IO2':
             if non_empty > 0:
-                if count_non_empty(function_slot['3V3_S'][4:]) > 0:
+                if count_non_empty(function_slot['3V3_S'][3:]) > 0:
                     notes.append(f"Possible conflict with 3V3_S enable signal if using IO2")
                     functions.append(function)
                     functions.append('3V3_S')
