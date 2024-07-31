@@ -842,6 +842,14 @@ rak15007:
     22: SPI_CS
     23: GND
   type: WisSensor
+rak16000:
+  mapping:
+    1: null
+    2: null
+rak16001:
+  mapping:
+    1: null
+    2: null
 rak16002:
   description: RAK16002 WisBlock Coulomb Sensor
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK16002
@@ -849,8 +857,6 @@ rak16002:
   mapping:
     1: VBAT
     2: VBAT
-    3: GND
-    4: GND
     6: 3V3_S
     19: I2C1_SDA
     20: I2C1_SCL
@@ -858,6 +864,11 @@ rak16002:
     39: GND
     40: GND
   type: WisIO
+rak17000:
+  mapping:
+    1: VBAT
+    2: VBAT
+    22: null
 rak17001:
   description: RAK17001 WisBlock H-Bridge Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK17001
@@ -883,19 +894,64 @@ rak17001:
 rak18001:
   mapping:
     10: PWM1 (NC)
+    13: PWM2
+    15: PWM1 (NC)
+    16: 3V3
   notes:
     - R6 enableS PWM2 (default), R5 enables PWM1
 rak18003:
   description: RAK18003 WisBlock Audio Interposer  
+  mapping:
+    5: 3V3 (NC)
+    6: 3V3_S
+  notes:
+    - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
+rak18040:
+  mapping:
+    1: VBAT
+    2: VBAT
+    5: 3V3 (NC)
+    6: 3V3_S
+  notes:
+    - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
 rak18041:
   description: RAK18041 WisBlock Analog Microphone Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK18041
   type: WisIO
   notes:
     - Requires RAK18040 WisBlock Audio Analog Microphone to I2S Module
+rak18060:
+  mapping:
+    1: VBAT
+    2: VBAT
+    5: 3V3 (NC)
+    6: 3V3_S
+    9: VBUS
+  notes:
+    - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
+rak18061:
+  mapping:
+    1: VBAT
+    2: VBAT
+    5: 3V3 (NC)
+    6: 3V3_S
+    9: VBUS
+  notes:
+    - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
+rak18080:
+  mapping:
+    1: VBAT
+    2: VBAT
+    5: 3V3 (NC)
+    6: 3V3_S
+    9: VBUS
+  notes:
+    - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
 rak19002:
   mapping:
     10: EN1 (NC)
+    13: EN2
+    15: EN1 (NC)
   notes:
     - R3 enables EN2 (default), R1 enables EN1
 rak19004:
@@ -905,6 +961,9 @@ rak19004:
 rak19005:
   description: RAK19005 Sensor Extension Cable
   type: Accessories
+rak19006:
+  mapping:
+    5: null
 rak19008:
   description: RAK19008 IO Extension Cable
   type: Accessories

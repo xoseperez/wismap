@@ -1902,8 +1902,6 @@ rak16000:
   description: RAK16000 WisBlock DC Current Sensor
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK16000
   mapping:
-    1: VBAT
-    2: VBAT
     3: GND
     4: GND
     6: 3V3_S
@@ -1917,8 +1915,6 @@ rak16001:
   description: RAK16001 WisBlock ADC Interface
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK16001
   mapping:
-    1: VBAT
-    2: VBAT
     3: GND
     4: GND
     6: 3V3_S
@@ -1934,8 +1930,6 @@ rak16002:
   mapping:
     1: VBAT
     2: VBAT
-    3: GND
-    4: GND
     6: 3V3_S
     19: I2C1_SDA
     20: I2C1_SCL
@@ -1948,9 +1942,10 @@ rak17000:
   description: RAK17000 WisBlock Motor Drive Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK17000
   mapping:
+    1: VBAT
+    2: VBAT
     3: GND
     4: GND
-    22: AIN1
     25: AIN2
     26: AIN1
     28: BIN2
@@ -2001,6 +1996,9 @@ rak18001:
     9: 3V3
     10: PWM1 (NC)
     12: PWM2
+    13: PWM2
+    15: PWM1 (NC)
+    16: 3V3
     23: GND
   notes:
   - R6 enableS PWM2 (default), R5 enables PWM1
@@ -2013,8 +2011,8 @@ rak18003:
     2: VBAT
     3: GND
     4: GND
-    5: 3V3
-    6: 3V3
+    5: 3V3 (NC)
+    6: 3V3_S
     9: VBUS
     13: RESET
     19: I2C_SDA
@@ -2033,6 +2031,8 @@ rak18003:
     38: I2S_BCLK
     39: GND
     40: GND
+  notes:
+  - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
 rak18030:
   type: WisIO
   description: RAK18030 WisBlock Audio PDM Microphone Module
@@ -2090,9 +2090,12 @@ rak18040:
   description: RAK18040 WisBlock Audio Analog Microphone to I2S Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK18040
   mapping:
+    1: VBAT
+    2: VBAT
     3: GND
     4: GND
-    5: 3V3
+    5: 3V3 (NC)
+    6: 3V3_S
     19: I2C1_SDA
     20: I2C1_SCL
     29: MIC_CTR(IO1)
@@ -2102,6 +2105,8 @@ rak18040:
     38: I2S_WS
     39: GND
     40: GND
+  notes:
+  - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
 rak18041:
   description: RAK18041 WisBlock Analog Microphone Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK18041
@@ -2113,9 +2118,13 @@ rak18060:
   description: RAK18060 WisBlock Audio Stereo Amplifier Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK18060
   mapping:
+    1: VBAT
+    2: VBAT
     3: GND
     4: GND
-    5: 3V3
+    5: 3V3 (NC)
+    6: 3V3_S
+    9: VBUS
     13: RESET
     19: I2C1_SDA
     20: I2C1_SCL
@@ -2126,14 +2135,20 @@ rak18060:
     38: I2S_WS
     39: GND
     40: GND
+  notes:
+  - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
 rak18061:
   type: WisIO
   description: RAK18061 WisBlock Audio Mono Amplifier Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK18061
   mapping:
+    1: VBAT
+    2: VBAT
     3: GND
     4: GND
-    5: 3V3
+    5: 3V3 (NC)
+    6: 3V3_S
+    9: VBUS
     13: RESET
     19: I2C1_SDA
     20: I2C1_SCL
@@ -2144,14 +2159,20 @@ rak18061:
     38: I2S_WS
     39: GND
     40: GND
+  notes:
+  - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
 rak18080:
   type: WisIO
   description: RAK18080 WisBlock Audio DSP Board Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK18080
   mapping:
+    1: VBAT
+    2: VBAT
     3: GND
     4: GND
-    5: 3V3
+    5: 3V3 (NC)
+    6: 3V3_S
+    9: VBUS
     11: TXD (DSP_UART_RX)
     12: RXD (DSP_UART_TX)
     13: RESET
@@ -2169,6 +2190,8 @@ rak18080:
     38: I2S_WS
     39: GND
     40: GND
+  notes:
+  - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
 rak19001:
   type: WisBase
   description: RAK19001 WisBlock Dual IO Base Board
@@ -2219,6 +2242,8 @@ rak19002:
     9: VDD
     10: EN1 (NC)
     12: EN2
+    13: EN2
+    15: EN1 (NC)
     16: VDD
     23: GND
   notes:
@@ -2269,7 +2294,6 @@ rak19006:
   mapping:
     3: GND
     4: GND
-    5: 3V3
     16: nEN
     39: GND
     40: GND
