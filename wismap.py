@@ -67,7 +67,8 @@ def action_info():
         for column in ["PIN", "Function"]:
             table.add_column(column)
         for row in [[str(k), v] for k, v in definitions[module]['mapping'].items()]:
-            table.add_row(*row, style='bright_green')
+            if row[1]:
+                table.add_row(*row, style='bright_green')
         console = Console()
         console.print(table)
     
