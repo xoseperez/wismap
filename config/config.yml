@@ -34,11 +34,8 @@ functions:
   - USB+
   - USB-
   - VBAT
-  - VBAT_NRF
-  - VBAT_SX
   - VBUS
   - VDD
-  - VDD_NRF
   - VIN
 
 slots:
