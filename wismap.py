@@ -1,7 +1,8 @@
-#!/bin/python3
+#!/usr/bin/env python3
 
 import os
 import sys
+import re
 import yaml
 from rich.console import Console
 from rich.table import Table
@@ -244,8 +245,20 @@ def action_combine():
     # Build mapping
     # -------------------------------------------------------------------------
     
+    # Get mapping
     function_slot = function_mapping(slot_module, slots)
+    
+    # Get conflicts
     (conflict_functions, conflict_notes) = detect_conflicts(function_slot)
+
+    # Get notes & documentation
+    documentation = []
+    notes = []
+    for k, v in slot_module.items():
+        if v in definitions:
+            documentation.append(f"{definitions[v]['description']}: {definitions[v]['documentation']}")
+            for note in definitions[v].get('notes', []):
+                notes.append(f"{v.upper()}: {note}")
 
     # -------------------------------------------------------------------------
     # View
@@ -284,15 +297,16 @@ def action_combine():
     console = Console()
     console.print(table)
 
-    if len(conflict_notes):
-        print(f"Potential conflicts:")
+    if len(conflict_notes) or len(notes):
+        print(f"Notes:")
         for conflict in conflict_notes:
             print(f"- {conflict}")
+        for note in notes:
+            print(f"- {note}")
 
     print(f"Documentation:")
-    for k, v in slot_module.items():
-        if v in definitions:
-            print(f"- {definitions[v]['description']}: {definitions[v]['documentation']}")
+    for line in documentation:
+        print(f"- {line}")
 
 # -----------------------------------------------------------------------------
 # Action IMPORT
@@ -305,29 +319,34 @@ def import_sheet(data, sheet):
     if not module_code in data:
         data[module_code] = {}
 
+    # Get column offset
+    column_offset = 1
+    if sheet['A3'].value == 'PIN number':
+        column_offset = 0
+
     # Get type
     module_type = "WisBase"
-    if sheet['C26'].value == 'BOOT0':
+    if sheet.cell(row = 26, column = 2 + column_offset).value == 'BOOT0':
         module_type = "WisCore"
-    elif sheet['B43'].value == 40:
+    elif sheet.cell(row = 43, column = 1 + column_offset).value == 40:
         module_type = "WisIO"
-    elif sheet['D2'].value == 'SLOT A':
+    elif sheet.cell(row = 2, column = 3 + column_offset).value == 'SLOT A':
         module_type = "WisSensor"
     data[module_code]['type'] = module_type
 
     # Get description
-    key_column = 2
-    value_column = 4
+    key_column = 1 + column_offset
+    value_column = 3 + column_offset
     rows = 40
     if module_type == "WisBase":
         module_description = module_code
     if module_type == "WisCore":
         module_description = module_code
-        key_column = 3
+        key_column = 2 + column_offset
     if module_type == "WisIO":
-        module_description = sheet['C45'].value
+        module_description = sheet.cell(row = 45, column = 2 + column_offset).value
     if module_type == "WisSensor":
-        module_description = sheet['C29'].value
+        module_description = sheet.cell(row = 29, column = 2 + column_offset).value
         rows = 24
     data[module_code]['description'] = module_description.strip(' "\'\t\r\n')
 
@@ -349,9 +368,10 @@ def import_sheet(data, sheet):
     data[module_code]['mapping'] = mapping
 
     # I2C Address
-    address = str(sheet.cell(row = row+3, column = 3).value)
-    if address.startswith("I2C Address:"):
-        data[module_code]['i2c_address'] = address[13:].strip(' "\'\t\r\n')
+    address = str(sheet.cell(row = row+3, column = 2+column_offset).value)
+    matches = re.findall(r"0x\d\d", address)
+    if len(matches):
+        data[module_code]['i2c_address'] = matches[0]
 
            
 def action_import():
@@ -372,7 +392,7 @@ def action_import():
     data = {}
 
     # Walk sheets
-    skip_sheets = ["Pin Mapper", "model list", "NA IO", "NA_SENS", "RAK18003"]
+    skip_sheets = ["Pin Mapper", "model list", "NA IO", "NA_SENS"]
     for sheet_name in wb.sheetnames:
         if sheet_name not in skip_sheets:
             sheet = wb[sheet_name]
@@ -408,6 +428,7 @@ def usage():
 if os.path.isfile(definitions_file):
     with open(definitions_file) as f:
         definitions = yaml.load(f, Loader=yaml.loader.SafeLoader)
+definitions = dict(sorted(definitions.items(), key=lambda e: int(re.findall(r"\d+", e[0])[0])))
 
 # Load configuration data
 if os.path.isfile(config_file):
