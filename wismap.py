@@ -147,12 +147,7 @@ def function_mapping(slot_module, slots):
             slot_mapping[slot]['I2C_ADDR'] = definitions[module].get('i2c_address', "")
 
     # Function mapping
-    functions = [
-        'I2C_ADDR', '3V3', '3V3_S', 'AIN0', 'AIN1', 'BOOT0', 'GND', 'I2C1_SCL', 'I2C1_SDA', 'I2C2_SCL', 'I2C2_SDA', 
-        'IO1', 'IO2', 'IO3', 'IO4', 'IO5', 'IO6', 'IO7', 'IO8', 'LED1', 'LED2', 'LED3', 'RESET', 'RXD0', 'RXD1', 
-        'SPI_CLK', 'SPI_CS', 'SPI_MISO', 'SPI_MOSI', 'SW1', 'TXD0', 'TXD1', 'USB+', 
-        'USB-', 'VBAT', 'VBAT_NRF', 'VBAT_SX', 'VBUS', 'VDD', 'VDD_NRF', 'VIN'
-    ]
+    functions = config.get('functions', [])
     function_slot = {}
     for function in functions:
         row = [function]
