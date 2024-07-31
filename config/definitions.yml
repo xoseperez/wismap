@@ -1658,11 +1658,28 @@ rak18080:
 rak19001:
   description: RAK19001 WisBlock Dual IO Base Board
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19001/
+  mapping:
+    3V3: 3V3
+    AIN0: ADC_VBAT
+    BOOT0: BOOT0
+    GND: GND
+    I2C1_SCL: I2C1_SCL
+    I2C1_SDA: I2C1_SDA
+    IO2: EN
+    LED1: LED1
+    LED2: LED2
+    RESET: RESET
+    RXD1: RXD1
+    TXD1: TXD1
+    USB+: USB_P
+    USB-: USB_N
+    VBAT: VBAT
+    VDD: VDD
+    VIN: VIN
   notes:
   - AIN0 is connected to battery (ADC_VBAT)
   slots:
-    CORE:
-      21: ADC_VBAT
+    CORE: null
     IO_A: null
     IO_B: null
     SENSOR_A:
@@ -1695,13 +1712,20 @@ rak19003:
   description: RAK19003 WisBlock Mini Base Board
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19003/
   mapping:
-    BOOT: BOOT
+    3V3: 3V3
+    AIN0: ADC_VBAT
+    BOOT0: BOOT0
     GND: GND
     I2C1_SCL: I2C1_SCL
     I2C1_SDA: I2C1_SDA
+    IO2: EN
+    LED1: LED1
+    LED2: LED2
     RESET: RESET
     RXD1: RXD1
     TXD1: TXD1
+    USB+: USB_P
+    USB-: USB_N
     VBAT: VBAT
     VDD: VDD
     VIN: VIN
@@ -1736,6 +1760,24 @@ rak19006:
 rak19007:
   description: RAK19007 WisBlock Base Board 2nd Gen
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19007/
+  mapping:
+    3V3: 3V3
+    AIN0: ADC_VBAT
+    BOOT0: BOOT0
+    GND: GND
+    I2C1_SCL: I2C1_SCL
+    I2C1_SDA: I2C1_SDA
+    IO2: EN
+    LED1: LED1
+    LED2: LED2
+    RESET: RESET
+    RXD1: RXD1
+    TXD1: TXD1
+    USB+: USB_P
+    USB-: USB_N
+    VBAT: VBAT
+    VDD: VDD
+    VIN: VIN
   slots:
     CORE: null
     IO_A: null
@@ -1757,6 +1799,17 @@ rak19008:
 rak19009:
   description: RAK19009 WisBlock Mini Base Board with Power Slot
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19009/
+  mapping:
+    3V3: 3V3
+    3V3_S: 3V3_S
+    BOOT0: BOOT0
+    GND: GND
+    I2C1_SCL: I2C1_SCL
+    I2C1_SDA: I2C1_SDA
+    IO2: EN
+    RXD0: RXD0
+    TXD0: TXD0
+    VDD: VDD
   slots:
     CORE: null
     POWER: null
@@ -1789,6 +1842,20 @@ rak1901:
 rak19010:
   description: RAK19010 WisBlock Base Board with Power Slot
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19010/
+  mapping:
+    3V3: 3V3
+    3V3_S: 3V3_S
+    AIN1: AIN1
+    BOOT0: BOOT0
+    GND: GND
+    I2C1_SCL: I2C1_SCL
+    I2C1_SDA: I2C1_SDA
+    IO1: IO1
+    IO2: EN
+    RXD0: RXD0
+    TXD0: TXD0
+    VBAT: VBAT
+    VDD: VDD
   slots:
     CORE: null
     IO_A: null
@@ -1807,11 +1874,43 @@ rak19010:
 rak19011:
   description: RAK19011 WisBlock Dual IO Base Board with Power Slot
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19011/
+  mapping:
+    3V3: 3V3
+    3V3_S: 3V3_S
+    AIN0: AIN0
+    BOOT0: BOOT0
+    GND: GND
+    I2C1_SCL: I2C1_SCL
+    I2C1_SDA: I2C1_SDA
+    I2C2_SCL: I2C2_SCL
+    I2C2_SDA: I2C2_SDA
+    IO1: IO1
+    IO2: EN
+    IO3: IO3
+    IO4: IO4
+    IO5: IO5
+    IO6: IO6
+    IO7: IO7
+    IO8: IO8
+    LED1: LED1
+    LED2: LED2
+    RXD0: RXD0
+    RXD1: RXD1
+    SPI_CLK: SPI_CLK
+    SPI_CS: SPI_CS
+    SPI_MISO: SPI_MISO
+    SPI_MOSI: SPI_MOSI
+    SW1: SW1
+    TXD0: TXD0
+    TXD1: TXD1
+    USB+: USB+
+    USB-: USB-
+    VBUS: VBUS
+    VDD: VDD
   notes:
   - AIN0 is connected to battery (ADC_VBAT)
   slots:
-    CORE:
-      21: ADC_VBAT
+    CORE: null
     IO_A: null
     IO_B: null
     POWER: null
@@ -2210,6 +2309,24 @@ rak4631-r:
 rak5005-o:
   description: RAK5005-O WisBlock Base Board
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK5005-O/
+  mapping:
+    3V3: 3V3
+    AIN0: ADC_VBAT
+    BOOT0: BOOT0
+    GND: GND
+    I2C1_SCL: I2C1_SCL
+    I2C1_SDA: I2C1_SDA
+    IO2: EN
+    LED1: LED1
+    LED2: LED2
+    RESET: RESET
+    RXD1: RXD1
+    TXD1: TXD1
+    USB+: USB_P
+    USB-: USB_N
+    VBAT: VBAT
+    VDD: VDD
+    VIN: VIN
   slots:
     CORE: null
     IO_A: null

@@ -138,16 +138,16 @@ def function_mapping(slot_module, slots):
         slot_mapping[slot] = {}
         module = slot_module[slot]
         if module and module != 'BLOCKED' and module != 'EMPTY':
-            if (definitions[module]['type'] == 'WisCore') or (definitions[module]['type'] == 'WisBase'):
+            if definitions[module]['type'] in ['WisCore', 'WisBase']:
                 slot_mapping[slot] = definitions[module].get('mapping', {})
-            elif (definitions[module]['type'] == 'WisIO') or (definitions[module]['type'] == 'WisSensor'):
+            elif definitions[module]['type'] in ['WisIO', 'WisSensor', 'WisPower']:
                 slot_mapping[slot] = combine_pins(slots[slot], definitions[module].get('mapping', {}))
             slot_mapping[slot]['I2C_ADDR'] = definitions[module].get('i2c_address', "")
 
     # Function mapping
     functions = [
         'I2C_ADDR', '3V3', '3V3_S', 'AIN0', 'AIN1', 'BOOT0', 'GND', 'I2C1_SCL', 'I2C1_SDA', 'I2C2_SCL', 'I2C2_SDA', 
-        'IO1', 'IO2', 'IO3', 'IO4', 'IO5', 'IO6', 'IO7', 'LED1', 'LED2', 'LED3', 'RESET', 'RXD0', 'RXD1', 
+        'IO1', 'IO2', 'IO3', 'IO4', 'IO5', 'IO6', 'IO7', 'IO8', 'LED1', 'LED2', 'LED3', 'RESET', 'RXD0', 'RXD1', 
         'SPI_CLK', 'SPI_CS', 'SPI_MISO', 'SPI_MOSI', 'SW1', 'TXD0', 'TXD1', 'USB+', 
         'USB-', 'VBAT', 'VBAT_NRF', 'VBAT_SX', 'VBUS', 'VDD', 'VDD_NRF', 'VIN'
     ]
@@ -166,8 +166,8 @@ def detect_conflicts(function_slot):
     notes = []    
 
     for function, values in function_slot.items():
-        non_empty = count_non_empty(values[3:])
-        unique = count_unique(values[3:])
+        non_empty = count_non_empty(values[4:])
+        unique = count_unique(values[4:])
         if function == 'I2C_ADDR':
             if non_empty > unique:
                 notes.append('Possible conflict with I2C addresses')
@@ -182,7 +182,7 @@ def detect_conflicts(function_slot):
                 functions.append(function)
         if function == 'IO2':
             if non_empty > 0:
-                if count_non_empty(function_slot['3V3_S'][3:]) > 0:
+                if count_non_empty(function_slot['3V3_S'][4:]) > 0:
                     notes.append(f"Possible conflict with 3V3_S enable signal if using IO2")
                     functions.append(function)
                     functions.append('3V3_S')
@@ -234,11 +234,15 @@ def action_combine():
                     if blocks:
                         blocked.append(blocks)
 
-
         if slot.startswith('IO'):
             choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisIO']
             choices.insert(0, ("Empty", "EMPTY"))
             questions = [inquirer.List('output', message=f"Select IO Module in slot {slot}", choices=choices, carousel=True)]
+            slot_module[slot] = inquirer.prompt(questions)['output']
+
+        if slot.startswith('POWER'):
+            choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisPower']
+            questions = [inquirer.List('output', message=f"Select Power Module in slot {slot}", choices=choices, carousel=True)]
             slot_module[slot] = inquirer.prompt(questions)['output']
 
     # -------------------------------------------------------------------------
@@ -276,6 +280,7 @@ def action_combine():
         'SENSOR_F': 'SENSOR_F slot',
         'IO_A': 'IO_A slot',
         'IO_B': 'IO_B slot',
+        'POWER': 'Power slot',
     }
 
     columns = ["Function\n"]
