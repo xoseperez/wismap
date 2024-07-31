@@ -772,6 +772,59 @@ patches:
       5: 3V3
       37: RESET
       38: INT
+  rak15000:
+    mapping:
+      9: 3V3 (NC)
+      11: 3V3_S
+      14: 3V3_S
+      16: 3V3 (NC)
+    notes:
+      - Change 3V3_S to 3V3 by swapping resistors R5 and R6
+      - I2C address can be changed to 0x54 by moving resistor from R4 to R3
+  rak15001:
+    mapping:
+      13: HOLD
+      15: WP
+      19: SPI_MOSI
+      20: SPI_MISO
+      21: SPI_CLS
+      22: SPI_CS
+  rak15003:
+    mapping:
+      9: null
+      11: 3V3_S
+      13: WP
+      14: 3V3_S
+  rak15004:
+    mapping:
+      9: null
+      11: 3V3_S
+      13: WP
+      14: 3V3_S
+      17: I2C_SDA
+      18: I2C_SCL
+  rak15005:
+    mapping:
+      9: null
+      11: 3V3_S
+      13: WP
+      14: 3V3_S
+      17: I2C_SDA
+      18: I2C_SCL
+  rak15006:
+    type: WisSensor
+    description: RAK15006 WisBlock 512kB FRAM Module
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK15006
+    mapping:
+      9: null
+      11: 3V3_S
+      12: WP
+      13: WP
+      14: 3V3_S
+      19: SPI_MOSI
+      20: SPI_MISO
+      21: SPI_CLK
+      22: SPI_CS
   rak15007:
     description: RAK15007 WisBlock 1MByte FRAM Module
     documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK15007

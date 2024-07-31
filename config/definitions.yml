@@ -1767,12 +1767,17 @@ rak15000:
     2: GND
     7: I2C_SCL
     8: I2C_SDA
-    9: VDD
-    16: VDD
+    9: 3V3 (NC)
+    11: 3V3_S
+    14: 3V3_S
+    16: 3V3 (NC)
     17: I2C_SDA
     18: I2C_SCL
     23: GND
   i2c_address: '0x50'
+  notes:
+  - Change 3V3_S to 3V3 by swapping resistors R5 and R6
+  - I2C address can be changed to 0x54 by moving resistor from R4 to R3
 rak15001:
   type: WisSensor
   description: RAK15001 WisBlock Flash Module
@@ -1786,6 +1791,12 @@ rak15001:
     9: VDD
     10: WP
     12: HOLD
+    13: HOLD
+    15: WP
+    19: SPI_MOSI
+    20: SPI_MISO
+    21: SPI_CLS
+    22: SPI_CS
     23: GND
 rak15002:
   type: WisIO
@@ -1810,8 +1821,10 @@ rak15003:
     2: GND
     7: I2C_SCL
     8: I2C_SDA
-    9: VDD
+    11: 3V3_S
     12: WP
+    13: WP
+    14: 3V3_S
     23: GND
   i2c_address: '0x56'
 rak15004:
@@ -1822,8 +1835,12 @@ rak15004:
     2: GND
     7: I2C_SCL
     8: I2C_SDA
-    9: VDD
+    11: 3V3_S
     12: WP
+    13: WP
+    14: 3V3_S
+    17: I2C_SDA
+    18: I2C_SCL
     23: GND
   i2c_address: '0x56'
 rak15005:
@@ -1834,8 +1851,12 @@ rak15005:
     2: GND
     7: I2C_SCL
     8: I2C_SDA
-    9: VDD
+    11: 3V3_S
     12: WP
+    13: WP
+    14: 3V3_S
+    17: I2C_SDA
+    18: I2C_SCL
     23: GND
   i2c_address: '0x56'
 rak15006:
@@ -1848,8 +1869,14 @@ rak15006:
     4: SPI_CLK
     5: SPI_MISO
     6: SPI_MOSI
-    9: VDD
+    11: 3V3_S
     12: WP
+    13: WP
+    14: 3V3_S
+    19: SPI_MOSI
+    20: SPI_MISO
+    21: SPI_CLK
+    22: SPI_CS
     23: GND
 rak15007:
   description: RAK15007 WisBlock 1MByte FRAM Module
