@@ -408,10 +408,10 @@ def action_import():
     # Apply patches
     data = merge(data, config.get('patches', {}))
 
-    # Filter mappings
+    # Filter & sort mappings
     for module in data:
         if 'mapping' in data[module]:
-            data[module]['mapping'] = dict(sorted(data[module]['mapping'].items()))
+            data[module]['mapping'] = dict(sorted([(k, v) for k, v in data[module]['mapping'].items() if v is not None ]))
     
     # Sort
     data = dict(sorted(data.items(), key=lambda e: int(re.findall(r"\d+", e[0])[0])))
