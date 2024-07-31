@@ -406,10 +406,13 @@ def action_import():
 
     # Apply patches
     data = merge(data, config.get('patches', {}))
+    
+    # Sort
+    data = dict(sorted(data.items(), key=lambda e: int(re.findall(r"\d+", e[0])[0])))
 
     # Save
     with open(definitions_file, "w") as w:
-        yaml.dump(data, w)
+        yaml.dump(data, w, sort_keys=False)
 
     # Delete file
     if os.path.isfile(filename):
