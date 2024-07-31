@@ -5,29 +5,213 @@ patches:
   # ---------------------------------------------------------------------------
 
   rak12001:
+    description: RAK12001 WisBlock Fingerprint Sensor
     double: True
+  rak12020:
+    description:  RAK12020 WisBlock Light Sensor 
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12020
+    i2c_address: '0x29'
+    mapping:
+      2: GND
+      7: I2C_SCL
+      8: I2C_SDA
+      9: VDD
+      11: 3V3_S (NC)
+      12: INT
+      13: INT
+      14: 3V3_S (NC)
+      16: VDD
+      17: I2C_SDA
+      18: I2C_SCL
+      23: GND
+    type: WisSensor
+    notes:
+      - R13 enables VDD (default), R7 enables 3V3_S
+  rak12022:
+    description:  RAK12022 WisBlock PT100 Module
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12022
+    mapping:
+      3: GND
+      4: GND
+      6: 3V3_S
+      25: SPI_CS
+      26: SPI_CLK
+      27: SPI_MISO
+      28: SPI_MOSI
+      31: SPI_CS (NC)
+      32: SPI_CS (NC)
+      38: DRDY
+      39: GND
+      40: GND
+    type: WisIO
+    notes:
+      - R9 enables SPI_CS on default CS line (default), R12 connects CS to IO3 and R13 connects CS to IO4
+  rak12023:
+    description: RAK12023 WisBlock Soil Moisture Sensor Connector
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12023
+    mapping:
+      3: GND
+      4: GND
+      6: 3V3_S
+      19: I2C1_SDA
+      20: I2C1_SCL
+      32: RESET
+      39: GND
+      40: GND
+    type: WisIO
+    notes: 
+      - Requires RAK12035 WisBlock Soil Moisture Sensor
+      - I2C address is programable on the RAK12035 MCU via I2C
+  rak12025:
+    description:  RAK12025 WisBlock Gyroscope Sensor Module
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12025
+    i2c_address: '0x68'
+    mapping:
+      2: GND
+      7: I2C_SCL
+      8: I2C_SDA
+      10: INT1
+      11: 3V3_S
+      12: INT2
+      13: INT2
+      14: 3V3_S
+      15: INT1
+      17: I2C_SDA
+      18: I2C_SCL
+      23: GND
+    type: WisSensor
   rak12027:
     double: True
+  rak12028:
+    description:  RAK12028 WisBlock T-Beam-Fork Connector Module
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12028
+    i2c_address: '0x68'
+    mapping:
+      2: GND
+      7: I2C_SCL
+      8: I2C_SDA
+      10: SIGNAL_PIN (NC)
+      11: 3V3_S
+      12: SIGNAL_PIN
+      13: SIGNAL_PIN
+      14: 3V3_S
+      15: SIGNAL_PIN (NC)
+      17: I2C_SDA
+      18: I2C_SCL
+      23: GND
+    type: WisSensor
+    notes:
+      - This is the connector module for RAK12031
+  rak12031:
+    description:  RAK12031 WisBlock T-Beam-Fork Sensor Module
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12031
+    i2c_address: '0x68'
+    mapping:
+      2: GND
+      10: SIGNAL_PIN (NC)
+      11: 3V3_S
+      12: SIGNAL_PIN
+      13: SIGNAL_PIN
+      14: 3V3_S
+      15: SIGNAL_PIN (NC)
+      23: GND
+    type: WisSensor
+    notes:
+      - This modules requires RAK12028 connector or a RAK19005 Sensor Extension Cable
+  rak12032:
+    description:  RAK12032 WisBlock 3-Axis Accelerometer Sensor
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12032
+    i2c_address: '0x1D'
+    mapping:
+      2: GND
+      7: I2C_SCL
+      8: I2C_SDA
+      9: VCC_1
+      10: INT2
+      12: INT1
+      13: INT1
+      15: INT2    
+      16: VCC_1  
+      17: I2C_SDA
+      18: I2C_SCL
+      23: GND
+    type: WisSensor
+    notes:
+      - I2C address 0x1D with R5 populated (default), 0x53 if R6 populated
   rak12033:
     double: True
-  #rak12040:
-  #  double: True
+  rak12035:
+    description:  RAK12035 WisBlock Soil Moisture Sensor Module
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12035
+    i2c_address: '0x20'
+    type: WisModule
+    notes:
+      - This modules requires RAK12023 WisBlock Soil Moisture Sensor Connector
+      - I2C address is programable via I2C
+  rak12040:
+    description:  RAK12040 WisBlock 8x8 IR Sensor
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12040
+    i2c_address: '0x68'
+    double: True
+    mapping:
+      2: GND
+      7: I2C_SCL
+      8: I2C_SDA
+      11: VCC_1
+      12: INT
+      13: INT
+      14: VCC_1
+      17: I2C_SDA
+      18: I2C_SCL
+      23: GND
+    type: WisSensor
+    notes:
+      - I2C address is 0x68 if R3 populated (default) and 0x69 if R2 populated
+  #rak12044:
+  #rak12052:
+  #rak12054:
   #rak12059:
   #  double: True
+  #rak13009:
   rak13011:
+    description: RAK13011 WisBlock Magnetic Switch Sensor Module
     double: True
+  #rak13102:
+  #rak14007:
+  #rak14008:
+  #rak14009:
+  #rak14010:
+  #rak14011:
+  #rak14012:
+  #rak14013:
+  #rak15007:
+  #rak16002:
+  #rak17001:
   rak18001:
     mapping:
       10: PWM1 (NC)
     notes:
-    - Swap R5 and R6 to change PWM2 to PWM1
+      - R6 enableS PWM2 (default), R5 enables PWM1
+  rak18003:
+    description: RAK18003 WisBlock Audio Interposer  
+  #rak18041:
   rak19002:
     mapping:
       10: EN1 (NC)
     notes:
-    - Swap R1 and R3 to change EN2 to EN1
+      - R3 enables EN2 (default), R1 enables EN1
+  #rak19004:
+  rak19005:
+    description: RAK19005 Sensor Extension Cable
+    type: Accessories
+  rak19008:
+    description: RAK19008 IO Extension Cable
+    type: Accessories
+  #rak19018:
   rak1910:
     double: True
+  #rak1921:
+  #rak5814:
 
   # ---------------------------------------------------------------------------
   # WisCore modules
@@ -37,8 +221,93 @@ patches:
     description: RAK11200 ESP32 WisBlock Core
   rak11310:
     description: RAK11310 RP4020 WisBlock Core
+  #rak11722:
+  rak3372:
+    description: RAK3372 STM32WLE5 WSisBlock Core
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK3372
+    mapping:
+      3V3: VDD
+      AIN0: AN0
+      AIN1: AN1
+      GND: GND
+      I2C1_SCL: I2C_SCL
+      I2C1_SDA: I2C_SDA
+      I2C2_SCL: ADC4
+      I2C2_SDA: PA9
+      IO1: PB5
+      IO2: PA8
+      IO3: PB12
+      IO4: ADC3
+      IO5: ADC5
+      IO6: PA9 (NC)
+      IO7: ADC4 (NC)
+      LED1: PA0
+      LED2: PA1
+      RESET: RST
+      RXD0: UART2_RX (NC)
+      RXD1: UART1_RX
+      SPI_CLK: SPI_CLK
+      SPI_CS: SPI_NSS
+      SPI_MISO: SPI_MISO
+      SPI_MOSI: SPI_MOSI
+      TXD0: UART2_TX (NC)
+      TXD1: UART1_TX
+      USB+: UART2_TX
+      USB-: UART2_RX
+    type: WisCore
   rak4631:
     description: RAK4631 nRF52840 WisBlock Core
+  rak4631-r:
+    description: RAK4631 nRF52840 WisBlock Core RUI
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK4631-R
+    mapping:
+      3V3: 3V3
+      AIN0: P0.05
+      AIN1: P0.31
+      GND: GND
+      I2C1_SCL: P0.14
+      I2C1_SDA: P0.13
+      I2C2_SCL: P0.25
+      I2C2_SDA: P0.24
+      IO1: P0.17
+      IO2: P1.02
+      IO3: P0.21
+      IO4: P0.04
+      IO5: P0.09
+      IO6: P0.10
+      IO7: P0.28
+      LED1: P1.03
+      LED2: P1.04
+      LED3: P0.02
+      RESET: RESET
+      RXD0: P0.19
+      RXD1: P0.15
+      SPI_CLK: P0.03
+      SPI_CS: P0.26
+      SPI_MISO: P0.29
+      SPI_MOSI: P0.30
+      SW1: P1.01
+      TXD0: P0.20
+      TXD1: P0.16
+      USB+: USB+
+      USB-: USB-
+      VBAT_NRF: VBAT_NRF
+      VBAT_SX: VBAT_SX
+      VBUS: VBUS
+      VDD: VDD
+      VDD_NRF: VDD_NRF
+    type: WisCore
+
+  # ---------------------------------------------------------------------------
+  # WisPower modules
+  # ---------------------------------------------------------------------------
+
+  #rak19012:
+  #rak19013:
+  #rak19014:
+  #rak19015:
+  #rak19016:
+  #rak19017:
 
   # ---------------------------------------------------------------------------
   # WisBase modules
