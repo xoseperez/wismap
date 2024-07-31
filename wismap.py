@@ -17,6 +17,7 @@ import inquirer
 
 definitions_file = "config/definitions.yml"
 config_file = "config/config.yml"
+patches_file = "config/patches.yml"
 definitions = {}
 config = {}
 
@@ -407,7 +408,15 @@ def action_import(patch=True):
 
     # Apply patches
     if patch:
-        data = merge(data, config.get('patches', {}))
+
+        # Load patches file
+        patches = {}
+        if os.path.isfile(patches_file):
+            with open(patches_file) as f:
+                patches = yaml.load(f, Loader=yaml.loader.SafeLoader)
+
+        # Apply
+        data = merge(data, patches)
 
     # Filter & sort mappings
     for module in data:
