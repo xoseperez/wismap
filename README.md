@@ -241,6 +241,7 @@ This is a first version and there are many improvements to be done:
 * Review all definitions (the Pin Mapper spreadsheet is outdated for some modules and does not include all the required data).
 * Suggest which module should go to wich slot (tbh, no idea how to do it).
 * Create an HTTP service based on this so it can eventually become a webapp.
+* Add dependencies between modules (i.e. RAK14011 depends on RAK14004)
 
 ## Contribute
 
