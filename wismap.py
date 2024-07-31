@@ -414,15 +414,15 @@ def action_import():
 # -----------------------------------------------------------------------------
 
 ACTIONS = { 
-    "list" : { 'arguments': [], 'method': action_list },
-    "info" : { 'arguments': [], 'method': action_info },
-    "combine" : { 'arguments': [], 'method': action_combine },
-    "import" : { 'arguments': [], 'method': action_import },
+    "list" : action_list,
+    "info" : action_info,
+    "combine" : action_combine,
+    "import" : action_import,
 }
 
 def usage():
     for action in ACTIONS:
-        print(f"> wismap.py {action} {' '.join(ACTIONS[action]['arguments'])}")
+        print(f"> wismap.py {action}")
 
 # Load definitions data
 if os.path.isfile(definitions_file):
@@ -445,11 +445,6 @@ if action not in ACTIONS.keys():
     print(f"ERROR: unknown action '{action}'")
     usage()
     sys.exit(1)
-arguments = len(ACTIONS[action]['arguments']) + 2
-if len(sys.argv) < arguments:
-    print(f"ERROR: action requires extra arguments")
-    usage()
-    sys.exit(1)
 
 # Execute
-ACTIONS[action]['method']()
+ACTIONS[action]()
