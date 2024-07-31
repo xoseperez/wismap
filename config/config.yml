@@ -83,6 +83,149 @@ patches:
   rak12001:
     description: RAK12001 WisBlock Fingerprint Sensor
     double: True
+    mapping:
+      11: 3V3_S
+      13: TOUCH
+      14: 3V3_S
+      16: 3V3
+    notes:
+      - The 3V3 line in the sensor connector uses 3V3 via R6, alternatively can use 3V3_S via R7
+      - The 5V line in the sensor connector uses 3V3_S via R8 using a step up, alternatively can use 3V3_S via R9
+  rak12002:
+    mapping:
+      9: 3V3
+      10: INT
+      12: CLKOUT
+      13: CLKOUT
+      15: INT
+      16: 3V3
+  rak12005:
+    mapping:
+      1: null
+      2: null
+      6: 3V3_S (NC)
+    notes:
+      - Switch between 3V3 and 3V3_S swapping resistors in R1 and R2
+  rak12006:
+    mapping:
+      1: null
+      2: null
+      5: null
+      6: 3V3_S
+      18: 3V3
+      38: OUT
+      39: GND
+      40: GND
+    notes:
+      - Switch between 3V3 and 3V3_S swapping resistors in R1 and R2
+  rak12007:
+    mapping:
+      1: null
+      2: null
+      6: 3V3_S
+      32: ECHO
+      37: PD
+      38: TRIG
+    notes:
+      - Switch between 3V3 and 3V3_S swapping resistors in R1 and R2
+  rak12008:
+    type: WisSensor
+    mapping:
+      1: null
+      2: GND
+      3: null
+      4: null
+      6: null
+      7: I2C_SCL
+      8: I2C_SDA
+      11: 3V3_S
+      14: 3V3_S
+      17: I2C_SDA
+      18: I2C_SCL
+      19: null
+      20: null
+      22: null
+      23: GND
+      29: null
+      32: null
+      37: null
+      38: null
+      39: null
+      40: null
+    i2c_address: '0x2C'
+    notes:
+      - I2C address can be changed changing the resistor at R7
+  rak12010:
+    mapping:
+      9: null
+      11: 3V3_S
+      14: 3V3_S
+      16: null
+  rak12011:
+    mapping:
+      9: null
+      16: null
+  rak12012:
+    mapping:
+      1: null
+      2: null
+      5: null
+      6: 3V3_S
+  rak12013:
+    mapping:
+      1: null
+      2: null
+      5: null
+      6: 3V3_S
+      31: OUT
+  rak12014:
+    mapping:
+      2: GND
+      7: I2C_SCL
+      8: I2C_SDA
+      9: null
+      10: SHUT
+      11: 3V3_S
+      12: INT
+      13: INT
+      14: 3V3_S
+      16: null
+  rak12015:
+    mapping:
+      1: null
+      2: null
+      5: null
+  rak12016:
+    mapping:
+      1: null
+      2: null
+      5: null
+  rak12017:
+    mapping:
+      1: null
+      2: null
+      5: null
+  rak12018:
+    mapping:
+      1: null
+      2: null
+      5: null
+  rak12019:
+    mapping:
+      9: null
+      11: 3V3_S
+      12: INT
+      13: INT
+      14: 3V3_S
+      16: null
+  rak12021:
+    mapping:
+      9: null
+      11: 3V3_S
+      12: SENSOR_INT
+      13: SENSOR_INT
+      14: 3V3_S
+      16: null
   rak12020:
     description:  RAK12020 WisBlock Light Sensor 
     documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12020
@@ -158,6 +301,11 @@ patches:
     type: WisSensor
   rak12027:
     double: True
+    mapping:
+      11: null
+      13: INT1
+      14: null
+      15: INT2
   rak12028:
     description:  RAK12028 WisBlock T-Beam-Fork Connector Module
     documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12028
@@ -178,6 +326,12 @@ patches:
     type: WisSensor
     notes:
       - This is the connector module for RAK12031
+  rak12029:
+    mapping:
+      1: null
+      2: null
+      5: null
+      6: 3V3_S
   rak12031:
     description:  RAK12031 WisBlock T-Beam-Fork Sensor
     documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12031
@@ -216,6 +370,13 @@ patches:
       - I2C address 0x1D with R5 populated (default), 0x53 if R6 populated
   rak12033:
     double: True
+    mapping:
+      13: INT1
+      15: INT2
+  rak12034:
+    mapping:
+      13: INT1
+      15: INT2
   rak12035:
     description:  RAK12035 WisBlock Soil Moisture Sensor
     documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12035
@@ -224,6 +385,23 @@ patches:
     notes:
       - This modules requires RAK12023 WisBlock Soil Moisture Sensor Connector
       - I2C address is programable via I2C
+  rak12037:
+    mapping:
+      1: null
+      2: null
+      5: null
+      6: 3V3_S
+  rak12039:
+    mapping:
+      5: null
+      6: 3V3_S
+      31: RESET (NC)
+      32: SET (NC)
+      37: RESET
+      38: SET
+    notes:
+      - Change RESET pin swapping resistors R7 and R13
+      - Change SET pin swapping resistors R8 and R14
   rak12040:
     description:  RAK12040 WisBlock 8x8 IR Sensor
     documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12040
@@ -259,6 +437,10 @@ patches:
       18: I2C_SCL
       23: GND
     type: WisSensor
+  rak12047:
+    mapping:
+      9: null
+      16: null
   rak12052:
     description:  RAK12052 WisBlock Thermal IR Array Module
     documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12052
@@ -307,6 +489,14 @@ patches:
     type: WisSensor
     notes:
       - I2C address can be changed to 0x49, 0x4A or 0x4B modifying solder bridge pads
+  rak12500:
+    mapping:
+      9: null
+      12: 1PPS
+      14: 3V3_S
+      16: VDD
+      17: null
+      18: null
   rak13009:
     description:  RAK13009 WisBlock QWIIC Module
     documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK13009

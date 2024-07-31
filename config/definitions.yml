@@ -555,11 +555,19 @@ rak12001:
     1: UART_TX
     2: GND
     9: 3V3
+    11: 3V3_S
     12: TOUCH
-    16: VDD
+    13: TOUCH
+    14: 3V3_S
+    16: 3V3
     23: GND
     24: UART_RX
   double: true
+  notes:
+  - The 3V3 line in the sensor connector uses 3V3 via R6, alternatively can use 3V3_S
+    via R7
+  - The 5V line in the sensor connector uses 3V3_S via R8 using a step up, alternatively
+    can use 3V3_S via R9
 rak12002:
   type: WisSensor
   description: RAK12002 WisBlock RTC Module
@@ -569,9 +577,11 @@ rak12002:
     7: I2C_SCL
     8: I2C_SDA
     9: 3V3
-    10: INT1
+    10: INT
     12: CLKOUT
-    16: VDD
+    13: CLKOUT
+    15: INT
+    16: 3V3
     17: I2C_SDA
     18: I2C_SCL
     23: GND
@@ -612,65 +622,62 @@ rak12005:
   description: RAK12005 WisBlock Rain Sensor Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12005
   mapping:
-    1: VBAT
-    2: VBAT
     3: GND
     4: GND
     5: 3V3
+    6: 3V3_S (NC)
     38: OUT
     39: GND
     40: GND
+  notes:
+  - Switch between 3V3 and 3V3_S swapping resistors in R1 and R2
 rak12006:
   type: WisIO
   description: RAK12006 WisBlock PIR Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12006
   mapping:
-    1: VBAT
-    2: VBAT
     3: GND
     4: GND
-    5: 3V3
+    6: 3V3_S
     18: 3V3
     38: OUT
     39: GND
     40: GND
+  notes:
+  - Switch between 3V3 and 3V3_S swapping resistors in R1 and R2
 rak12007:
   type: WisIO
   description: RAK12007 WisBlock Ultrasonic Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12007
   mapping:
-    1: VBAT
-    2: VBAT
     3: GND
     4: GND
     5: 3V3
-    6: 3V3
+    6: 3V3_S
     18: 3V3
     32: ECHO
     37: PD
     38: TRIG
     39: GND
     40: GND
+  notes:
+  - Switch between 3V3 and 3V3_S swapping resistors in R1 and R2
 rak12008:
-  type: WisIO
+  type: WisSensor
   description: RAK12008 CO2 Gas Sensor
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12008
   mapping:
-    1: VBAT
-    2: VBAT
-    3: GND
-    4: GND
-    6: 3V3_S
-    19: I2C_SCA
-    20: I2C_SCL
-    22: A1
-    29: ENABLE
-    32: A0
-    37: ALERT
-    38: EN
-    39: GND
-    40: GND
-  i2c_address: '0x52'
+    2: GND
+    7: I2C_SCL
+    8: I2C_SDA
+    11: 3V3_S
+    14: 3V3_S
+    17: I2C_SDA
+    18: I2C_SCL
+    23: GND
+  i2c_address: '0x2C'
+  notes:
+  - I2C address can be changed changing the resistor at R7
 rak12009:
   type: WisIO
   description: RAK12009 WisBlock Alcohol Gas Sensor Module
@@ -696,8 +703,8 @@ rak12010:
     2: GND
     7: I2C_SCL
     8: I2C_SDA
-    9: VDD
-    16: VDD
+    11: 3V3_S
+    14: 3V3_S
     17: I2C_SDA
     18: I2C_SCL
     23: GND
@@ -710,12 +717,10 @@ rak12011:
     2: GND
     7: I2C_SCL
     8: I2C_SDA
-    9: VDD
     11: 3V3_S
     12: INT
     13: INT
     14: 3V3_S
-    16: VDD
     17: I2C_SDA
     18: I2C_SCL
     23: GND
@@ -725,11 +730,9 @@ rak12012:
   description: RAK12012 WisBlock Heart Rate Sensor
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12012
   mapping:
-    1: VBAT
-    2: VBAT
     3: GND
     4: GND
-    5: 3V3
+    6: 3V3_S
     19: I2C_SCL
     20: I2C_SDA
     32: INT
@@ -741,12 +744,10 @@ rak12013:
   description: RAK12013 WisBlock 3GHz Radar Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12013
   mapping:
-    1: VBAT
-    2: VBAT
     3: GND
     4: GND
-    5: 3V3
-    31: Out
+    6: 3V3_S
+    31: OUT
     32: EN
     39: GND
     40: GND
@@ -758,10 +759,11 @@ rak12014:
     2: GND
     7: I2C_SCL
     8: I2C_SDA
-    9: VDD
     10: SHUT
+    11: 3V3_S
     12: INT
-    16: VDD
+    13: INT
+    14: 3V3_S
     17: I2C_SDA
     18: I2C_SCL
     23: GND
@@ -771,11 +773,8 @@ rak12015:
   description: RAK12015 WisBlock Vibration Sensor
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12015
   mapping:
-    1: VBAT
-    2: VBAT
     3: GND
     4: GND
-    5: 3V3
     6: 3V3_S
     22: AIN
     32: OUT
@@ -786,11 +785,8 @@ rak12016:
   description: RAK12016 WisBlock Flex Sensor
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12016
   mapping:
-    1: VBAT
-    2: VBAT
     3: GND
     4: GND
-    5: 3V3
     6: 3V3_S
     19: I2C_SDA
     20: I2C_SCL
@@ -803,11 +799,8 @@ rak12017:
   description: RAK12017 WisBlock ToF Sensor
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12017
   mapping:
-    1: VBAT
-    2: VBAT
     3: GND
     4: GND
-    5: 3V3
     6: 3V3_S
     22: AIN1
     32: OUT
@@ -818,11 +811,8 @@ rak12018:
   description: RAK12018 WisBlock Code Scanner
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12018
   mapping:
-    1: VBAT
-    2: VBAT
     3: GND
     4: GND
-    5: 3V3
     6: 3V3_S
     33: RX_LV3296
     34: TX_LV3296
@@ -838,9 +828,10 @@ rak12019:
     2: GND
     7: I2C_SCL
     8: I2C_SDA
-    9: VDD
+    11: 3V3_S
     12: INT
-    16: VDD
+    13: INT
+    14: 3V3_S
     17: I2C_SDA
     18: I2C_SCL
     23: GND
@@ -873,9 +864,10 @@ rak12021:
     2: GND
     7: I2C_SCL
     8: I2C_SDA
-    9: VDD
+    11: 3V3_S
     12: SENSOR_INT
-    16: VDD
+    13: SENSOR_INT
+    14: 3V3_S
     17: I2C_SDA
     18: I2C_SCL
     23: GND
@@ -948,9 +940,9 @@ rak12027:
     8: I2C_SDA
     9: VDD
     10: INT2
-    11: 3V3_S
     12: INT1
-    14: 3V3_S
+    13: INT1
+    15: INT2
     16: VDD
     17: I2C_SDA
     18: I2C_SCL
@@ -982,11 +974,9 @@ rak12029:
   description: RAK12029 Inductive Sensor
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12029
   mapping:
-    1: VBAT
-    2: VBAT
     3: GND
     4: GND
-    5: 3V3
+    6: 3V3_S
     19: I2C_SCL
     20: I2C_SDA
     37: SD
@@ -1041,6 +1031,8 @@ rak12033:
     9: VDD
     10: INT2
     12: INT1
+    13: INT1
+    15: INT2
     16: VDD
     17: I2C_SDA
     18: I2C_SCL
@@ -1058,6 +1050,8 @@ rak12034:
     9: VDD
     10: INT2
     12: INT1
+    13: INT1
+    15: INT2
     16: VDD
     17: I2C_SDA
     18: I2C_SCL
@@ -1076,11 +1070,9 @@ rak12037:
   description: RAK12037 WisBlock CO2 Sensor
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12037
   mapping:
-    1: VBAT
-    2: VBAT
     3: GND
     4: GND
-    5: 3V3
+    6: 3V3_S
     19: I2C_SCL
     20: I2C_SDA
     37: PWM
@@ -1097,14 +1089,19 @@ rak12039:
     2: VBAT
     3: GND
     4: GND
-    5: 3V3
+    6: 3V3_S
     19: I2C_SCL
     20: I2C_SDA
+    31: RESET (NC)
+    32: SET (NC)
     37: RESET
     38: SET
     39: GND
     40: GND
   i2c_address: '0x12'
+  notes:
+  - Change RESET pin swapping resistors R7 and R13
+  - Change SET pin swapping resistors R8 and R14
 rak12040:
   description: RAK12040 WisBlock 8x8 IR Sensor
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12040
@@ -1148,10 +1145,8 @@ rak12047:
     2: GND
     7: I2C_SCL
     8: I2C_SDA
-    9: VDD
     11: 3V3_S
     14: 3V3_S
-    16: VDD
     17: I2C_SDA
     18: I2C_SCL
     23: GND
@@ -1213,12 +1208,11 @@ rak12500:
     2: GND
     7: I2C_SCL
     8: I2C_SDA
-    9: VDD
     10: RESET_GPS
     11: 3V3_S
     12: 1PPS
-    17: I2C_SDA
-    18: I2C_SCL
+    14: 3V3_S
+    16: VDD
     23: GND
     24: UART_TX
 rak13001:
@@ -1379,16 +1373,10 @@ rak13011:
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK13011
   mapping:
     2: GND
-    7: null
-    8: null
     9: VDD
-    11: null
     12: Switch
     13: Switch
-    14: null
     16: VDD
-    17: null
-    18: null
     23: GND
   double: true
 rak13101:
