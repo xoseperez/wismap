@@ -1660,6 +1660,7 @@ rak19001:
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19001/
   mapping:
     3V3: 3V3
+    3V3_S: 3V3_S
     AIN0: ADC_VBAT
     BOOT0: BOOT0
     GND: GND
@@ -1713,6 +1714,7 @@ rak19003:
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19003/
   mapping:
     3V3: 3V3
+    3V3_S: 3V3_S
     AIN0: ADC_VBAT
     BOOT0: BOOT0
     GND: GND
@@ -1762,6 +1764,7 @@ rak19007:
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19007/
   mapping:
     3V3: 3V3
+    3V3_S: 3V3_S
     AIN0: ADC_VBAT
     BOOT0: BOOT0
     GND: GND
@@ -2311,6 +2314,7 @@ rak5005-o:
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK5005-O/
   mapping:
     3V3: 3V3
+    3V3_S: 3V3_S
     AIN0: ADC_VBAT
     BOOT0: BOOT0
     GND: GND
