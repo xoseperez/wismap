@@ -12,6 +12,74 @@ patches:
     mapping:
       12: INT
       13: INT
+  rak1904:
+    mapping:
+      13: INT1
+      15: INT2
+  rak1905:
+    mapping:
+      12: INT
+      13: INT
+  rak1910:
+    double: True
+    mapping:
+      10: RESET
+      13: 1PPS
+      14: 3V3_S
+      15: RESET
+  rak1921:
+    description: RAK1921 WisBlock OLED Display
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK1921
+    i2c_address: '0x76'
+    type: WisModule
+  rak2305:
+    mapping:
+      5: 3V3_R (NC)
+      14: IO34
+      15: IO35
+      17: VDD (NC)
+      18: VDD (NC)
+      19: IO4
+      20: IO5
+      25: IO32
+      26: IO33
+      27: IO25
+      28: IO26
+      30: IO27
+      33: IO19
+      34: IO21
+    notes:
+      - Module is powered from VBAT by default, power from 3V3_R using R14 or VDD using R29
+      - Module IO0, IO12, IO14 and IO15 are brought out
+  rak5801:
+    mapping:
+      6: 3V3
+      21: A0_MCU (NC)
+      22: A1_MCU
+      29: EN
+      30: EN (NC)
+      32: A0_MCU
+    notes:  
+      - A0_MCU signal is on pin 32 by default via R94, change it to R95 to enable secondary
+      - EN signal is connected to pi 29 by default ia R97, change it to R96 to enable secondary
+  rak5814:
+    description: RAK5814 WisBlock Crypto Module
+    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK5814
+    i2c_address: '0x60'
+    mapping:
+      2: GND
+      7: I2C_SCL
+      8: I2C_SDA
+      9: VDD
+      10: RESET
+      15: RESET
+      16: VDD
+      17: I2C_SDA
+      18: I2C_SCL
+      23: GND
+    type: WisSensor
+    notes:
+      - I2C address can be changed programmatically
   rak12001:
     description: RAK12001 WisBlock Fingerprint Sensor
     double: True
@@ -481,31 +549,6 @@ patches:
     type: WisModule
     notes:
       - Requires RAK13800 WisBlock Ethernet Module
-  rak1910:
-    double: True
-  rak1921:
-    description: RAK1921 WisBlock OLED Display
-    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK1921
-    i2c_address: '0x76'
-    type: WisModule
-  rak5814:
-    description: RAK5814 WisBlock Crypto Module
-    documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK5814
-    i2c_address: '0x60'
-    mapping:
-      2: GND
-      7: I2C_SCL
-      8: I2C_SDA
-      9: VDD
-      10: RESET
-      15: RESET
-      16: VDD
-      17: I2C_SDA
-      18: I2C_SCL
-      23: GND
-    type: WisSensor
-    notes:
-      - I2C address can be changed programmatically
 
   # ---------------------------------------------------------------------------
   # WisCore modules

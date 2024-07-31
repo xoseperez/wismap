@@ -55,6 +55,8 @@ rak1904:
     9: VDD
     10: INT2
     12: INT1
+    13: INT1
+    15: INT2
     16: VDD
     17: I2C_SDA
     18: I2C_SCL
@@ -69,7 +71,8 @@ rak1905:
     7: I2C_SCL
     8: I2C_SDA
     9: VDD
-    12: INT1
+    12: INT
+    13: INT
     16: VDD
     17: I2C_SDA
     18: I2C_SCL
@@ -97,9 +100,12 @@ rak1910:
     1: TXD
     2: GND
     9: VDD
-    10: RESET_GPS
+    10: RESET
     11: 3V3_S
     12: 1PPS
+    13: 1PPS
+    14: 3V3_S
+    15: RESET
     23: GND
     24: RXD
   double: true
@@ -145,25 +151,29 @@ rak2305:
     2: VBAT
     3: GND
     4: GND
-    5: 3V3
+    5: 3V3_R (NC)
     11: TXD0
     12: RXD0
     13: EN
-    14: LED1
-    15: LED2
-    17: VDD
-    18: VDD
-    19: SDA
-    20: SCL
-    25: SPI_CS
-    26: SPI_CLK
-    27: SPI_MISO
-    28: SPI_MOSI
-    30: IO2
-    33: RXD1
-    34: TXD1
+    14: IO34
+    15: IO35
+    17: VDD (NC)
+    18: VDD (NC)
+    19: IO4
+    20: IO5
+    25: IO32
+    26: IO33
+    27: IO25
+    28: IO26
+    30: IO27
+    33: IO19
+    34: IO21
     39: GND
     40: GND
+  notes:
+  - Module is powered from VBAT by default, power from 3V3_R using R14 or VDD using
+    R29
+  - Module IO0, IO12, IO14 and IO15 are brought out
 rak3372:
   description: RAK3372 STM32WLE5 WSisBlock Core
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK3372
@@ -322,14 +332,20 @@ rak5801:
     2: VBAT
     3: GND
     4: GND
-    6: 3V3_S
+    6: 3V3
     19: I2C_SDA
     20: I2C_SCL
-    22: A1
-    29: ENABLE
-    32: A0
+    21: A0_MCU (NC)
+    22: A1_MCU
+    29: EN
+    30: EN (NC)
+    32: A0_MCU
     39: GND
     40: GND
+  notes:
+  - A0_MCU signal is on pin 32 by default via R94, change it to R95 to enable secondary
+  - EN signal is connected to pi 29 by default ia R97, change it to R96 to enable
+    secondary
 rak5802:
   type: WisIO
   description: RAK5802 WisBlock RS485 Interface Module
