@@ -381,7 +381,7 @@ def import_sheet(data, sheet):
         data[module_code]['i2c_address'] = matches[0]
 
            
-def action_import():
+def action_import(patch=True):
 
     url = "https://downloads.rakwireless.com/LoRa/WisBlock/Pin-Mapper/WisBlock-IO-Pin-Mapper.xlsx"
     filename = "WisBlock-IO-Pin-Mapper.xlsx"
@@ -406,7 +406,8 @@ def action_import():
             import_sheet(data, sheet)
 
     # Apply patches
-    data = merge(data, config.get('patches', {}))
+    if patch:
+        data = merge(data, config.get('patches', {}))
 
     # Filter & sort mappings
     for module in data:
