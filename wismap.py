@@ -224,9 +224,10 @@ def action_combine():
 
         if slot.startswith('SENSOR'):
             is_double = slots[slot].get('double', False)
+            is_double_text = "(double)" if is_double else ""
             choices = [(definitions[module]['description'], module) for module in definitions.keys() if (definitions[module]['type'] == 'WisSensor') and (is_double or not definitions[module].get('double', False))]
             choices.insert(0, ("Empty", "EMPTY"))
-            questions = [inquirer.List('output', message=f"Select Sensor Module in slot {slot}", choices=choices, carousel=True)]
+            questions = [inquirer.List('output', message=f"Select Sensor Module in slot {slot} {is_double_text}", choices=choices, carousel=True)]
             slot_module[slot] = inquirer.prompt(questions)['output']
             if slot_module[slot] != 'EMPTY':
                 if definitions[slot_module[slot]].get('double', False):
