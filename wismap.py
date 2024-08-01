@@ -6,6 +6,7 @@ import re
 import yaml
 from rich.console import Console
 from rich.table import Table
+from rich import print
 from mergedeep import merge
 import openpyxl
 import requests
@@ -15,9 +16,10 @@ import inquirer
 # Configuration
 # -----------------------------------------------------------------------------
 
-definitions_file = "config/definitions.yml"
-config_file = "config/config.yml"
-patches_file = "config/patches.yml"
+data_folder = "./data"
+definitions_file = f"{data_folder}/definitions.yml"
+config_file = f"{data_folder}/config.yml"
+patches_file = f"{data_folder}/patches.yml"
 definitions = {}
 config = {}
 
@@ -383,25 +385,36 @@ def import_sheet(data, sheet):
            
 def action_import(patch=True):
 
+    skip_sheets = ["Pin Mapper", "model list", "NA IO", "NA_SENS"]
+
+    print
+    print("[bold cyan]---------------------------------------[/]")
+    print("[bold cyan]Importing data from original spreadheet[/]")
+    print("[bold cyan]---------------------------------------[/]")
+
     url = "https://downloads.rakwireless.com/LoRa/WisBlock/Pin-Mapper/WisBlock-IO-Pin-Mapper.xlsx"
-    filename = "WisBlock-IO-Pin-Mapper.xlsx"
+    filename = f"{data_folder}/WisBlock-IO-Pin-Mapper.xlsx"
     if not os.path.isfile(filename):
+        print("Downloading spreadsheet")
         response = requests.get(url)
         if not response.ok:
             sys.exit(1)
         with open(filename, mode="wb") as file:
             file.write(response.content)
+    else:
+        print("Using cached spreadsheet")
 
     # Open Pin Mapper spreadsheet
     wb = openpyxl.load_workbook(filename)
+    print(f"Found {len(wb.sheetnames) - len(skip_sheets)} products")
 
     # Output data
     data = {}
 
     # Walk sheets
-    skip_sheets = ["Pin Mapper", "model list", "NA IO", "NA_SENS"]
     for sheet_name in wb.sheetnames:
         if sheet_name not in skip_sheets:
+            #print(f"Importing {sheet_name.upper()}...")
             sheet = wb[sheet_name]
             import_sheet(data, sheet)
 
@@ -415,23 +428,28 @@ def action_import(patch=True):
                 patches = yaml.load(f, Loader=yaml.loader.SafeLoader)
 
         # Apply
-        data = merge(data, patches)
+        if len(patches.keys()):
+            print("Applying patches")
+            data = merge(data, patches)
 
     # Filter & sort mappings
+    print("Filtering and sorting")
     for module in data:
         if 'mapping' in data[module]:
             data[module]['mapping'] = dict(sorted([(k, v) for k, v in data[module]['mapping'].items() if v is not None ]))
-    
-    # Sort
     data = dict(sorted(data.items(), key=lambda e: int(re.findall(r"\d+", e[0])[0])))
+
+    # Resume
+    print(f"Final list has {len(data.keys())} products")
 
     # Save
     with open(definitions_file, "w") as w:
+        print("Saving definitions")
         yaml.dump(data, w, sort_keys=False)
 
     # Delete file
-    if os.path.isfile(filename):
-        os.remove(filename) 
+    #if os.path.isfile(filename):
+    #    os.remove(filename) 
 
 # -----------------------------------------------------------------------------
 # Main
