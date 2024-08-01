@@ -4,27 +4,23 @@
 
 rak1902:
   mapping:
-    12: INT
-    13: INT
+    13: INT1
 rak1903:
   mapping:
-    12: INT
-    13: INT
+    13: INT1
 rak1904:
   mapping:
     13: INT1
     15: INT2
 rak1905:
   mapping:
-    12: INT
-    13: INT
+    13: INT1
 rak1910:
   double: True
   mapping:
-    10: RESET
     13: 1PPS
     14: 3V3_S
-    15: RESET
+    15: RESET_GPS
 rak1921:
   description: RAK1921 WisBlock OLED Display
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK1921
@@ -51,15 +47,15 @@ rak2305:
     - Module IO0, IO12, IO14 and IO15 are brought out
 rak5801:
   mapping:
-    6: 3V3
-    21: A0_MCU (NC)
-    22: A1_MCU
-    29: EN
-    30: EN (NC)
-    32: A0_MCU
+    5: 3V3 (NC)
+    21: A0 (NC)
+    22: A1
+    30: ENABLE (NC)
+    32: A0
   notes:  
-    - A0_MCU signal is on pin 32 by default via R94, change it to R95 to enable secondary
+    - A0 signal is on pin 32 by default via R94, change it to R95 to enable secondary
     - EN signal is connected to pi 29 by default ia R97, change it to R96 to enable secondary
+    - Power via 3V3 swapping resistors R49 and R50
 rak5814:
   description: RAK5814 WisBlock Crypto Module
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK5814
@@ -92,10 +88,8 @@ rak12001:
 rak12002:
   mapping:
     9: 3V3
-    10: INT
-    12: CLKOUT
     13: CLKOUT
-    15: INT
+    15: INT1
     16: 3V3
 rak12005:
   mapping:
@@ -193,6 +187,9 @@ rak12015:
     1: null
     2: null
     5: null
+    32: OUT (NC)
+  notes:  
+    - Enable OUT signal populating R5
 rak12016:
   mapping:
     1: null
@@ -212,7 +209,6 @@ rak12019:
   mapping:
     9: null
     11: 3V3_S
-    12: INT
     13: INT
     14: 3V3_S
     16: null
@@ -267,8 +263,9 @@ rak12023:
   description: RAK12023 WisBlock Soil Moisture Sensor Connector
   documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12023
   mapping:
-    3: GND
-    4: GND
+    1: null
+    2: null
+    5: null
     6: 3V3_S
     19: I2C1_SDA
     20: I2C1_SCL
@@ -618,21 +615,18 @@ rak13600:
     2: null
     5: 3V3 (NC)
     6: 3V3_S
-    19: I2C1_SDA
-    20: I2C1_SCL
+    18: null
     25: SPI_NSS (NC)
     26: SPI_CLK (NC)
     27: SPI_MISO (NC)
     28: SPI_MOSI (NC)
-    33: I2C2_SCL (NC)
-    34: I2C2_SDA (NC)
-    38: WAKEUP
+    33: I2C_SCL (NC)
+    34: I2C_SDA (NC)
   notes:
     - Disable 3V3_S removing R18
     - Enable 3V3 populating R17
     - Enable SPI interface populating R21, R22, R23 and R24
-    - Disable I2C1 removing R19 and R20
-    - Enable I2C2 populating R26 and R27
+    - Change I2C signals removing R19 and R20 and populating R26 and R27
 rak13800:
   description: RAK13800 WisBlock Ethernet Module
   i2c_address: null
@@ -643,8 +637,7 @@ rak13800:
     9: 5V
     13: RSTn (NC)
     18: null
-    25: SPI_CS
-    37: SPI_CS (NC)
+    37: SPI_NSS (NC)
   notes:
     - Change CS line swapping resistors R18 and R19
     - Change RSTn line swapping resistors R20 and R21
@@ -655,15 +648,14 @@ rak13801:
     20: RSTn (NC)
     29: SPI_CS (NC)
     30: EN (NC)
-    31: WAKEUP
-    32: WAKEUP (NC)
+    32: Wakeup (NC)
     39: GND
     40: GND
   notes:
     - Change SPI_CS line swapping resistors R5 and R9
     - Change IRQ line swapping resistors R2 and R12
     - Change RSTn line swapping resistors R3 and R13
-    - Change WAKEUP line swapping resistors R10 and R11
+    - Change Wakeup line swapping resistors R10 and R11
     - Populate R19 to control power via EN signal
 rak14000:
   mapping:
