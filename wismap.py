@@ -20,6 +20,8 @@ data_folder = "./data"
 definitions_file = f"{data_folder}/definitions.yml"
 config_file = f"{data_folder}/config.yml"
 patches_file = f"{data_folder}/patches.yml"
+spreadsheet_url = "https://downloads.rakwireless.com/LoRa/WisBlock/Pin-Mapper/WisBlock-IO-Pin-Mapper.xlsx"
+spreadsheet_file = f"{data_folder}/WisBlock-IO-Pin-Mapper.xlsx"
 definitions = {}
 config = {}
 
@@ -392,20 +394,18 @@ def action_import(patch=True):
     print("[bold cyan]Importing data from original spreadheet[/]")
     print("[bold cyan]---------------------------------------[/]")
 
-    url = "https://downloads.rakwireless.com/LoRa/WisBlock/Pin-Mapper/WisBlock-IO-Pin-Mapper.xlsx"
-    filename = f"{data_folder}/WisBlock-IO-Pin-Mapper.xlsx"
-    if not os.path.isfile(filename):
+    if not os.path.isfile(spreadsheet_file):
         print("Downloading spreadsheet")
-        response = requests.get(url)
+        response = requests.get(spreadsheet_url)
         if not response.ok:
             sys.exit(1)
-        with open(filename, mode="wb") as file:
+        with open(spreadsheet_file, mode="wb") as file:
             file.write(response.content)
     else:
         print("Using cached spreadsheet")
 
     # Open Pin Mapper spreadsheet
-    wb = openpyxl.load_workbook(filename)
+    wb = openpyxl.load_workbook(spreadsheet_file)
     print(f"Found {len(wb.sheetnames) - len(skip_sheets)} products")
 
     # Output data
@@ -447,9 +447,15 @@ def action_import(patch=True):
         print("Saving definitions")
         yaml.dump(data, w, sort_keys=False)
 
+# -----------------------------------------------------------------------------
+# Action CLEAN
+# -----------------------------------------------------------------------------
+
+def action_clean():
+
     # Delete file
-    #if os.path.isfile(filename):
-    #    os.remove(filename) 
+    if os.path.isfile(spreadsheet_file):
+        os.remove(spreadsheet_file) 
 
 # -----------------------------------------------------------------------------
 # Main
@@ -460,6 +466,7 @@ ACTIONS = {
     "info" : action_info,
     "combine" : action_combine,
     "import" : action_import,
+    "clean" : action_clean,
 }
 
 def usage():

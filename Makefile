@@ -29,13 +29,13 @@ info: .venv/touchfile
 combine: .venv/touchfile
 	set -e ; . .venv/bin/activate ; python wismap.py combine
 
-setup:
-	pip install -Ur requirements.txt
-
 clean:
-	rm -rf .venv build dist *.egg-info .pytest-cache
+	set -e ; . .venv/bin/activate ; python wismap.py clean
 	find -iname "*.pyc" -delete
 	find -iname "__pycache__" -delete
+
+setup:
+	pip install -Ur requirements.txt
 
 .PHONY: clean freeze import
 
