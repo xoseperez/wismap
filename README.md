@@ -49,7 +49,7 @@ Alternative ways to run the code are available:
 
 ### Import
 
-The import process downloads the latest WisBlock Pin Mapper spreadsheet (https://downloads.rakwireless.com/LoRa/WisBlock/Pin-Mapper/WisBlock-IO-Pin-Mapper.xlsx) and generates a YAML file (`definitions.yml`) with the definitions for each module. It also patches that file with custom definitions for some modules (these patches can be found on the `config.yml` file). The repository includes a version of the `definitions.yml` file built in the same way, so this step is not mandatory.
+The import process downloads the latest WisBlock Pin Mapper spreadsheet (https://downloads.rakwireless.com/LoRa/WisBlock/Pin-Mapper/WisBlock-IO-Pin-Mapper.xlsx) if it's not cached already and generates a YAML file (`definitions.yml`) with the definitions for each module. It also patches that file with custom definitions for some modules (these patches can be found on the `config.yml` file). The repository includes a version of the `definitions.yml` file built in the same way, so this step is not mandatory.
 
 ```
 python3 wismap.py import
@@ -59,6 +59,35 @@ or
 
 ```
 make import
+```
+
+Example output:
+
+```
+---------------------------------------
+Importing data from original spreadheet
+---------------------------------------
+Using cached spreadsheet
+Found 90 products
+Applying patches
+Filtering and sorting
+Final list has 137 products
+Saving definitions
+
+```
+
+### Clean
+
+The clean action deletes the cached version on the spreadsheet so it will be downloaded again on the next import.
+
+```
+python3 wismap.py clean
+```
+
+or 
+
+```
+make clean
 ```
 
 ### List
@@ -78,26 +107,25 @@ make list
 Example output:
 
 ```
-┏━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃ Module    ┃ Type      ┃ Description                                             ┃
-┡━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
-│ RAK11200  │ WisCore   │ RAK11200 ESP32 WisBlock Core                            │
-│ RAK11310  │ WisCore   │ RAK11310 RP4020 WisBlock Core                           │
-│ RAK12001  │ WisSensor │ RAK12002 WisBlock Fingerprint Sensor                    │
-│ RAK12002  │ WisSensor │ RAK12002 WisBlock RTC Module                            │
-│ RAK12003  │ WisSensor │ RAK12003 WisBlock Infrared Temperature Sensor           │
-│ RAK12004  │ WisIO     │ RAK12004 WisBlock MQ2 Gas Sensor Module                 │
-│ RAK12005  │ WisIO     │ RAK12005 WisBlock Rain Sensor Module                    │
-│ RAK12006  │ WisIO     │ RAK12006 WisBlock PIR Module                            │
-│ RAK12007  │ WisIO     │ RAK12007 WisBlock Ultrasonic Module                     │
-│ RAK12008  │ WisIO     │ RAK12008 CO2 Gas Sensor                                 │
-│ RAK12009  │ WisIO     │ RAK12009 WisBlock Alcohol Gas Sensor Module             │
-│ RAK12010  │ WisSensor │ RAK12010 WisBlock Ambient Light Sensor                  │
-│ RAK12011  │ WisSensor │ RAK12011 WisBlock WP Barometric Sensor                  │
-│ RAK12012  │ WisIO     │ RAK12012 WisBlock Heart Rate Sensor                     │
-│ RAK12013  │ WisIO     │ RAK12013 WisBlock 3GHz Radar Module                     │
-│ RAK12014  │ WisSensor │ RAK12014 WisBlock Laser ToF module                      │
-│ RAK12015  │ WisIO     │ RAK12015 WisBlock Vibration Sensor                      │
+┏━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Module    ┃ Type        ┃ Description                                             ┃
+┡━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ RAK1901   │ WisSensor   │ RAK1901 WisBlock Temperature and Humidity Sensor        │
+│ RAK1902   │ WisSensor   │ RAK1902 WisBlock Barometer Pressure Sensor              │
+│ RAK1903   │ WisSensor   │ RAK1903 WisBlock Ambient Light Sensor                   │
+│ RAK1904   │ WisSensor   │ RAK1904 WisBlock 3-axis Acceleration Sensor             │
+│ RAK1905   │ WisSensor   │ RAK1905 WisBlock 9-AXIS Motion sensor                   │
+│ RAK1906   │ WisSensor   │ RAK1906 WisBlock Environmental Sensor                   │
+│ RAK1910   │ WisSensor   │ RAK1910 WisBlock GNSS Location Module                   │
+│ RAK1920   │ WisIO       │ RAK1920 WisBlock Sensor Adapter Module                  │
+│ RAK1921   │ WisModule   │ RAK1921 WisBlock OLED Display                           │
+│ RAK2305   │ WisIO       │ RAK2305 WisBlock WiFi Module                            │
+│ RAK3372   │ WisCore     │ RAK3372 STM32WLE5 WSisBlock Core                        │
+│ RAK4631   │ WisCore     │ RAK4631 nRF52840 WisBlock Core                          │
+│ RAK4631-R │ WisCore     │ RAK4631 nRF52840 WisBlock Core RUI                      │
+│ RAK5005-O │ WisBase     │ RAK5005-O WisBlock Base Board                           │
+│ RAK5801   │ WisIO       │ RAK5801 WisBlock 4-20mA Interface Module                │
+│ RAK5802   │ WisIO       │ RAK5802 WisBlock RS485 Interface Module                 │
 ...
 
 ```
@@ -238,7 +266,6 @@ Documentation:
 
 This is a first version and there are many improvements to be done:
 
-* Review all definitions (the Pin Mapper spreadsheet is outdated for some modules and does not include all the required data).
 * Suggest which module should go to wich slot (tbh, no idea how to do it).
 * Create an HTTP service based on this so it can eventually become a webapp.
 * Add dependencies between modules (i.e. RAK14011 depends on RAK14004)
