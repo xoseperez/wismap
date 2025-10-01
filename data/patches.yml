@@ -492,6 +492,21 @@ rak12500:
     16: VDD
     17: null
     18: null
+rak12501:
+  type: WisSensor
+  description: RAK12501 GNSS GPS Location Module Quectel L76K
+  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12501
+  mapping:
+    1: UART_RX
+    2: GND
+    10: RESET_GPS
+    11: 3V3_S
+    12: 1PPS
+    13: 1PPS
+    14: 3V3_S
+    15: RESET_GPS
+    23: GND
+    24: UART_TX
 rak13001:
   mapping:
     10: DI
