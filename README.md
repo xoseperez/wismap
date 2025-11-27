@@ -136,7 +136,7 @@ Example output:
 Let's you choose one of the modules and shows basic information for it: description, link to documentation, pin mapping...
 
 ```
-python3 wismap.py info
+python3 wismap.py info 
 ```
 
 or 
@@ -188,6 +188,8 @@ Mapping:
 │ 40  │ GND      │
 └─────┴──────────┘
 ```
+
+> Note: info option supports receiving the module name (e.g. "rak13300") as an argument to bypass the selection list.
 
 ### Combine
 

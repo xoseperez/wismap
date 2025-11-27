@@ -45,12 +45,18 @@ def action_list():
 # Action INFO
 # -----------------------------------------------------------------------------
 
-def action_info():
+def action_info(*args):
 
     # Get module
-    questions = [inquirer.List('module', message="Select module", choices=[(definitions[module]['description'], module) for module in definitions.keys()], carousel=True,)]
-    answer = inquirer.prompt(questions)
-    module = answer['module']
+    if  len(args) > 0:
+        module = args[0].lower()
+        if module not in definitions:
+            print(f"ERROR: specified module not found ({module})")
+            return
+    else:
+        questions = [inquirer.List('module', message="Select module", choices=[(definitions[module]['description'], module) for module in definitions.keys()], carousel=True,)]
+        answer = inquirer.prompt(questions)
+        module = answer['module']
 
     # Notes
     notes = definitions[module].get('notes', [])
@@ -496,4 +502,4 @@ if action not in ACTIONS.keys():
     sys.exit(1)
 
 # Execute
-ACTIONS[action]()
+ACTIONS[action](*sys.argv[2:])
