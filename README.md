@@ -264,6 +264,9 @@ Documentation:
 - RAK15006 WisBlock 512kB FRAM Module: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK15006
 ```
 
+> Note: combine option supports receiving the list of modules in order as an argument, use "EMPTY" to define an empty slot, for example:
+> `python wismap.py combine rak6421 rak5802 rak5801 empty empty rak12002 rak18001`
+
 ## Roadmap
 
 This is a first version and there are many improvements to be done:
