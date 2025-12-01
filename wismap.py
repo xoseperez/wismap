@@ -151,7 +151,7 @@ def combine_pins(slot, mapping):
     return output
 
 def count_non_empty(elements):
-    return sum(1 for element in elements if element != '')
+    return sum(1 for element in elements if (element != '') and ('(NC)' not in element))
 
 def count_unique(elements):
     unique = []
