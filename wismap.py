@@ -365,6 +365,9 @@ def action_combine(*args):
     for line in documentation:
         print(f"- {line}")
 
+    # Reproduce configuration
+    print(f"Reproduce this configuration: python wismap.py combine {' '.join([v.lower() for k, v in slot_module.items()])}")
+
 # -----------------------------------------------------------------------------
 # Action IMPORT
 # -----------------------------------------------------------------------------
