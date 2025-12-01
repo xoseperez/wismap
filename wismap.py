@@ -191,9 +191,9 @@ def detect_conflicts(slot_module, function_slot):
     functions = []
     notes = []    
 
-    skip_columns = 3
+    skip_columns = 2
     if 'POWER' in slot_module.keys():
-        skip_columns = 4
+        skip_columns = 3
 
     for function, values in function_slot.items():
         non_empty = count_non_empty(values[skip_columns:])
@@ -206,7 +206,8 @@ def detect_conflicts(slot_module, function_slot):
             if non_empty > 0:
                 notes.append('Possible conflict with ADC_VBAT if using AIN0')
                 functions.append(function)
-        if function.startswith("IO") or function.startswith("AIN") or function.startswith("GPIO") or function.startswith("UART") or function.startswith("LED") or function.startswith("SW"):
+        if function.startswith("IO") or function.startswith("AIN") or function.startswith("GPIO") or \
+           function.startswith("UART") or function.startswith("LED") or function.startswith("SW"):
             if non_empty > 1:
                 notes.append(f"Possible conflict with {function}")
                 functions.append(function)
