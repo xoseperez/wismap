@@ -202,7 +202,7 @@ def detect_conflicts(slot_module, function_slot):
             if non_empty > unique:
                 notes.append('Possible conflict with I2C addresses')
                 functions.append(function)
-        if function == 'AIN0':
+        if (function == 'AIN0') and (slot_module['BASE'] != "rak6421"):
             if non_empty > 0:
                 notes.append('Possible conflict with ADC_VBAT if using AIN0')
                 functions.append(function)
@@ -220,7 +220,7 @@ def detect_conflicts(slot_module, function_slot):
 
     return [functions, notes]
 
-def action_combine():
+def action_combine(*args):
 
     # -------------------------------------------------------------------------
     # Gather info
@@ -229,9 +229,12 @@ def action_combine():
     slot_module={}
 
     # Select base module
-    choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisBase']
-    questions = [inquirer.List('output', message="Select Base Board", choices=choices, carousel=True)]
-    slot_module['BASE'] = inquirer.prompt(questions)['output']
+    if len(args) > 0:
+        slot_module['BASE'] = args[0].lower()
+    else:
+        choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisBase']
+        questions = [inquirer.List('output', message="Select Base Board", choices=choices, carousel=True)]
+        slot_module['BASE'] = inquirer.prompt(questions)['output']
 
     # Get slot definitions
     slot_def = config.get('slots', {})
@@ -239,48 +242,63 @@ def action_combine():
     for slot in definitions[slot_module['BASE']]['slots'].keys():
         slots[slot] = merge(slot_def[slot], definitions[slot_module['BASE']]['slots'][slot] or {})
 
+    # Do we have predefined configuration?
+    if len(args) > 1:
+        index = 1
+        for slot in slots:
+            if index >= len(args):
+                slot_module[slot] = 'EMPTY'
+            else:
+                module = args[index].lower()
+                if module == 'empty':
+                    slot_module[slot] = 'EMPTY'
+                else:
+                    slot_module[slot] = module
+            index+=1
+
     # Walk the different slots
-    blocked = []
-    for slot in slots:
-        
-        if slot in blocked:
-            print(f"{slot} is blocked by another sensor\n")
-            slot_module[slot] = 'BLOCKED'
-            continue
+    else:
+        blocked = []
+        for slot in slots:
+            
+            if slot in blocked:
+                print(f"{slot} is blocked by another sensor\n")
+                slot_module[slot] = 'BLOCKED'
+                continue
 
-        if slot.startswith('CORE'):
-            choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisCore']
-            questions = [inquirer.List('output', message="Select Core Module", choices=choices, carousel=True)]
-            slot_module[slot] = inquirer.prompt(questions)['output']
+            if slot.startswith('CORE'):
+                choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisCore']
+                questions = [inquirer.List('output', message="Select Core Module", choices=choices, carousel=True)]
+                slot_module[slot] = inquirer.prompt(questions)['output']
 
-        if slot.startswith('SENSOR'):
-            is_double = slots[slot].get('double', False)
-            is_double_text = "(double)" if is_double else ""
-            choices = [(definitions[module]['description'], module) for module in definitions.keys() if (definitions[module]['type'] == 'WisSensor') and (is_double or not definitions[module].get('double', False))]
-            choices.insert(0, ("Empty", "EMPTY"))
-            questions = [inquirer.List('output', message=f"Select Sensor Module in slot {slot} {is_double_text}", choices=choices, carousel=True)]
-            slot_module[slot] = inquirer.prompt(questions)['output']
-            if slot_module[slot] != 'EMPTY':
-                if definitions[slot_module[slot]].get('double', False):
-                    blocks = slots[slot].get('double_blocks', None)
-                    if blocks:
-                        blocked.append(blocks)
+            if slot.startswith('SENSOR'):
+                is_double = slots[slot].get('double', False)
+                is_double_text = "(double)" if is_double else ""
+                choices = [(definitions[module]['description'], module) for module in definitions.keys() if (definitions[module]['type'] == 'WisSensor') and (is_double or not definitions[module].get('double', False))]
+                choices.insert(0, ("Empty", "EMPTY"))
+                questions = [inquirer.List('output', message=f"Select Sensor Module in slot {slot} {is_double_text}", choices=choices, carousel=True)]
+                slot_module[slot] = inquirer.prompt(questions)['output']
+                if slot_module[slot] != 'EMPTY':
+                    if definitions[slot_module[slot]].get('double', False):
+                        blocks = slots[slot].get('double_blocks', None)
+                        if blocks:
+                            blocked.append(blocks)
 
-        if slot.startswith('IO'):
-            choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisIO']
-            choices.insert(0, ("Empty", "EMPTY"))
-            questions = [inquirer.List('output', message=f"Select IO Module in slot {slot}", choices=choices, carousel=True)]
-            slot_module[slot] = inquirer.prompt(questions)['output']
+            if slot.startswith('IO'):
+                choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisIO']
+                choices.insert(0, ("Empty", "EMPTY"))
+                questions = [inquirer.List('output', message=f"Select IO Module in slot {slot}", choices=choices, carousel=True)]
+                slot_module[slot] = inquirer.prompt(questions)['output']
 
-        if slot.startswith('POWER'):
-            choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisPower']
-            questions = [inquirer.List('output', message=f"Select Power Module in slot {slot}", choices=choices, carousel=True)]
-            slot_module[slot] = inquirer.prompt(questions)['output']
+            if slot.startswith('POWER'):
+                choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisPower']
+                questions = [inquirer.List('output', message=f"Select Power Module in slot {slot}", choices=choices, carousel=True)]
+                slot_module[slot] = inquirer.prompt(questions)['output']
 
     # -------------------------------------------------------------------------
     # Build mapping
     # -------------------------------------------------------------------------
-    
+
     # Get mapping
     mapping_name = definitions[slot_module['BASE']].get('functions', 'default')
     function_slot = function_mapping(mapping_name, slot_module, slots)
