@@ -1,42 +1,90 @@
 functions:
-  - I2C_ADDR
-  - 3V3
-  - 3V3_S
-  - AIN0
-  - AIN1
-  - BOOT0
-  - GND
-  - I2C1_SCL
-  - I2C1_SDA
-  - I2C2_SCL
-  - I2C2_SDA
-  - IO1
-  - IO2
-  - IO3
-  - IO4
-  - IO5
-  - IO6
-  - IO7
-  - IO8
-  - LED1
-  - LED2
-  - LED3
-  - RESET
-  - SPI_CLK
-  - SPI_CS
-  - SPI_MISO
-  - SPI_MOSI
-  - SW1
-  - UART0_RX
-  - UART0_TX
-  - UART1_RX
-  - UART1_TX
-  - USB+
-  - USB-
-  - VBAT
-  - VBUS
-  - VDD
-  - VIN
+  default:
+    - I2C_ADDR
+    - 3V3
+    - 3V3_S
+    - AIN0
+    - AIN1
+    - BOOT0
+    - GND
+    - I2C1_SCL
+    - I2C1_SDA
+    - I2C2_SCL
+    - I2C2_SDA
+    - IO1
+    - IO2
+    - IO3
+    - IO4
+    - IO5
+    - IO6
+    - IO7
+    - IO8
+    - LED1
+    - LED2
+    - LED3
+    - RESET
+    - SPI_CLK
+    - SPI_CS
+    - SPI_MISO
+    - SPI_MOSI
+    - SW1
+    - UART0_RX
+    - UART0_TX
+    - UART1_RX
+    - UART1_TX
+    - USB+
+    - USB-
+    - VBAT
+    - VBUS
+    - VDD
+    - VIN
+  raspberry:
+    - I2C_ADDR
+    - 3V3
+    - 5V
+    - VBAT
+    - GND
+    - I2C1_SCL
+    - I2C1_SDA
+    - SPI_CS1
+    - SPI_CS0
+    - SPI_MISO
+    - SPI_MOSI
+    - SPI_CLK
+    - UART0_RX
+    - UART0_TX
+    #- GPIO00 # ID-SD
+    #- GPIO01 # ID_SC
+    #- GPIO02 # I2C1_SDA
+    #- GPIO03 # I2C1_SCL
+    - GPIO04 #UART3_TX
+    - GPIO05 #UART3_RX
+    - GPIO06
+    #- GPIO07 #SPI_CS1
+    #- GPIO08 #SPI_CS0
+    #- GPIO09 #SPI_MISO
+    #- GPIO10 #SPI_MOSI
+    #- GPIO11 #SPI_CLK
+    - GPIO12
+    - GPIO13
+    #- GPIO14 # UART0_TX
+    #- GPIO15 # UART0_RX
+    - GPIO16
+    - GPIO17
+    - GPIO18
+    - GPIO19
+    - GPIO20
+    - GPIO21
+    - GPIO22
+    - GPIO23
+    - GPIO24
+    - GPIO25
+    - GPIO26
+    - GPIO27
+    - AIN0 # specific for RAK6421
+    - AIN1 # specific for RAK6421
+    - AIN2 # specific for RAK6421
+    - AIN3 # specific for RAK6421
 
 slots:
   CORE:

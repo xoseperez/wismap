@@ -24,6 +24,17 @@ spreadsheet_url = "https://downloads.rakwireless.com/LoRa/WisBlock/Pin-Mapper/Wi
 spreadsheet_file = f"{data_folder}/WisBlock-IO-Pin-Mapper.xlsx"
 definitions = {}
 config = {}
+show_nc = False
+
+pins_per_type = {
+    'Accessories': 0,
+    'WisBase': 0,
+    'WisCore': 40,
+    'WisIO': 40,
+    'WisModule': 0,
+    'WisPower': 40,
+    'WisSensor': 24,
+}
 
 # -----------------------------------------------------------------------------
 # Action LIST
@@ -77,9 +88,16 @@ def action_info(*args):
         table = Table()
         for column in ["PIN", "Function"]:
             table.add_column(column)
-        for row in [[str(k), v] for k, v in definitions[module]['mapping'].items()]:
-            if row[1]:
-                table.add_row(*row, style='bright_green')
+        pins = pins_per_type.get(definitions[module]['type'], 0)
+        if pins == 0:
+            for row in [[str(k), v] for k, v in definitions[module]['mapping'].items()]:
+                if row[1]:
+                    table.add_row(*row, style='bright_green')
+        else:
+            for index in range(pins):
+                name = definitions[module]['mapping'].get(index+1, 'NC')
+                if (name != 'NC') or (show_nc == True):
+                    table.add_row(*[str(index+1), name], style='bright_green')
         console = Console()
         console.print(table)
     
@@ -128,7 +146,8 @@ def action_info(*args):
 def combine_pins(slot, mapping):
     output = {}
     for k, v in slot.items():
-        output[v] = mapping.get(k, "")
+        if (v not in output) or (output[v] == ''):
+            output[v] = mapping.get(k, "")
     return output
 
 def count_non_empty(elements):
@@ -142,7 +161,7 @@ def count_unique(elements):
                 unique.append(element)
     return len(unique)
 
-def function_mapping(slot_module, slots):
+def function_mapping(mapping_name, slot_module, slots):
 
     # Populate slot mapping
     slot_mapping = {}
@@ -157,7 +176,7 @@ def function_mapping(slot_module, slots):
             slot_mapping[slot]['I2C_ADDR'] = definitions[module].get('i2c_address', "")
 
     # Function mapping
-    functions = config.get('functions', [])
+    functions = config.get('functions', {}).get(mapping_name, [])
     function_slot = {}
     for function in functions:
         row = [function]
@@ -187,7 +206,7 @@ def detect_conflicts(slot_module, function_slot):
             if non_empty > 0:
                 notes.append('Possible conflict with ADC_VBAT if using AIN0')
                 functions.append(function)
-        if function in ('IO1', 'IO2', 'IO3', 'IO4', 'IO5', 'IO6', 'IO7', 'AIN0', 'AIN1', 'UART0_RX', 'UART0_TX', 'UART1_RX', 'UART1_TX', 'LED1', 'LED2', 'LED3', "SW1"):
+        if function.startswith("IO") or function.startswith("AIN") or function.startswith("GPIO") or function.startswith("UART") or function.startswith("LED") or function.startswith("SW"):
             if non_empty > 1:
                 notes.append(f"Possible conflict with {function}")
                 functions.append(function)
@@ -262,7 +281,8 @@ def action_combine():
     # -------------------------------------------------------------------------
     
     # Get mapping
-    function_slot = function_mapping(slot_module, slots)
+    mapping_name = definitions[slot_module['BASE']].get('functions', 'default')
+    function_slot = function_mapping(mapping_name, slot_module, slots)
     
     # Get conflicts
     (conflict_functions, conflict_notes) = detect_conflicts(slot_module, function_slot)
