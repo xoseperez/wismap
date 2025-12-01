@@ -11,6 +11,8 @@ from mergedeep import merge
 import openpyxl
 import requests
 import inquirer
+import argparse
+import textwrap
 
 # -----------------------------------------------------------------------------
 # Configuration
@@ -513,10 +515,6 @@ ACTIONS = {
     "clean" : action_clean,
 }
 
-def usage():
-    for action in ACTIONS:
-        print(f"> wismap.py {action}")
-
 # Load definitions data
 if os.path.isfile(definitions_file):
     with open(definitions_file) as f:
@@ -528,16 +526,24 @@ if os.path.isfile(config_file):
     with open(config_file) as f:
         config = yaml.load(f, Loader=yaml.loader.SafeLoader)
 
-# Check arguments
-if len(sys.argv) < 2:
-    print(f"ERROR: unspecified action")
-    usage()
-    sys.exit(1)
-action = sys.argv[1]
+parser = argparse.ArgumentParser(
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    prog='python wismap.py', 
+    usage='%(prog)s [-h] [-m] [-n] action [extra]',
+    epilog=textwrap.dedent('''The 'info' action accepts the name of the module to show as an extra argument.\nThe 'combine' action accepts a list of modules to mount on the different slots, starting with the base module.''')
+)
+parser.add_argument('action', default='list', nargs='?', help='Action to run: '+ ', '.join(ACTIONS.keys()))
+parser.add_argument('-m', '--markdown', default=False, help='Show tables in markdown format', action='store_true')
+parser.add_argument('-n', '--nc', default=False, help='Show NC pins', action='store_true')
+(arguments, extra) = parser.parse_known_args()
+
+action = arguments.action
 if action not in ACTIONS.keys():
     print(f"ERROR: unknown action '{action}'")
-    usage()
+    parser.print_help()
     sys.exit(1)
+show_nc = arguments.nc
+table_format = box.MARKDOWN if arguments.markdown else box.SQUARE
 
 # Execute
-ACTIONS[action](*sys.argv[2:])
+ACTIONS[action](*extra)

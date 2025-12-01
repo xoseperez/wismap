@@ -47,18 +47,27 @@ Alternative ways to run the code are available:
 
 ## Usage
 
+```
+usage: python wismap.py [-h] [-m] [-n] action [extra]
+
+positional arguments:
+  action          Action to run: list, info, combine, import, clean
+
+options:
+  -h, --help      show this help message and exit
+  -m, --markdown  Show tables in markdown format
+  -n, --nc        Show NC pins
+
+The 'info' action accepts the name of the module to show as an extra argument.
+The 'combine' action accepts a list of modules to mount on the different slots, starting with the base module.
+```
+
 ### Import
 
 The import process downloads the latest WisBlock Pin Mapper spreadsheet (https://downloads.rakwireless.com/LoRa/WisBlock/Pin-Mapper/WisBlock-IO-Pin-Mapper.xlsx) if it's not cached already and generates a YAML file (`definitions.yml`) with the definitions for each module. It also patches that file with custom definitions for some modules (these patches can be found on the `config.yml` file). The repository includes a version of the `definitions.yml` file built in the same way, so this step is not mandatory.
 
 ```
 python3 wismap.py import
-```
-
-or 
-
-```
-make import
 ```
 
 Example output:
@@ -84,24 +93,12 @@ The clean action deletes the cached version on the spreadsheet so it will be dow
 python3 wismap.py clean
 ```
 
-or 
-
-```
-make clean
-```
-
 ### List
 
 Simply lists all the modules available.
 
 ```
 python3 wismap.py list
-```
-
-or 
-
-```
-make list
 ```
 
 Example output:
@@ -127,6 +124,7 @@ Example output:
 │ RAK5801   │ WisIO       │ RAK5801 WisBlock 4-20mA Interface Module                │
 │ RAK5802   │ WisIO       │ RAK5802 WisBlock RS485 Interface Module                 │
 ...
+(arguments, extra) = parser.parse_known_args()
 
 ```
 
@@ -137,12 +135,6 @@ Let's you choose one of the modules and shows basic information for it: descript
 
 ```
 python3 wismap.py info 
-```
-
-or 
-
-```
-make info
 ```
 
 Example output:
@@ -160,7 +152,8 @@ Example output:
    RAK12010 WisBlock Ambient Light Sensor
    RAK12011 WisBlock WP Barometric Sensor
    RAK12012 WisBlock Heart Rate Sensor
-   RAK12013 WisBlock 3GHz Radar Module
+   RAK12013 WisBlock 3GHz Radar Module(arguments, extra) = parser.parse_known_args()
+
    RAK12014 WisBlock Laser ToF module
 
 Module: RAK12008
@@ -189,7 +182,11 @@ Mapping:
 └─────┴──────────┘
 ```
 
-> Note: info option supports receiving the module name (e.g. "rak13300") as an argument to bypass the selection list.
+Alternatively you can provide the module you want to get the info from as an extra argument: 
+
+```
+python3 wismap.py info rak12008
+```
 
 ### Combine
 
@@ -197,12 +194,6 @@ This options walks you through different menus to let you choose a base board, a
 
 ```
 python3 wismap.py combine
-```
-
-or 
-
-```
-make combine
 ```
 
 Example output:
@@ -264,8 +255,11 @@ Documentation:
 - RAK15006 WisBlock 512kB FRAM Module: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK15006
 ```
 
-> Note: combine option supports receiving the list of modules in order as an argument, use "EMPTY" to define an empty slot, for example:
-> `python wismap.py combine rak6421 rak5802 rak5801 empty empty rak12002 rak18001`
+Alternatively you can provide the full configuration as a list of modules, starting with the base module, the power module (if the base supports it), the IO modules and the sensor modules in order:
+
+```
+python wismap.py combine rak6421 rak5802 rak5801 empty empty rak12002 rak18001
+```
 
 ## Roadmap
 
