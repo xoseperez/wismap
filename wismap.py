@@ -25,7 +25,7 @@ spreadsheet_file = f"{data_folder}/WisBlock-IO-Pin-Mapper.xlsx"
 definitions = {}
 config = {}
 show_nc = False
-table_format = box.MARKDOWN # box.SQUARE or box.MARKDOWN
+table_format = box.SQUARE # box.SQUARE or box.MARKDOWN
 
 pins_per_type = {
     'Accessories': 0,
