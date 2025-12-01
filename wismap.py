@@ -207,7 +207,7 @@ def detect_conflicts(slot_module, function_slot):
                 notes.append('Possible conflict with ADC_VBAT if using AIN0')
                 functions.append(function)
         if function.startswith("IO") or function.startswith("AIN") or function.startswith("GPIO") or \
-           function.startswith("UART") or function.startswith("LED") or function.startswith("SW"):
+           function.startswith("UART") or function.startswith("LED") or function.startswith("SW") or function.startswith("SPI_CS"):
             if non_empty > 1:
                 notes.append(f"Possible conflict with {function}")
                 functions.append(function)
