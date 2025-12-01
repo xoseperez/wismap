@@ -6,7 +6,7 @@ import re
 import yaml
 from rich.console import Console
 from rich.table import Table
-from rich import print
+from rich import print, box
 from mergedeep import merge
 import openpyxl
 import requests
@@ -25,6 +25,7 @@ spreadsheet_file = f"{data_folder}/WisBlock-IO-Pin-Mapper.xlsx"
 definitions = {}
 config = {}
 show_nc = False
+table_format = box.SQUARE # box.MARKDOWN
 
 pins_per_type = {
     'Accessories': 0,
@@ -43,7 +44,7 @@ pins_per_type = {
 def action_list():
 
     print()
-    table = Table()
+    table = Table(box=table_format)
     for column in ['Module', "Type", "Description"]:
         table.add_column(column)
     for module in definitions.keys():
@@ -85,7 +86,7 @@ def action_info(*args):
     
     if 'mapping' in definitions[module]:
         print(f"Mapping:")
-        table = Table()
+        table = Table(box=table_format)
         for column in ["PIN", "Function"]:
             table.add_column(column)
         pins = pins_per_type.get(definitions[module]['type'], 0)
@@ -104,7 +105,7 @@ def action_info(*args):
     if 'slots' in definitions[module]:
 
         print(f"Slots:")
-        table = Table()
+        table = Table(box=table_format)
         table.add_column("ID")
         for slot in definitions[module]['slots'].keys():
             double = (definitions[module]['slots'][slot] or {}).get('_double', False)
@@ -335,16 +336,17 @@ def action_combine(*args):
     }
 
     columns = ["Function\n"]
+    separator = ' ' if table_format == box.MARKDOWN else '\n'
     for k, v in slot_module.items():
         if v:
-            columns.append(f"{slot_names[k]}\n({v.upper()})")
+            columns.append(f"{slot_names[k]}{separator}({v.upper()})")
         else:
-            columns.append(f"{slot_names[k]}\n")
+            columns.append(f"{slot_names[k]}{separator}")
 
 
     # Get core board mapping
     print()
-    table = Table()
+    table = Table(box=table_format)
     for column in columns:
         table.add_column(column)
     for function, row in function_slot.items():
