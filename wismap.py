@@ -25,7 +25,7 @@ spreadsheet_file = f"{data_folder}/WisBlock-IO-Pin-Mapper.xlsx"
 definitions = {}
 config = {}
 show_nc = False
-table_format = box.SQUARE # box.MARKDOWN
+table_format = box.MARKDOWN # box.SQUARE or box.MARKDOWN
 
 pins_per_type = {
     'Accessories': 0,
@@ -335,20 +335,17 @@ def action_combine(*args):
         'POWER': 'Power slot',
     }
 
-    columns = ["Function\n"]
-    separator = ' ' if table_format == box.MARKDOWN else '\n'
+    columns = ["Function"]
     for k, v in slot_module.items():
-        if v:
-            columns.append(f"{slot_names[k]}{separator}({v.upper()})")
-        else:
-            columns.append(f"{slot_names[k]}{separator}")
-
+        columns.append(f"{slot_names[k]}")
 
     # Get core board mapping
     print()
     table = Table(box=table_format)
     for column in columns:
         table.add_column(column)
+    table.add_row(*['MODULE']+[v.upper() for k, v in slot_module.items()], style="bright_blue")
+    
     for function, row in function_slot.items():
         style = "bright_yellow" if function in conflict_functions else "bright_green"
         table.add_row(*row, style=style)
