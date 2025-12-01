@@ -436,6 +436,7 @@ rak12044:
     23: GND
   type: WisSensor
 rak12047:
+  description: RAK12047 WisBlock VOC Sensor
   mapping:
     9: null
     16: null
