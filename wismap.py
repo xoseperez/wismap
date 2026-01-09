@@ -127,7 +127,8 @@ def action_info(*args):
             row = [str(i)]
             for slot in slots:
                 if i in slots[slot]:
-                    row.append(slots[slot][i])
+                    if slots[slot][i] != "NC" or show_nc:
+                        row.append(slots[slot][i])
                 else:
                     row.append("")
             table.add_row(*row, style='bright_green')
@@ -194,9 +195,13 @@ def detect_conflicts(slot_module, function_slot):
     functions = []
     notes = []    
 
-    skip_columns = 2
+    mapping_name = definitions[slot_module['BASE']].get('functions', 'default')
+
+    skip_columns = 3
+    if mapping_name == 'raspberry':
+        skip_columns = skip_columns - 1
     if 'POWER' in slot_module.keys():
-        skip_columns = 3
+        skip_columns = skip_columns + 1
 
     for function, values in function_slot.items():
         non_empty = count_non_empty(values[skip_columns:])

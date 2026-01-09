@@ -37,5 +37,11 @@ clean:
 setup:
 	pip install -Ur requirements.txt
 
+build: .venv/touchfile
+	rm -rf dist build wismap.spec
+	set -e ; . .venv/bin/activate ; pyinstaller wismap.py --copy-metadata readchar -F
+	mv dist/wismap .
+	rm -rf dist build wismap.spec
+
 .PHONY: clean freeze import
 
