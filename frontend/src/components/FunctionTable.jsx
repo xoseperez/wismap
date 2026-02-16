@@ -1,3 +1,5 @@
+import { exportMarkdown, exportPdf } from '../utils/exportCombine'
+
 export default function FunctionTable({ result }) {
   if (!result) return null
 
@@ -82,6 +84,14 @@ export default function FunctionTable({ result }) {
           </ul>
         </div>
       )}
+
+      <div className="docs">
+        <h3>Actions</h3>
+        <ul>
+          <li><a href="#" onClick={e => { e.preventDefault(); exportMarkdown(result) }}>Export as Markdown</a></li>
+          <li><a href="#" onClick={e => { e.preventDefault(); exportPdf(result) }}>Export as PDF</a></li>
+        </ul>
+      </div>
     </div>
   )
 }
