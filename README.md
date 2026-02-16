@@ -124,7 +124,6 @@ Example output:
 │ RAK5801   │ WisIO       │ RAK5801 WisBlock 4-20mA Interface Module                │
 │ RAK5802   │ WisIO       │ RAK5802 WisBlock RS485 Interface Module                 │
 ...
-(arguments, extra) = parser.parse_known_args()
 
 ```
 
@@ -152,8 +151,7 @@ Example output:
    RAK12010 WisBlock Ambient Light Sensor
    RAK12011 WisBlock WP Barometric Sensor
    RAK12012 WisBlock Heart Rate Sensor
-   RAK12013 WisBlock 3GHz Radar Module(arguments, extra) = parser.parse_known_args()
-
+   RAK12013 WisBlock 3GHz Radar Module
    RAK12014 WisBlock Laser ToF module
 
 Module: RAK12008
