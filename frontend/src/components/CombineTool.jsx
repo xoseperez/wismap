@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { fetchModules, fetchBaseSlots, postCombine } from '../api'
 import FunctionTable from './FunctionTable'
 
-export default function CombineTool() {
+export default function CombineTool({ initialConfig, onConfigConsumed }) {
   const [bases, setBases] = useState([])
   const [selectedBase, setSelectedBase] = useState('')
   const [slots, setSlots] = useState(null)       // { CORE: { double, double_blocks, eligible_modules }, ... }
@@ -10,11 +10,20 @@ export default function CombineTool() {
   const [blocked, setBlocked] = useState(new Set())
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
+  const pendingConfig = useRef(null)
 
   // Load base boards
   useEffect(() => {
     fetchModules('WisBase').then(setBases)
   }, [])
+
+  // When initialConfig arrives, store it and select the base
+  useEffect(() => {
+    if (!initialConfig) return
+    pendingConfig.current = initialConfig
+    setSelectedBase(initialConfig.base)
+    onConfigConsumed()
+  }, [initialConfig, onConfigConsumed])
 
   // When base changes, load its slots
   useEffect(() => {
@@ -22,40 +31,52 @@ export default function CombineTool() {
     setResult(null)
     fetchBaseSlots(selectedBase).then(data => {
       setSlots(data)
-      // Initialize assignments: empty for all slots
-      const init = {}
-      for (const name of Object.keys(data)) init[name] = ''
-      setAssignments(init)
-      setBlocked(new Set())
+      const slotNames = Object.keys(data)
+
+      // Check if we have a pending config to apply
+      const config = pendingConfig.current
+      if (config && config.base === selectedBase && config.modules.length > 0) {
+        pendingConfig.current = null
+        const newAssignments = {}
+        const blockedSet = new Set()
+
+        for (let i = 0; i < slotNames.length; i++) {
+          const slotName = slotNames[i]
+          const moduleId = i < config.modules.length ? config.modules[i] : ''
+          newAssignments[slotName] = (moduleId && moduleId !== 'empty') ? moduleId : ''
+        }
+
+        // Recompute double-sensor blocking
+        for (const [sName, sInfo] of Object.entries(data)) {
+          const mid = newAssignments[sName]
+          if (!mid || !sInfo.double_blocks) continue
+          if (isModuleDouble(mid, sName, data)) {
+            blockedSet.add(sInfo.double_blocks)
+            newAssignments[sInfo.double_blocks] = ''
+          }
+        }
+
+        setAssignments(newAssignments)
+        setBlocked(blockedSet)
+
+        // Auto-trigger analysis
+        const slotMap = {}
+        for (const [name, moduleId] of Object.entries(newAssignments)) {
+          slotMap[name] = moduleId || 'EMPTY'
+        }
+        for (const b of blockedSet) {
+          slotMap[b] = 'BLOCKED'
+        }
+        postCombine(selectedBase, slotMap).then(setResult)
+      } else {
+        // Normal init: empty for all slots
+        const init = {}
+        for (const name of slotNames) init[name] = ''
+        setAssignments(init)
+        setBlocked(new Set())
+      }
     })
   }, [selectedBase])
-
-  // Recompute blocked slots when assignments change
-  const updateBlocked = useCallback((newAssignments, slotsData) => {
-    const blockedSet = new Set()
-    if (!slotsData) return blockedSet
-    for (const [slotName, slotInfo] of Object.entries(slotsData)) {
-      const moduleId = newAssignments[slotName]
-      if (!moduleId) continue
-      // Check if selected module is a double sensor
-      const eligible = slotInfo.eligible_modules.find(m => m.id === moduleId)
-      if (!eligible) continue
-      // We need to check if the module itself is double — but eligible_modules
-      // already filters out doubles for non-double slots. So if a module is in
-      // a double slot's eligible list, we check double_blocks.
-      if (slotInfo.double_blocks && moduleId) {
-        // Fetch module info to check double flag — but we already have it from
-        // the eligible list. We don't have the double flag there, so we check
-        // if the slot has double_blocks and the module is selected.
-        // To properly determine: we need to know if the module is double-size.
-        // For simplicity, fetch from the API. But that's async...
-        // Instead, let's track this: when a double slot has double_blocks and
-        // a module is selected, we assume it might block. The server will handle
-        // the actual conflict. For the UI, we check the blocking condition.
-      }
-    }
-    return blockedSet
-  }, [])
 
   const handleAssignment = (slotName, moduleId) => {
     const newAssignments = { ...assignments, [slotName]: moduleId }
@@ -66,14 +87,9 @@ export default function CombineTool() {
       for (const [sName, sInfo] of Object.entries(slots)) {
         const mid = sName === slotName ? moduleId : newAssignments[sName]
         if (!mid || !sInfo.double_blocks) continue
-        // Check if the selected module is double-size (it's eligible in a double slot)
-        // A module that exists in a double slot's eligible list but NOT in a
-        // non-double slot's eligible list is a double-size module.
-        // Simpler: check if any non-double slot's eligible list excludes it.
         const isDouble = isModuleDouble(mid, sName, slots)
         if (isDouble) {
           blockedSet.add(sInfo.double_blocks)
-          // Clear the blocked slot's assignment
           newAssignments[sInfo.double_blocks] = ''
         }
       }

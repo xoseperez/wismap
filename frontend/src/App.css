@@ -202,6 +202,13 @@ tr:hover { background: var(--rak-blue-light); }
   padding-left: 1.25rem;
 }
 
+.share-url {
+  font-size: 0.8em;
+  color: var(--rak-text-muted);
+  word-break: break-all;
+  user-select: all;
+}
+
 .notes li.conflict-note {
   color: #e10000;
   font-weight: 600;

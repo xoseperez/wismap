@@ -1,6 +1,9 @@
+import { useState } from 'react'
 import { exportMarkdown, exportPdf } from '../utils/exportCombine'
 
 export default function FunctionTable({ result }) {
+  const [copied, setCopied] = useState(false)
+
   if (!result) return null
 
   const { columns, slot_module, function_table, conflicts, documentation, notes } = result
@@ -19,6 +22,34 @@ export default function FunctionTable({ result }) {
         }
       }
     }
+  }
+
+  // Build shareable URL from slot_module
+  const buildShareUrl = () => {
+    const entries = Object.entries(slot_module)
+    const baseEntry = entries.find(([key]) => key === 'BASE')
+    if (!baseEntry) return null
+    const base = baseEntry[1].toLowerCase()
+    const modules = entries
+      .filter(([key]) => key !== 'BASE')
+      .map(([, v]) => (v === 'EMPTY' || v === 'BLOCKED') ? 'empty' : v.toLowerCase())
+    // Strip trailing "empty" segments
+    while (modules.length > 0 && modules[modules.length - 1] === 'empty') {
+      modules.pop()
+    }
+    return `#combine/${base}/${modules.join('/')}`
+  }
+
+  const handleCopyLink = (e) => {
+    e.preventDefault()
+    const hash = buildShareUrl()
+    if (!hash) return
+    window.location.hash = hash
+    const url = window.location.href
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
   }
 
   return (
@@ -88,6 +119,11 @@ export default function FunctionTable({ result }) {
       <div className="docs">
         <h3>Actions</h3>
         <ul>
+          <li>
+            <a href={buildShareUrl()} onClick={handleCopyLink}>
+              {copied ? 'Copied!' : 'Copy link to this analysis'}
+            </a>
+          </li>
           <li><a href="#" onClick={e => { e.preventDefault(); exportMarkdown(result) }}>Export as Markdown</a></li>
           <li><a href="#" onClick={e => { e.preventDefault(); exportPdf(result) }}>Export as PDF</a></li>
         </ul>
