@@ -1,0 +1,82 @@
+import { useState, useEffect } from 'react'
+import { fetchModuleInfo } from '../api'
+
+export default function ModuleDetail({ moduleId, onBack, onSelect }) {
+  const [info, setInfo] = useState(null)
+  const [showNc, setShowNc] = useState(false)
+
+  useEffect(() => {
+    fetchModuleInfo(moduleId, showNc).then(setInfo)
+  }, [moduleId, showNc])
+
+  if (!info) return <p>Loading...</p>
+
+  return (
+    <div className="module-detail">
+      <button className="back-btn" onClick={onBack}>&larr; Back to list</button>
+
+      <h2>{info.id.toUpperCase()}</h2>
+      <dl className="meta">
+        <dt>Type</dt><dd>{info.type}</dd>
+        <dt>Description</dt><dd>{info.description}</dd>
+        <dt>Documentation</dt>
+        <dd><a href={info.documentation} target="_blank" rel="noreferrer">{info.documentation}</a></dd>
+        {info.double !== null && <><dt>Long (double)</dt><dd>{info.double ? 'Yes' : 'No'}</dd></>}
+        {info.i2c_address && <><dt>I2C Address</dt><dd>{info.i2c_address}</dd></>}
+      </dl>
+
+      {info.mapping && info.mapping.length > 0 && (
+        <>
+          <h3>
+            Pin mapping
+            <label style={{ fontWeight: 'normal', fontSize: '0.8rem', marginLeft: '1rem' }}>
+              <input type="checkbox" checked={showNc} onChange={e => setShowNc(e.target.checked)} />
+              {' '}Show NC pins
+            </label>
+          </h3>
+          <table>
+            <thead><tr><th>PIN</th><th>Function</th></tr></thead>
+            <tbody>
+              {info.mapping.map((r, i) => (
+                <tr key={i}><td>{r.pin}</td><td>{r.function}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
+
+      {info.slots_table && (
+        <>
+          <h3 style={{ marginTop: '1rem' }}>Slot pin mapping</h3>
+          <div style={{ overflowX: 'auto' }}>
+            <table>
+              <thead>
+                <tr>
+                  <th>PIN</th>
+                  {info.slots_table.columns.map(c => <th key={c}>{c}</th>)}
+                </tr>
+              </thead>
+              <tbody>
+                {info.slots_table.rows.map((row, i) => (
+                  <tr key={i}>
+                    <td>{row.pin}</td>
+                    {info.slots_table.columns.map(c => (
+                      <td key={c}>{row[c] || ''}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
+
+      {info.notes && info.notes.length > 0 && (
+        <div className="notes">
+          <h3>Notes</h3>
+          <ul>{info.notes.map((n, i) => <li key={i}>{n}</li>)}</ul>
+        </div>
+      )}
+    </div>
+  )
+}

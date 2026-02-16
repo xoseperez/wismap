@@ -14,6 +14,11 @@ import inquirer
 import argparse
 import textwrap
 
+from wismap.core import (
+    load_data, list_modules, get_module_info, get_base_slots, combine,
+    PINS_PER_TYPE, SLOT_NAMES,
+)
+
 # -----------------------------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------------------------
@@ -24,20 +29,11 @@ config_file = f"{data_folder}/config.yml"
 patches_file = f"{data_folder}/patches.yml"
 spreadsheet_url = "https://downloads.rakwireless.com/LoRa/WisBlock/Pin-Mapper/WisBlock-IO-Pin-Mapper.xlsx"
 spreadsheet_file = f"{data_folder}/WisBlock-IO-Pin-Mapper.xlsx"
-definitions = {}
-config = {}
 show_nc = False
 table_format = box.SQUARE # box.SQUARE or box.MARKDOWN
 
-pins_per_type = {
-    'Accessories': 0,
-    'WisBase': 0,
-    'WisCore': 40,
-    'WisIO': 40,
-    'WisModule': 0,
-    'WisPower': 40,
-    'WisSensor': 24,
-}
+# Load data via core
+definitions, config = load_data(data_folder)
 
 # -----------------------------------------------------------------------------
 # Action LIST
@@ -72,66 +68,41 @@ def action_info(*args):
         answer = inquirer.prompt(questions)
         module = answer['module']
 
-    # Notes
-    notes = definitions[module].get('notes', [])
+    info = get_module_info(definitions, config, module, show_nc)
+
+    # Notes (we'll collect and print at the end, like the original)
+    notes = list(info['notes'])
 
     print(f"Module: {module.upper()}")
-    print(f"Type: {definitions[module]['type']}")
-    print(f"Description: {definitions[module]['description']}")
-    print(f"Documentation: {definitions[module]['documentation']}")
+    print(f"Type: {info['type']}")
+    print(f"Description: {info['description']}")
+    print(f"Documentation: {info['documentation']}")
 
-    if definitions[module]['type'] == 'WisSensor':
-        print(f"Long: {definitions[module].get('double', False)}")
-    
-    if 'i2c_address' in definitions[module]:
-        print(f"I2C Address: {definitions[module]['i2c_address']}")
-    
-    if 'mapping' in definitions[module]:
+    if info['type'] == 'WisSensor':
+        print(f"Long: {info['double']}")
+
+    if info['i2c_address']:
+        print(f"I2C Address: {info['i2c_address']}")
+
+    if info['mapping'] is not None:
         print(f"Mapping:")
         table = Table(box=table_format)
         for column in ["PIN", "Function"]:
             table.add_column(column)
-        pins = pins_per_type.get(definitions[module]['type'], 0)
-        if pins == 0:
-            for row in [[str(k), v] for k, v in definitions[module]['mapping'].items()]:
-                if row[1]:
-                    table.add_row(*row, style='bright_green')
-        else:
-            for index in range(pins):
-                name = definitions[module]['mapping'].get(index+1, 'NC')
-                if (name != 'NC') or (show_nc == True):
-                    table.add_row(*[str(index+1), name], style='bright_green')
+        for row in info['mapping']:
+            table.add_row(row['pin'], row['function'], style='bright_green')
         console = Console()
         console.print(table)
-    
-    if 'slots' in definitions[module]:
 
+    if info['slots_table'] is not None:
         print(f"Slots:")
         table = Table(box=table_format)
         table.add_column("ID")
-        for slot in definitions[module]['slots'].keys():
-            double = (definitions[module]['slots'][slot] or {}).get('_double', False)
-            double_blocks = (definitions[module]['slots'][slot] or {}).get('_double_blocks', None)
-            if double_blocks:
-                notes.append(f"Accepts long sensor on {slot} slot but blocking {double_blocks} slot")
-            elif double:
-                notes.append(f"Accepts long sensor on {slot} slot")
-            table.add_column(slot)
-        
-        slots = {}
-        slot_def = config.get('slots', {})
-        for slot in definitions[module]['slots'].keys():
-            slots[slot] = merge(slot_def[slot], definitions[module]['slots'][slot] or {})
+        for col in info['slots_table']['columns']:
+            table.add_column(col)
 
-        for i in range(1, 41):
-            row = [str(i)]
-            for slot in slots:
-                if i in slots[slot]:
-                    if slots[slot][i] != "NC" or show_nc:
-                        row.append(slots[slot][i])
-                else:
-                    row.append("")
-            table.add_row(*row, style='bright_green')
+        for row in info['slots_table']['rows']:
+            table.add_row(*[row['pin']] + [row.get(col, '') for col in info['slots_table']['columns']], style='bright_green')
 
         console = Console()
         console.print(table)
@@ -140,93 +111,12 @@ def action_info(*args):
         print(f"Notes:")
         for note in notes:
             print(f"- {note}")
-    
+
     print()
 
 # -----------------------------------------------------------------------------
 # Action COMBINE
 # -----------------------------------------------------------------------------
-
-def combine_pins(slot, mapping):
-    output = {}
-    for k, v in slot.items():
-        if (v not in output) or (output[v] == ''):
-            output[v] = mapping.get(k, "")
-    return output
-
-def count_non_empty(elements):
-    return sum(1 for element in elements if (element != '') and ('(NC)' not in element))
-
-def count_unique(elements):
-    unique = []
-    for element in elements:
-        if element != '':
-            if element not in unique:
-                unique.append(element)
-    return len(unique)
-
-def function_mapping(mapping_name, slot_module, slots):
-
-    # Populate slot mapping
-    slot_mapping = {}
-    for slot in slot_module:
-        slot_mapping[slot] = {}
-        module = slot_module[slot]
-        if module and module != 'BLOCKED' and module != 'EMPTY':
-            if definitions[module]['type'] in ['WisCore', 'WisBase']:
-                slot_mapping[slot] = definitions[module].get('mapping', {})
-            elif definitions[module]['type'] in ['WisIO', 'WisSensor', 'WisPower']:
-                slot_mapping[slot] = combine_pins(slots[slot], definitions[module].get('mapping', {}))
-            slot_mapping[slot]['I2C_ADDR'] = definitions[module].get('i2c_address', "")
-
-    # Function mapping
-    functions = config.get('functions', {}).get(mapping_name, [])
-    function_slot = {}
-    for function in functions:
-        row = [function]
-        for slot in slot_mapping:
-            row.append(slot_mapping[slot].get(function, ""))
-        function_slot[function] = row
-
-    return function_slot
-
-def detect_conflicts(slot_module, function_slot):
-
-    functions = []
-    notes = []    
-
-    mapping_name = definitions[slot_module['BASE']].get('functions', 'default')
-
-    skip_columns = 3
-    if mapping_name == 'raspberry':
-        skip_columns = skip_columns - 1
-    if 'POWER' in slot_module.keys():
-        skip_columns = skip_columns + 1
-
-    for function, values in function_slot.items():
-        non_empty = count_non_empty(values[skip_columns:])
-        unique = count_unique(values[skip_columns:])
-        if function == 'I2C_ADDR':
-            if non_empty > unique:
-                notes.append('Possible conflict with I2C addresses')
-                functions.append(function)
-        if (function == 'AIN0') and (slot_module['BASE'] != "rak6421"):
-            if non_empty > 0:
-                notes.append('Possible conflict with ADC_VBAT if using AIN0')
-                functions.append(function)
-        if function.startswith("IO") or function.startswith("AIN") or function.startswith("GPIO") or \
-           function.startswith("UART") or function.startswith("LED") or function.startswith("SW") or function.startswith("SPI_CS"):
-            if non_empty > 1:
-                notes.append(f"Possible conflict with {function}")
-                functions.append(function)
-        if function == 'IO2':
-            if non_empty > 0:
-                if count_non_empty(function_slot['3V3_S'][skip_columns:]) > 0:
-                    notes.append(f"Possible conflict with 3V3_S enable signal if using IO2")
-                    functions.append(function)
-                    functions.append('3V3_S')
-
-    return [functions, notes]
 
 def action_combine(*args):
 
@@ -244,16 +134,14 @@ def action_combine(*args):
         questions = [inquirer.List('output', message="Select Base Board", choices=choices, carousel=True)]
         slot_module['BASE'] = inquirer.prompt(questions)['output']
 
-    # Get slot definitions
-    slot_def = config.get('slots', {})
-    slots = {}
-    for slot in definitions[slot_module['BASE']]['slots'].keys():
-        slots[slot] = merge(slot_def[slot], definitions[slot_module['BASE']]['slots'][slot] or {})
+    # Get slot definitions (using deepcopy-safe core function for introspection)
+    base_slots = get_base_slots(definitions, config, slot_module['BASE'])
+    slot_names_list = list(base_slots.keys())
 
     # Do we have predefined configuration?
     if len(args) > 1:
         index = 1
-        for slot in slots:
+        for slot in slot_names_list:
             if index >= len(args):
                 slot_module[slot] = 'EMPTY'
             else:
@@ -267,12 +155,15 @@ def action_combine(*args):
     # Walk the different slots
     else:
         blocked = []
-        for slot in slots:
-            
+        # We need resolved slots for double info — get from base_slots
+        for slot in slot_names_list:
+
             if slot in blocked:
                 print(f"{slot} is blocked by another sensor\n")
                 slot_module[slot] = 'BLOCKED'
                 continue
+
+            slot_info = base_slots[slot]
 
             if slot.startswith('CORE'):
                 choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisCore']
@@ -280,7 +171,7 @@ def action_combine(*args):
                 slot_module[slot] = inquirer.prompt(questions)['output']
 
             if slot.startswith('SENSOR'):
-                is_double = slots[slot].get('double', False)
+                is_double = slot_info['double']
                 is_double_text = "(double)" if is_double else ""
                 choices = [(definitions[module]['description'], module) for module in definitions.keys() if (definitions[module]['type'] == 'WisSensor') and (is_double or not definitions[module].get('double', False))]
                 choices.insert(0, ("Empty", "EMPTY"))
@@ -288,7 +179,7 @@ def action_combine(*args):
                 slot_module[slot] = inquirer.prompt(questions)['output']
                 if slot_module[slot] != 'EMPTY':
                     if definitions[slot_module[slot]].get('double', False):
-                        blocks = slots[slot].get('double_blocks', None)
+                        blocks = slot_info['double_blocks']
                         if blocks:
                             blocked.append(blocks)
 
@@ -304,55 +195,31 @@ def action_combine(*args):
                 slot_module[slot] = inquirer.prompt(questions)['output']
 
     # -------------------------------------------------------------------------
-    # Build mapping
+    # Build mapping via core
     # -------------------------------------------------------------------------
 
-    # Get mapping
-    mapping_name = definitions[slot_module['BASE']].get('functions', 'default')
-    function_slot = function_mapping(mapping_name, slot_module, slots)
-    
-    # Get conflicts
-    (conflict_functions, conflict_notes) = detect_conflicts(slot_module, function_slot)
-
-    # Get notes & documentation
-    documentation = []
-    notes = []
-    for k, v in slot_module.items():
-        if v in definitions:
-            documentation.append(f"{definitions[v]['description']}: {definitions[v]['documentation']}")
-            for note in definitions[v].get('notes', []):
-                notes.append(f"{v.upper()}: {note}")
+    # Build slot_assignments (without BASE)
+    slot_assignments = {k: v for k, v in slot_module.items() if k != 'BASE'}
+    result = combine(definitions, config, slot_module['BASE'], slot_assignments)
 
     # -------------------------------------------------------------------------
     # View
     # -------------------------------------------------------------------------
 
-    # Header
-    slot_names = {
-        'BASE': 'Base board',
-        'CORE': 'Core module',
-        'SENSOR_A': 'SENSOR_A slot',
-        'SENSOR_B': 'SENSOR_B slot',
-        'SENSOR_C': 'SENSOR_C slot',
-        'SENSOR_D': 'SENSOR_D slot',
-        'SENSOR_E': 'SENSOR_E slot',
-        'SENSOR_F': 'SENSOR_F slot',
-        'IO_A': 'IO_A slot',
-        'IO_B': 'IO_B slot',
-        'POWER': 'Power slot',
-    }
-
-    columns = ["Function"]
-    for k, v in slot_module.items():
-        columns.append(f"{slot_names[k]}")
+    columns = result['columns']
+    function_slot = result['function_table']
+    conflict_functions = result['conflicts']['functions']
+    conflict_notes = result['conflicts']['notes']
+    documentation = result['documentation']
+    notes = result['notes']
 
     # Get core board mapping
     print()
     table = Table(box=table_format)
     for column in columns:
         table.add_column(column)
-    table.add_row(*['MODULE']+[v.upper() for k, v in slot_module.items()], style="bright_blue")
-    
+    table.add_row(*['MODULE']+[v.upper() for k, v in result['slot_module'].items()], style="bright_blue")
+
     for function, row in function_slot.items():
         style = "bright_yellow" if function in conflict_functions else "bright_green"
         table.add_row(*row, style=style)
@@ -371,7 +238,7 @@ def action_combine(*args):
         print(f"- {line}")
 
     # Reproduce configuration
-    print(f"Reproduce this configuration: python wismap.py combine {' '.join([v.lower() for k, v in slot_module.items()])}")
+    print(f"Reproduce this configuration: python wismap.py combine {' '.join([v.lower() for k, v in result['slot_module'].items()])}")
 
 # -----------------------------------------------------------------------------
 # Action IMPORT
@@ -420,7 +287,7 @@ def import_sheet(data, sheet):
     data[module_code]['documentation'] = module_docs
 
     # Get mapping
-    mapping = {}   
+    mapping = {}
     for row in range(4, rows+4):
         pin = str(sheet.cell(row = row, column = key_column).value)
         if pin == "" or pin == "Description":
@@ -438,7 +305,7 @@ def import_sheet(data, sheet):
     if len(matches):
         data[module_code]['i2c_address'] = matches[0]
 
-           
+
 def action_import(patch=True):
 
     skip_sheets = ["Pin Mapper", "model list", "NA IO", "NA_SENS"]
@@ -509,13 +376,13 @@ def action_clean():
 
     # Delete file
     if os.path.isfile(spreadsheet_file):
-        os.remove(spreadsheet_file) 
+        os.remove(spreadsheet_file)
 
 # -----------------------------------------------------------------------------
 # Main
 # -----------------------------------------------------------------------------
 
-ACTIONS = { 
+ACTIONS = {
     "list" : action_list,
     "info" : action_info,
     "combine" : action_combine,
@@ -523,20 +390,9 @@ ACTIONS = {
     "clean" : action_clean,
 }
 
-# Load definitions data
-if os.path.isfile(definitions_file):
-    with open(definitions_file) as f:
-        definitions = yaml.load(f, Loader=yaml.loader.SafeLoader)
-definitions = dict(sorted(definitions.items(), key=lambda e: int(re.findall(r"\d+", e[0])[0])))
-
-# Load configuration data
-if os.path.isfile(config_file):
-    with open(config_file) as f:
-        config = yaml.load(f, Loader=yaml.loader.SafeLoader)
-
 parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
-    prog='python wismap.py', 
+    prog='python wismap.py',
     usage='%(prog)s [-h] [-m] [-n] action [extra]',
     epilog=textwrap.dedent('''The 'info' action accepts the name of the module to show as an extra argument.\nThe 'combine' action accepts a list of modules to mount on the different slots, starting with the base module.''')
 )

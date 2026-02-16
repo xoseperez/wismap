@@ -1,0 +1,36 @@
+:root {
+  --rak-blue: #006AC6;
+  --rak-blue-dark: #00538f;
+  --rak-blue-light: #e6f1fa;
+  --rak-gold: #E9AD39;
+  --rak-gold-light: #ffb9b9;
+  --rak-text: #242424;
+  --rak-text-muted: #666;
+  --rak-border: #ddd;
+  --rak-bg: #ffffff;
+
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--rak-text);
+  background-color: var(--rak-bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+a {
+  color: var(--rak-blue);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--rak-blue-dark);
+  text-decoration: underline;
+}

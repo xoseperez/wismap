@@ -1,0 +1,13 @@
+.git
+.venv
+.claude
+__pycache__
+*.pyc
+*.xlsx
+node_modules
+frontend/dist
+frontend/node_modules
+dist
+build
+wismap.spec
+*.md
