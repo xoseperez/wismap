@@ -5,4 +5,3 @@ mergedeep==1.3.4
 requests
 rich==13.7.1
 inquirer==3.3.0
-pyinstaller==6.17.0
