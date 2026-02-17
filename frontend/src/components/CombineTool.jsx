@@ -9,7 +9,6 @@ export default function CombineTool({ initialConfig, onConfigConsumed }) {
   const [assignments, setAssignments] = useState({}) // { CORE: 'rak4631', SENSOR_A: '', ... }
   const [blocked, setBlocked] = useState(new Set())
   const [result, setResult] = useState(null)
-  const [loading, setLoading] = useState(false)
   const pendingConfig = useRef(null)
 
   // Load base boards
@@ -58,16 +57,6 @@ export default function CombineTool({ initialConfig, onConfigConsumed }) {
 
         setAssignments(newAssignments)
         setBlocked(blockedSet)
-
-        // Auto-trigger analysis
-        const slotMap = {}
-        for (const [name, moduleId] of Object.entries(newAssignments)) {
-          slotMap[name] = moduleId || 'EMPTY'
-        }
-        for (const b of blockedSet) {
-          slotMap[b] = 'BLOCKED'
-        }
-        postCombine(selectedBase, slotMap).then(setResult)
       } else {
         // Normal init: empty for all slots
         const init = {}
@@ -99,20 +88,18 @@ export default function CombineTool({ initialConfig, onConfigConsumed }) {
     setBlocked(blockedSet)
   }
 
-  const handleAnalyze = async () => {
-    setLoading(true)
+  // Auto-analyze whenever assignments change
+  useEffect(() => {
+    if (!selectedBase || !slots) { setResult(null); return }
     const slotMap = {}
     for (const [name, moduleId] of Object.entries(assignments)) {
       slotMap[name] = moduleId || 'EMPTY'
     }
-    // Mark blocked as BLOCKED
     for (const b of blocked) {
       slotMap[b] = 'BLOCKED'
     }
-    const data = await postCombine(selectedBase, slotMap)
-    setResult(data)
-    setLoading(false)
-  }
+    postCombine(selectedBase, slotMap).then(setResult)
+  }, [selectedBase, slots, assignments, blocked])
 
   return (
     <div>
@@ -149,15 +136,6 @@ export default function CombineTool({ initialConfig, onConfigConsumed }) {
             )
           })}
 
-          {slots && (
-            <button
-              className="analyze-btn"
-              onClick={handleAnalyze}
-              disabled={loading}
-            >
-              {loading ? 'Analyzing...' : 'Analyze'}
-            </button>
-          )}
         </div>
 
         <div>
