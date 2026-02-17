@@ -13,7 +13,7 @@ function parseHash(hash) {
 }
 
 function App() {
-  const [view, setView] = useState('modules') // 'modules' | 'combine'
+  const [view, setView] = useState('combine') // 'modules' | 'combine'
   const [selectedModule, setSelectedModule] = useState(null)
   const [initialConfig, setInitialConfig] = useState(null)
 
@@ -37,16 +37,16 @@ function App() {
         <h1>WisMAP</h1>
         <nav>
           <button
-            className={view === 'modules' ? 'active' : ''}
-            onClick={() => { setView('modules'); setSelectedModule(null) }}
-          >
-            Modules
-          </button>
-          <button
             className={view === 'combine' ? 'active' : ''}
             onClick={() => { setView('combine'); setSelectedModule(null) }}
           >
             Combine
+          </button>
+          <button
+            className={view === 'modules' ? 'active' : ''}
+            onClick={() => { setView('modules'); setSelectedModule(null) }}
+          >
+            Modules
           </button>
         </nav>
       </header>
