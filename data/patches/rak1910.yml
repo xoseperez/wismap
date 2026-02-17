@@ -1,0 +1,6 @@
+rak1910:
+  double: true
+  mapping:
+    13: 1PPS
+    14: 3V3_S
+    15: RESET_GPS

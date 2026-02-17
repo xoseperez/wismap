@@ -1,0 +1,8 @@
+rak14006:
+  mapping:
+    19: null
+    20: null
+    38: OUT_CW
+  notes:
+  - OUT_CCW can be changed to SIGNAL_B swapping resistors R7 and R8
+  - OUT_CW can be changed to SIGNAL_A swapping resistors R9 and R10

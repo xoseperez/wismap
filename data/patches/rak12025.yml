@@ -1,0 +1,18 @@
+rak12025:
+  description: RAK12025 WisBlock Gyroscope Sensor
+  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12025
+  i2c_address: '0x68'
+  mapping:
+    2: GND
+    7: I2C_SCL
+    8: I2C_SDA
+    10: INT1
+    11: 3V3_S
+    12: INT2
+    13: INT2
+    14: 3V3_S
+    15: INT1
+    17: I2C_SDA
+    18: I2C_SCL
+    23: GND
+  type: WisSensor

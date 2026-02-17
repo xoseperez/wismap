@@ -1,0 +1,5 @@
+rak14014:
+  mapping:
+    5: 3V3
+    37: RESET
+    38: INT

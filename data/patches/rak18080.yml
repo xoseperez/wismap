@@ -1,0 +1,9 @@
+rak18080:
+  mapping:
+    1: VBAT
+    2: VBAT
+    5: 3V3 (NC)
+    6: 3V3_S
+    9: VBUS
+  notes:
+  - Change from 3V3_S to 3V3 by swapping resistors R1 and R2

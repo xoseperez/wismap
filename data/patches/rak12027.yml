@@ -1,0 +1,7 @@
+rak12027:
+  double: true
+  mapping:
+    11: null
+    13: INT1
+    14: null
+    15: INT2

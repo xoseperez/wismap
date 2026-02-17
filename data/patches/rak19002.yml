@@ -1,0 +1,7 @@
+rak19002:
+  mapping:
+    10: EN1 (NC)
+    13: EN2
+    15: EN1 (NC)
+  notes:
+  - R3 enables EN2 (default), R1 enables EN1

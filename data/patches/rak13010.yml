@@ -1,0 +1,9 @@
+rak13010:
+  mapping:
+    1: VBAT
+    2: VBAT
+    5: null
+    6: 3V3_S
+    30: 5V_EN
+    37: RXD
+    38: TXD

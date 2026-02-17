@@ -1,0 +1,20 @@
+rak12020:
+  description: RAK12020 WisBlock Light Sensor
+  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12020
+  i2c_address: '0x29'
+  mapping:
+    2: GND
+    7: I2C_SCL
+    8: I2C_SDA
+    9: VDD
+    11: 3V3_S (NC)
+    12: INT
+    13: INT
+    14: 3V3_S (NC)
+    16: VDD
+    17: I2C_SDA
+    18: I2C_SCL
+    23: GND
+  type: WisSensor
+  notes:
+  - R13 enables VDD (default), R7 enables 3V3_S

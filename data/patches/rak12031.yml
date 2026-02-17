@@ -1,0 +1,16 @@
+rak12031:
+  description: RAK12031 WisBlock T-Beam-Fork Sensor
+  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12031
+  i2c_address: '0x68'
+  mapping:
+    2: GND
+    10: SIGNAL_PIN (NC)
+    11: 3V3_S
+    12: SIGNAL_PIN
+    13: SIGNAL_PIN
+    14: 3V3_S
+    15: SIGNAL_PIN (NC)
+    23: GND
+  type: WisSensor
+  notes:
+  - This modules requires RAK12028 connector or a RAK19005 Sensor Extension Cable

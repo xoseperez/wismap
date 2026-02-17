@@ -1,0 +1,14 @@
+rak15006:
+  type: WisSensor
+  description: RAK15006 WisBlock 512kB FRAM Module
+  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK15006
+  mapping:
+    9: null
+    11: 3V3_S
+    12: WP
+    13: WP
+    14: 3V3_S
+    19: SPI_MOSI
+    20: SPI_MISO
+    21: SPI_CLK
+    22: SPI_CS

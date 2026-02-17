@@ -1,0 +1,33 @@
+rak3372:
+  description: RAK3372 STM32WLE5 WSisBlock Core
+  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK3372
+  mapping:
+    3V3: VDD
+    AIN0: AN0
+    AIN1: AN1
+    GND: GND
+    I2C1_SCL: I2C_SCL
+    I2C1_SDA: I2C_SDA
+    I2C2_SCL: ADC4
+    I2C2_SDA: PA9
+    IO1: PB5
+    IO2: PA8
+    IO3: PB12
+    IO4: ADC3
+    IO5: ADC5
+    IO6: PA9 (NC)
+    IO7: ADC4 (NC)
+    LED1: PA0
+    LED2: PA1
+    RESET: RST
+    RXD0: UART2_RX (NC)
+    RXD1: UART1_RX
+    SPI_CLK: SPI_CLK
+    SPI_CS: SPI_NSS
+    SPI_MISO: SPI_MISO
+    SPI_MOSI: SPI_MOSI
+    TXD0: UART2_TX (NC)
+    TXD1: UART1_TX
+    USB+: UART2_TX
+    USB-: UART2_RX
+  type: WisCore

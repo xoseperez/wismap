@@ -1,0 +1,5 @@
+rak17000:
+  mapping:
+    1: VBAT
+    2: VBAT
+    22: null

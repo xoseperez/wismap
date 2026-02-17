@@ -1,0 +1,6 @@
+rak19018:
+  description: RAK19018 WisBlock PoE Module
+  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19018
+  type: WisModule
+  notes:
+  - Requires RAK13800 WisBlock Ethernet Module

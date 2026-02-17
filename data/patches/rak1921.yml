@@ -1,0 +1,5 @@
+rak1921:
+  description: RAK1921 WisBlock OLED Display
+  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK1921
+  i2c_address: '0x76'
+  type: WisModule

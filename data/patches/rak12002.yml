@@ -1,0 +1,6 @@
+rak12002:
+  mapping:
+    9: 3V3
+    13: CLKOUT
+    15: INT1
+    16: 3V3

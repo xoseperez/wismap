@@ -1,0 +1,17 @@
+rak13009:
+  description: RAK13009 WisBlock QWIIC Module
+  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK13009
+  mapping:
+    2: GND
+    7: I2C_SCL
+    8: I2C_SDA
+    9:
+    11: 3V3_S
+    14: 3V3_S
+    16:
+    17: I2C_SDA
+    18: I2C_SCL
+    23: GND
+  type: WisSensor
+  notes:
+  - I2C address will depend on the sensor connected to it

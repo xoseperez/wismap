@@ -1,0 +1,8 @@
+rak12035:
+  description: RAK12035 WisBlock Soil Moisture Sensor
+  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12035
+  i2c_address: '0x20'
+  type: WisModule
+  notes:
+  - This modules requires RAK12023 WisBlock Soil Moisture Sensor Connector
+  - I2C address is programable via I2C

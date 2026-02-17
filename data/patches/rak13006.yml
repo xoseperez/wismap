@@ -1,0 +1,8 @@
+rak13006:
+  mapping:
+    5: null
+    6: 3V3_S
+    20: SPI_CS (NC)
+    29: CLKO_SF
+    31: SPI_CS (NC)
+    32: INT1

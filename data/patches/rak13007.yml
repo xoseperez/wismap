@@ -1,0 +1,8 @@
+rak13007:
+  mapping:
+    5: null
+    6: 3V3_S
+    24: DO (NC)
+    36: DO (NC)
+  notes:
+  - Remap DO signal modifying resistors R2, R5 and R8

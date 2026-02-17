@@ -3,6 +3,7 @@
 import os
 import sys
 import re
+import glob
 import yaml
 from rich.console import Console
 from rich.table import Table
@@ -26,7 +27,7 @@ from wismap.core import (
 data_folder = "./data"
 definitions_file = f"{data_folder}/definitions.yml"
 config_file = f"{data_folder}/config.yml"
-patches_file = f"{data_folder}/patches.yml"
+patches_folder = f"{data_folder}/patches"
 spreadsheet_url = "https://downloads.rakwireless.com/LoRa/WisBlock/Pin-Mapper/WisBlock-IO-Pin-Mapper.xlsx"
 spreadsheet_file = f"{data_folder}/WisBlock-IO-Pin-Mapper.xlsx"
 show_nc = False
@@ -342,11 +343,13 @@ def action_import(patch=True):
     # Apply patches
     if patch:
 
-        # Load patches file
+        # Load patch files
         patches = {}
-        if os.path.isfile(patches_file):
-            with open(patches_file) as f:
-                patches = yaml.load(f, Loader=yaml.loader.SafeLoader)
+        for patch_file in sorted(glob.glob(f"{patches_folder}/*.yml")):
+            with open(patch_file) as f:
+                patch = yaml.load(f, Loader=yaml.loader.SafeLoader)
+                if patch:
+                    patches.update(patch)
 
         # Apply
         if len(patches.keys()):

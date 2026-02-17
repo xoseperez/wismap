@@ -1,0 +1,19 @@
+rak12059:
+  description: RAK12059 WisBlock Liquid Level Sensor
+  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12059
+  i2c_address: '0x48'
+  double: true
+  mapping:
+    2: GND
+    7: I2C_SCL
+    8: I2C_SDA
+    11: VCC
+    12: ALERT
+    13: ALERT
+    14: VCC
+    17: I2C_SDA
+    18: I2C_SCL
+    23: GND
+  type: WisSensor
+  notes:
+  - I2C address can be changed to 0x49, 0x4A or 0x4B modifying solder bridge pads

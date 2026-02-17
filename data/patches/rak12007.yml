@@ -1,0 +1,10 @@
+rak12007:
+  mapping:
+    1: null
+    2: null
+    6: 3V3_S
+    32: ECHO
+    37: PD
+    38: TRIG
+  notes:
+  - Switch between 3V3 and 3V3_S swapping resistors in R1 and R2

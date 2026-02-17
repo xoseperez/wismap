@@ -1,0 +1,8 @@
+rak12500:
+  mapping:
+    9: null
+    12: 1PPS
+    14: 3V3_S
+    16: VDD
+    17: null
+    18: null

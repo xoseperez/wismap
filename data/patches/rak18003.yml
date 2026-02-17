@@ -1,0 +1,7 @@
+rak18003:
+  description: RAK18003 WisBlock Audio Interposer
+  mapping:
+    5: 3V3 (NC)
+    6: 3V3_S
+  notes:
+  - Change from 3V3_S to 3V3 by swapping resistors R1 and R2

@@ -1,0 +1,22 @@
+rak17001:
+  description: RAK17001 WisBlock H-Bridge Module
+  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK17001
+  mapping:
+    1: VBAT
+    2: VBAT
+    3: GND
+    4: GND
+    5: VDD
+    6: 3V3
+    13: RESET (NC)
+    29: RESET (NC)
+    31: PWM
+    32: PH
+    37: FAULT_CHECK
+    38: EN
+    39: GND
+    40: GND
+  type: WisIO
+  notes:
+  - Populate R14 to enable RESET on RESET signal
+  - Populate R15 to enable RESET on IO1

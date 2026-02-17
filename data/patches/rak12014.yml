@@ -1,0 +1,12 @@
+rak12014:
+  mapping:
+    2: GND
+    7: I2C_SCL
+    8: I2C_SDA
+    9: null
+    10: SHUT
+    11: 3V3_S
+    12: INT
+    13: INT
+    14: 3V3_S
+    16: null

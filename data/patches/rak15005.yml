@@ -1,0 +1,8 @@
+rak15005:
+  mapping:
+    9: null
+    11: 3V3_S
+    13: WP
+    14: 3V3_S
+    17: I2C_SDA
+    18: I2C_SCL

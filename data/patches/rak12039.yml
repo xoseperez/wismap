@@ -1,0 +1,11 @@
+rak12039:
+  mapping:
+    5: null
+    6: 3V3_S
+    31: RESET (NC)
+    32: SET (NC)
+    37: RESET
+    38: SET
+  notes:
+  - Change RESET pin swapping resistors R7 and R13
+  - Change SET pin swapping resistors R8 and R14

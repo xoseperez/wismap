@@ -1,0 +1,11 @@
+rak13001:
+  mapping:
+    10: DI
+    24: DO (NC)
+    31: DI (NC)
+    32: DO
+    35: DI (NC)
+    36: DO (NC)
+  notes:
+  - Remap DI signal modifying resistors R1, R4 and R7
+  - Remap DO signal modifying resistors R2, R5 and R8

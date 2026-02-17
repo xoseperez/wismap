@@ -1,0 +1,40 @@
+rak4631-r:
+  description: RAK4631 nRF52840 WisBlock Core RUI
+  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK4631-R
+  mapping:
+    3V3: 3V3
+    AIN0: P0.05
+    AIN1: P0.31
+    GND: GND
+    I2C1_SCL: P0.14
+    I2C1_SDA: P0.13
+    I2C2_SCL: P0.25
+    I2C2_SDA: P0.24
+    IO1: P0.17
+    IO2: P1.02
+    IO3: P0.21
+    IO4: P0.04
+    IO5: P0.09
+    IO6: P0.10
+    IO7: P0.28
+    LED1: P1.03
+    LED2: P1.04
+    LED3: P0.02
+    RESET: RESET
+    RXD0: P0.19
+    RXD1: P0.15
+    SPI_CLK: P0.03
+    SPI_CS: P0.26
+    SPI_MISO: P0.29
+    SPI_MOSI: P0.30
+    SW1: P1.01
+    TXD0: P0.20
+    TXD1: P0.16
+    USB+: USB+
+    USB-: USB-
+    VBAT_NRF: VBAT_NRF
+    VBAT_SX: VBAT_SX
+    VBUS: VBUS
+    VDD: VDD
+    VDD_NRF: VDD_NRF
+  type: WisCore

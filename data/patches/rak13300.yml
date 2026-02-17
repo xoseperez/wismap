@@ -1,0 +1,10 @@
+rak13300:
+  mapping:
+    1: null
+    2: null
+    6: 3V3_S
+    18: null
+    24: SPI_NSS (NC)
+    29: SPI_NSS (NC)
+  notes:
+  - Remap SPI_NSS signal modifying resistors R2, R13 and R14

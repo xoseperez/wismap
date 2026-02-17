@@ -1,0 +1,8 @@
+rak12021:
+  mapping:
+    9: null
+    11: 3V3_S
+    12: SENSOR_INT
+    13: SENSOR_INT
+    14: 3V3_S
+    16: null

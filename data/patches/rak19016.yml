@@ -1,0 +1,19 @@
+rak19016:
+  description: RAK19016 WisBlock 5-24V Power Slot Module
+  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19016
+  mapping:
+    1: VBAT
+    2: VBAT
+    3: GND
+    4: GND
+    5: 3V3
+    6: 3V3
+    9: VBUS
+    13: RESET
+    14: LED1
+    15: LED2
+    21: ADC_VBAT
+    38: CHRG
+    39: GND
+    40: GND
+  type: WisPower

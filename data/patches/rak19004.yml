@@ -1,0 +1,4 @@
+rak19004:
+  description: RAK19004 WisBlock Green Power Module
+  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19004
+  type: WisModule
