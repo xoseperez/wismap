@@ -1,5 +1,5 @@
 rak11722:
-  description: RAK11722 Ambiq Apollo3 WSisBlock Core
+  description: RAK11722 Ambiq Apollo3 LoRaWAN
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak11722/overview/
   mapping:
     3V3: VCC

@@ -176,7 +176,7 @@ rak2305:
   - Module IO0, IO12, IO14 and IO15 are brought out
 rak3312:
   type: WisCore
-  description: RAK3312 WisBlock LoRaWAN Module
+  description: RAK3312 ESP32-S3 LoRaWAN
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak3312/overview/
   mapping:
     3V3: VDD
@@ -209,7 +209,7 @@ rak3312:
     VDD: VDD
 rak3372:
   type: WisCore
-  description: RAK3372 STM32WLE5 WSisBlock Core
+  description: RAK3372 STM32WLE5 LoRaWAN
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak3372/overview/
   mapping:
     3V3: VDD
@@ -244,7 +244,7 @@ rak3372:
     VDD: 3V3
 rak3401:
   type: WisCore
-  description: RAK3401 WisBlock BLE Module
+  description: RAK3401 nRF52840 BLE Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak3401/overview/
   mapping:
     3V3: 3V3
@@ -284,7 +284,7 @@ rak3401:
     VDD_NRF: VDD_NRF
 rak4631:
   type: WisCore
-  description: RAK4631 nRF52840 WisBlock Core
+  description: RAK4631 nRF52840 LoRaWAN
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak4631/overview/
   mapping:
     3V3: 3V3
@@ -322,46 +322,6 @@ rak4631:
     VBUS: VBUS
     VDD: VDD
     VDD_NRF: VDD_NRF
-rak4631-r:
-  description: RAK4631 nRF52840 WisBlock Core RUI
-  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak4631-r/overview/
-  mapping:
-    3V3: 3V3
-    AIN0: P0.05
-    AIN1: P0.31
-    GND: GND
-    I2C1_SCL: P0.14
-    I2C1_SDA: P0.13
-    I2C2_SCL: P0.25
-    I2C2_SDA: P0.24
-    IO1: P0.17
-    IO2: P1.02
-    IO3: P0.21
-    IO4: P0.04
-    IO5: P0.09
-    IO6: P0.10
-    IO7: P0.28
-    LED1: P1.03
-    LED2: P1.04
-    LED3: P0.02
-    RESET: RESET
-    RXD0: P0.19
-    RXD1: P0.15
-    SPI_CLK: P0.03
-    SPI_CS: P0.26
-    SPI_MISO: P0.29
-    SPI_MOSI: P0.30
-    SW1: P1.01
-    TXD0: P0.20
-    TXD1: P0.16
-    USB+: USB+
-    USB-: USB-
-    VBAT_NRF: VBAT_NRF
-    VBAT_SX: VBAT_SX
-    VBUS: VBUS
-    VDD: VDD
-    VDD_NRF: VDD_NRF
-  type: WisCore
 rak5005-o:
   type: WisBase
   description: RAK5005-O WisBlock Base Board
@@ -632,7 +592,7 @@ rak6421:
       24: UART0_RX
 rak11200:
   type: WisCore
-  description: RAK11200 ESP32 WisBlock Core
+  description: RAK11200 ESP32 WiFi Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak11200/overview/
   mapping:
     3V3: 3V3
@@ -667,7 +627,7 @@ rak11200:
     VDD: 3V3
 rak11310:
   type: WisCore
-  description: RAK11310 RP4020 WisBlock Core
+  description: RAK11310 RP4020 LoRaWAN
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak11310/overview/
   mapping:
     3V3: 3V3
@@ -701,7 +661,7 @@ rak11310:
     VDD: 3V3
 rak11722:
   type: WisCore
-  description: RAK11722 Ambiq Apollo3 WSisBlock Core
+  description: RAK11722 Ambiq Apollo3 LoRaWAN
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak11722/overview/
   mapping:
     3V3: VCC
