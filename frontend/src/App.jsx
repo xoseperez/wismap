@@ -16,6 +16,7 @@ function App() {
   const [view, setView] = useState('combine') // 'modules' | 'combine'
   const [selectedModule, setSelectedModule] = useState(null)
   const [initialConfig, setInitialConfig] = useState(null)
+  const [resetKey, setResetKey] = useState(0)
 
   useEffect(() => {
     const apply = () => {
@@ -34,7 +35,7 @@ function App() {
   return (
     <div className="app">
       <header>
-        <h1>WisMAP</h1>
+        <h1 style={{ cursor: 'pointer' }} onClick={() => { setResetKey(k => k + 1); setSelectedModule(null) }}>WisMAP</h1>
         <nav>
           <button
             className={view === 'combine' ? 'active' : ''}
@@ -51,7 +52,7 @@ function App() {
         </nav>
       </header>
 
-      <div style={{ display: view === 'modules' ? undefined : 'none' }}>
+      <div key={'modules-' + resetKey} style={{ display: view === 'modules' ? undefined : 'none' }}>
         {!selectedModule && (
           <ModuleList onSelect={setSelectedModule} />
         )}
@@ -63,7 +64,7 @@ function App() {
           />
         )}
       </div>
-      <div style={{ display: view === 'combine' ? undefined : 'none' }}>
+      <div key={'combine-' + resetKey} style={{ display: view === 'combine' ? undefined : 'none' }}>
         <CombineTool
           initialConfig={initialConfig}
           onConfigConsumed={() => setInitialConfig(null)}
