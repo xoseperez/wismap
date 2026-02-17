@@ -4,5 +4,5 @@ rak15001:
     15: WP
     19: SPI_MOSI
     20: SPI_MISO
-    21: SPI_CLS
+    21: SPI_CLK
     22: SPI_CS

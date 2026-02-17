@@ -1,4 +1,5 @@
 rak13003:
+  description: RAK13003 IO Expander Module
   mapping:
     25: SPI_CS
     26: SPI_SCK

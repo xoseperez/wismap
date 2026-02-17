@@ -1,3 +1,4 @@
 rak1905:
+  description: RAK1905 9-Axis Motion Sensor Module
   mapping:
     13: INT1

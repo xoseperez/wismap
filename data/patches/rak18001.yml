@@ -5,4 +5,4 @@ rak18001:
     15: PWM1 (NC)
     16: 3V3
   notes:
-  - R6 enableS PWM2 (default), R5 enables PWM1
+  - R6 enables PWM2 (default), R5 enables PWM1

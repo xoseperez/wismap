@@ -9,7 +9,7 @@ rak19014:
     5: 3V3
     6: 3V3
     7: USB_P
-    8: USP_N
+    8: USB_N
     9: VBUS
     13: RESET
     14: LED1

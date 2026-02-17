@@ -87,7 +87,7 @@ rak6421:
       12: GPIO13
       14: 3V3
     SENSOR_C:
-      3: SPI_C1
+      3: SPI_CS1
       10: GPIO22
       11: 3V3
       12: GPIO21
