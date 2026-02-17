@@ -124,8 +124,8 @@ export default function FunctionTable({ result }) {
               {copied ? 'Copied!' : 'Copy link to this analysis'}
             </a>
           </li>
-          <li><a href="#" onClick={e => { e.preventDefault(); exportMarkdown(result) }}>Export as Markdown</a></li>
-          <li><a href="#" onClick={e => { e.preventDefault(); exportPdf(result) }}>Export as PDF</a></li>
+          <li><a href="#" onClick={e => { e.preventDefault(); const hash = buildShareUrl(); const url = hash ? `${window.location.origin}${window.location.pathname}${hash}` : null; exportMarkdown(result, url) }}>Export as Markdown</a></li>
+          <li><a href="#" onClick={e => { e.preventDefault(); const hash = buildShareUrl(); const url = hash ? `${window.location.origin}${window.location.pathname}${hash}` : null; exportPdf(result, url) }}>Export as PDF</a></li>
         </ul>
       </div>
     </div>
