@@ -174,6 +174,39 @@ rak2305:
   - Module is powered from VBAT by default, power from 3V3_R using R14 or VDD using
     R29
   - Module IO0, IO12, IO14 and IO15 are brought out
+rak3312:
+  type: WisCore
+  description: RAK3312 WisBlock LoRaWAN Module
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak3312/overview/
+  mapping:
+    3V3: VDD
+    AIN0: GPIO1
+    AIN1: GPIO2
+    BOOT0: BOOT
+    GND: GND
+    I2C1_SCL: GPIO40
+    I2C1_SDA: GPIO9
+    I2C2_SCL: GPIO18
+    I2C2_SDA: GPIO17
+    IO1: GPIO21
+    IO2: GPIO14
+    IO3: GPIO41
+    IO4: GPIO41
+    IO5: GPIO38
+    IO6: GPIO39
+    LED1: GPIO46
+    LED2: GPIO45
+    None: IO7
+    RESET: RESET
+    RXD1: GPIO43
+    SPI_CLK: GPIO13
+    SPI_CS: GPIO12
+    SPI_MISO: GPIO10
+    SPI_MOSI: GPIO11
+    TXD1: GPIO44
+    USB+: USB+
+    USB-: USB-
+    VDD: VDD
 rak3372:
   type: WisCore
   description: RAK3372 STM32WLE5 WSisBlock Core
@@ -209,6 +242,46 @@ rak3372:
     USB+: UART2_TX
     USB-: UART2_RX
     VDD: 3V3
+rak3401:
+  type: WisCore
+  description: RAK3401 WisBlock BLE Module
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak3401/overview/
+  mapping:
+    3V3: 3V3
+    AIN0: P0.05
+    AIN1: P0.31
+    GND: GND
+    I2C1_SCL: P0.14
+    I2C1_SDA: P0.13
+    I2C2_SCL: P0.25
+    I2C2_SDA: P0.24
+    IO1: P0.17
+    IO2: P1.02
+    IO3: P0.21
+    IO4: P0.04
+    IO5: P0.09
+    IO6: P0.10
+    IO7: P0.28
+    LED1: P1.03
+    LED2: P1.04
+    LED3: P0.02
+    RESET: RESET
+    RXD0: P0.19
+    RXD1: P0.15
+    SPI_CLK: P0.03
+    SPI_CS: P0.26
+    SPI_MISO: P0.29
+    SPI_MOSI: P0.30
+    SW1: P1.01
+    TXD0: P0.20
+    TXD1: P0.16
+    USB+: USB+
+    USB-: USB-
+    VBAT_NRF: VBAT_NRF
+    VBAT_SX: VBAT_SX
+    VBUS: VBUS
+    VDD: VDD
+    VDD_NRF: VDD_NRF
 rak4631:
   type: WisCore
   description: RAK4631 nRF52840 WisBlock Core
@@ -415,9 +488,9 @@ rak5811:
     39: GND
     40: GND
 rak5814:
+  type: WisSensor
   description: RAK5814 WisBlock Crypto Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak5814/overview/
-  i2c_address: '0x60'
   mapping:
     2: GND
     7: I2C_SCL
@@ -429,7 +502,7 @@ rak5814:
     17: I2C_SDA
     18: I2C_SCL
     23: GND
-  type: WisSensor
+  i2c_address: '0x60'
   notes:
   - I2C address can be changed programmatically
 rak5860:
@@ -1329,16 +1402,13 @@ rak12501:
   description: RAK12501 GNSS GPS Location Module Quectel L76K
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12501/overview/
   mapping:
-    1: UART_RX
+    1: TXD
     2: GND
-    10: RESET_GPS
+    9: VDD
     11: 3V3_S
     12: 1PPS
-    13: 1PPS
-    14: 3V3_S
-    15: RESET_GPS
     23: GND
-    24: UART_TX
+    24: RXD
 rak13001:
   type: WisIO
   description: RAK13001 WisBlock Relay Module
@@ -1599,6 +1669,26 @@ rak13300:
     40: GND
   notes:
   - Remap SPI_NSS signal modifying resistors R2, R13 and R14
+rak13302:
+  type: WisIO
+  description: RAK13302WisBlock 1W LoRa Module
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13302/overview/
+  mapping:
+    1: VBAT
+    2: VBAT
+    3: GND
+    4: GND
+    18: 3V3
+    25: SPI_NSS
+    26: SPI_CLK
+    27: SPI_MISO
+    28: SPI_MOSI
+    31: ANT_SW
+    32: RESET
+    37: BUSY
+    38: DIO1
+    39: GND
+    40: GND
 rak13600:
   type: WisIO
   description: RAK13600 WisBlock NFC Module
@@ -1833,6 +1923,7 @@ rak14011:
   notes:
   - Requires RAK14004 WisBlock Keypad Module
 rak14012:
+  type: WisIO
   description: RAK14012 WisBlock LED Matrix
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14012/overview/
   mapping:
@@ -1847,7 +1938,6 @@ rak14012:
     38: EN
     39: GND
     40: GND
-  type: WisIO
   notes:
   - Change R7, R8 and R9 to enable different DOUT
   - Module can power the LED Matrix from VBAT using a step-up to 5V (optional, see
