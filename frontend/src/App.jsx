@@ -38,35 +38,37 @@ function App() {
         <nav>
           <button
             className={view === 'combine' ? 'active' : ''}
-            onClick={() => { setView('combine'); setSelectedModule(null) }}
+            onClick={() => setView('combine')}
           >
             Combine
           </button>
           <button
             className={view === 'modules' ? 'active' : ''}
-            onClick={() => { setView('modules'); setSelectedModule(null) }}
+            onClick={() => setView('modules')}
           >
             Modules
           </button>
         </nav>
       </header>
 
-      {view === 'modules' && !selectedModule && (
-        <ModuleList onSelect={setSelectedModule} />
-      )}
-      {view === 'modules' && selectedModule && (
-        <ModuleDetail
-          moduleId={selectedModule}
-          onBack={() => setSelectedModule(null)}
-          onSelect={setSelectedModule}
-        />
-      )}
-      {view === 'combine' && (
+      <div style={{ display: view === 'modules' ? undefined : 'none' }}>
+        {!selectedModule && (
+          <ModuleList onSelect={setSelectedModule} />
+        )}
+        {selectedModule && (
+          <ModuleDetail
+            moduleId={selectedModule}
+            onBack={() => setSelectedModule(null)}
+            onSelect={setSelectedModule}
+          />
+        )}
+      </div>
+      <div style={{ display: view === 'combine' ? undefined : 'none' }}>
         <CombineTool
           initialConfig={initialConfig}
           onConfigConsumed={() => setInitialConfig(null)}
         />
-      )}
+      </div>
 
       <footer>Copyright &copy; 2026 RAKwireless Technology Limited. All rights reserved.</footer>
     </div>
