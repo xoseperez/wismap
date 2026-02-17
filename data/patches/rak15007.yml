@@ -7,7 +7,7 @@ rak15007:
     4: SPI_CLK
     5: SPI_MISO
     6: SPI_MOSI
-    9: 
+    9: null
     11: 3V3_S
     12: WP
     13: WP

@@ -5,10 +5,10 @@ rak13009:
     2: GND
     7: I2C_SCL
     8: I2C_SDA
-    9:
+    9: null
     11: 3V3_S
     14: 3V3_S
-    16:
+    16: null
     17: I2C_SDA
     18: I2C_SCL
     23: GND
