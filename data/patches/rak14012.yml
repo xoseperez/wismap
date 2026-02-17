@@ -1,5 +1,5 @@
 rak14012:
-  description: RAK14012 WisBlock LED Matrix
+  description: RAK14012 LED Matrix
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14012/overview/
   mapping:
     1: VBAT

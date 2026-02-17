@@ -1,5 +1,5 @@
 rak12023:
-  description: RAK12023 WisBlock Soil Moisture Sensor Connector
+  description: RAK12023 Soil Moisture Sensor Connector
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12023/overview/
   mapping:
     1: null
@@ -13,5 +13,5 @@ rak12023:
     40: GND
   type: WisIO
   notes:
-  - Requires RAK12035 WisBlock Soil Moisture Sensor
+  - Requires RAK12035 Soil Moisture Sensor
   - I2C address is programable on the RAK12035 MCU via I2C

@@ -1,5 +1,5 @@
 rak12031:
-  description: RAK12031 WisBlock T-Beam-Fork Sensor
+  description: RAK12031 T-Beam-Fork Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12031/overview/
   i2c_address: '0x68'
   mapping:

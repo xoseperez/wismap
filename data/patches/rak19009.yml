@@ -1,6 +1,6 @@
 rak19009:
   type: WisBase
-  description: RAK19009 WisBlock Mini Base Board with Power Slot
+  description: RAK19009 Mini Base Board with Power Slot
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19009/overview/
   mapping:
     VDD: VDD

@@ -1,5 +1,5 @@
 rak13009:
-  description: RAK13009 WisBlock QWIIC Module
+  description: RAK13009 QWIIC Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13009/overview/
   mapping:
     2: GND

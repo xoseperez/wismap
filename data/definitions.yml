@@ -1,6 +1,6 @@
 rak1901:
   type: WisSensor
-  description: RAK1901 WisBlock Temperature and Humidity Sensor
+  description: RAK1901 Temperature and Humidity Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak1901/overview/
   mapping:
     2: GND
@@ -14,7 +14,7 @@ rak1901:
   i2c_address: '0x70'
 rak1902:
   type: WisSensor
-  description: RAK1902 WisBlock Barometer Pressure Sensor
+  description: RAK1902 Barometer Pressure Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak1902/overview/
   mapping:
     2: GND
@@ -30,7 +30,7 @@ rak1902:
   i2c_address: '0x5C'
 rak1903:
   type: WisSensor
-  description: RAK1903 WisBlock Ambient Light Sensor
+  description: RAK1903 Ambient Light Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak1903/overview/
   mapping:
     2: GND
@@ -46,7 +46,7 @@ rak1903:
   i2c_address: '0x44'
 rak1904:
   type: WisSensor
-  description: RAK1904 WisBlock 3-axis Acceleration Sensor
+  description: RAK1904 3-axis Acceleration Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak1904/overview/
   mapping:
     2: GND
@@ -64,7 +64,7 @@ rak1904:
   i2c_address: '0x18'
 rak1905:
   type: WisSensor
-  description: RAK1905 WisBlock 9-AXIS Motion sensor
+  description: RAK1905 9-AXIS Motion sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak1905/overview/
   mapping:
     2: GND
@@ -80,7 +80,7 @@ rak1905:
   i2c_address: '0x68'
 rak1906:
   type: WisSensor
-  description: RAK1906 WisBlock Environmental Sensor
+  description: RAK1906 Environmental Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak1906/overview/
   mapping:
     2: GND
@@ -94,7 +94,7 @@ rak1906:
   i2c_address: '0x76'
 rak1910:
   type: WisSensor
-  description: RAK1910 WisBlock GNSS Location Module
+  description: RAK1910 GNSS Location Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak1910/overview/
   mapping:
     1: TXD
@@ -111,7 +111,7 @@ rak1910:
   double: true
 rak1920:
   type: WisIO
-  description: RAK1920 WisBlock Sensor Adapter Module
+  description: RAK1920 Sensor Adapter Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak1920/overview/
   mapping:
     1: VBAT
@@ -138,13 +138,13 @@ rak1920:
     39: GND
     40: GND
 rak1921:
-  description: RAK1921 WisBlock OLED Display
+  description: RAK1921 OLED Display
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak1921/overview/
   i2c_address: '0x76'
   type: WisModule
 rak2305:
   type: WisIO
-  description: RAK2305 WisBlock WiFi Module
+  description: RAK2305 WiFi Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak2305/overview/
   mapping:
     1: VBAT
@@ -324,7 +324,7 @@ rak4631:
     VDD_NRF: VDD_NRF
 rak5005-o:
   type: WisBase
-  description: RAK5005-O WisBlock Base Board
+  description: RAK5005-O Base Board
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak5005-o/overview/
   mapping:
     3V3: 3V3
@@ -360,7 +360,7 @@ rak5005-o:
     SENSOR_D: null
 rak5801:
   type: WisIO
-  description: RAK5801 WisBlock 4-20mA Interface Module
+  description: RAK5801 4-20mA Interface Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak5801/overview/
   mapping:
     1: VBAT
@@ -385,7 +385,7 @@ rak5801:
   - Power via 3V3 swapping resistors R49 and R50
 rak5802:
   type: WisIO
-  description: RAK5802 WisBlock RS485 Interface Module
+  description: RAK5802 RS485 Interface Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak5802/overview/
   mapping:
     1: VBAT
@@ -403,7 +403,7 @@ rak5802:
     40: GND
 rak5804:
   type: WisIO
-  description: RAK5804 WisBlock IO Extension Module
+  description: RAK5804 IO Extension Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak5804/overview/
   mapping:
     1: VBAT
@@ -432,7 +432,7 @@ rak5804:
     40: GND
 rak5811:
   type: WisIO
-  description: RAK5811 WisBlock 0-5V Interface Module
+  description: RAK5811 0-5V Interface Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak5811/overview/
   mapping:
     1: VBAT
@@ -449,7 +449,7 @@ rak5811:
     40: GND
 rak5814:
   type: WisSensor
-  description: RAK5814 WisBlock Crypto Module
+  description: RAK5814 Crypto Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak5814/overview/
   mapping:
     2: GND
@@ -467,7 +467,7 @@ rak5814:
   - I2C address can be changed programmatically
 rak5860:
   type: WisIO
-  description: RAK5860 WisBlock NB-IoT Interface Module
+  description: RAK5860 NB-IoT Interface Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak5860/overview/
   mapping:
     1: VBAT
@@ -488,7 +488,7 @@ rak5860:
     40: GND
 rak6421:
   type: WisBase
-  description: RAK6421 WisBlock Pi Hat
+  description: RAK6421 Pi Hat
   functions: raspberry
   documentation: https://docs.rakwireless.com/product-categories/wishat/rak6421-wisblock-pi-hat/overview/
   i2c_address: '0x48'
@@ -692,7 +692,7 @@ rak11722:
     VDD: 3V3
 rak12001:
   type: WisSensor
-  description: RAK12001 WisBlock Fingerprint Sensor
+  description: RAK12001 Fingerprint Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12001/overview/
   mapping:
     1: UART_TX
@@ -713,7 +713,7 @@ rak12001:
     can use 3V3_S via R9
 rak12002:
   type: WisSensor
-  description: RAK12002 WisBlock RTC Module
+  description: RAK12002 RTC Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12002/overview/
   mapping:
     2: GND
@@ -731,7 +731,7 @@ rak12002:
   i2c_address: '0x52'
 rak12003:
   type: WisSensor
-  description: RAK12003 WisBlock Infrared Temperature Sensor
+  description: RAK12003 Infrared Temperature Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12003/overview/
   mapping:
     2: GND
@@ -745,7 +745,7 @@ rak12003:
   i2c_address: '0x3A'
 rak12004:
   type: WisIO
-  description: RAK12004 WisBlock MQ2 Gas Sensor Module
+  description: RAK12004 MQ2 Gas Sensor Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12004/overview/
   mapping:
     1: VBAT
@@ -762,7 +762,7 @@ rak12004:
   i2c_address: '0x51'
 rak12005:
   type: WisIO
-  description: RAK12005 WisBlock Rain Sensor Module
+  description: RAK12005 Rain Sensor Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12005/overview/
   mapping:
     3: GND
@@ -776,7 +776,7 @@ rak12005:
   - Switch between 3V3 and 3V3_S swapping resistors in R1 and R2
 rak12006:
   type: WisIO
-  description: RAK12006 WisBlock PIR Module
+  description: RAK12006 PIR Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12006/overview/
   mapping:
     3: GND
@@ -790,7 +790,7 @@ rak12006:
   - Switch between 3V3 and 3V3_S swapping resistors in R1 and R2
 rak12007:
   type: WisIO
-  description: RAK12007 WisBlock Ultrasonic Module
+  description: RAK12007 Ultrasonic Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12007/overview/
   mapping:
     3: GND
@@ -823,7 +823,7 @@ rak12008:
   - I2C address can be changed changing the resistor at R7
 rak12009:
   type: WisIO
-  description: RAK12009 WisBlock Alcohol Gas Sensor Module
+  description: RAK12009 Alcohol Gas Sensor Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12009/overview/
   mapping:
     1: VBAT
@@ -840,7 +840,7 @@ rak12009:
   i2c_address: '0x55'
 rak12010:
   type: WisSensor
-  description: RAK12010 WisBlock Ambient Light Sensor
+  description: RAK12010 Ambient Light Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12010/overview/
   mapping:
     2: GND
@@ -854,7 +854,7 @@ rak12010:
   i2c_address: '0x10'
 rak12011:
   type: WisSensor
-  description: RAK12011 WisBlock WP Barometric Sensor
+  description: RAK12011 WP Barometric Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12011/overview/
   mapping:
     2: GND
@@ -870,7 +870,7 @@ rak12011:
   i2c_address: '0x57'
 rak12012:
   type: WisIO
-  description: RAK12012 WisBlock Heart Rate Sensor
+  description: RAK12012 Heart Rate Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12012/overview/
   mapping:
     3: GND
@@ -884,7 +884,7 @@ rak12012:
   i2c_address: '0x57'
 rak12013:
   type: WisIO
-  description: RAK12013 WisBlock 3GHz Radar Module
+  description: RAK12013 3GHz Radar Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12013/overview/
   mapping:
     3: GND
@@ -896,7 +896,7 @@ rak12013:
     40: GND
 rak12014:
   type: WisSensor
-  description: RAK12014 WisBlock Laser ToF module
+  description: RAK12014 Laser ToF module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12014/overview/
   mapping:
     2: GND
@@ -913,7 +913,7 @@ rak12014:
   i2c_address: '0x52'
 rak12015:
   type: WisIO
-  description: RAK12015 WisBlock Vibration Sensor
+  description: RAK12015 Vibration Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12015/overview/
   mapping:
     3: GND
@@ -927,7 +927,7 @@ rak12015:
   - Enable OUT signal populating R5
 rak12016:
   type: WisIO
-  description: RAK12016 WisBlock Flex Sensor
+  description: RAK12016 Flex Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12016/overview/
   mapping:
     3: GND
@@ -941,7 +941,7 @@ rak12016:
   i2c_address: '0x54'
 rak12017:
   type: WisIO
-  description: RAK12017 WisBlock ToF Sensor
+  description: RAK12017 ToF Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12017/overview/
   mapping:
     3: GND
@@ -953,7 +953,7 @@ rak12017:
     40: GND
 rak12018:
   type: WisIO
-  description: RAK12018 WisBlock Code Scanner
+  description: RAK12018 Code Scanner
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12018/overview/
   mapping:
     3: GND
@@ -967,7 +967,7 @@ rak12018:
     40: GND
 rak12019:
   type: WisSensor
-  description: RAK12019 WisBlock UV Light module
+  description: RAK12019 UV Light module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12019/overview/
   mapping:
     2: GND
@@ -982,7 +982,7 @@ rak12019:
     23: GND
   i2c_address: '0x53'
 rak12020:
-  description: RAK12020 WisBlock Light Sensor
+  description: RAK12020 Light Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12020/overview/
   i2c_address: '0x29'
   mapping:
@@ -1018,7 +1018,7 @@ rak12021:
     23: GND
   i2c_address: '0x29'
 rak12022:
-  description: RAK12022 WisBlock PT100 Module
+  description: RAK12022 PT100 Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12022/overview/
   mapping:
     3: GND
@@ -1039,7 +1039,7 @@ rak12022:
     connects CS to IO4
 rak12023:
   type: WisIO
-  description: RAK12023 WisBlock Soil Moisture Sensor Connector
+  description: RAK12023 Soil Moisture Sensor Connector
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12023/overview/
   mapping:
     3: GND
@@ -1052,10 +1052,10 @@ rak12023:
     40: GND
   i2c_address: '0x20'
   notes:
-  - Requires RAK12035 WisBlock Soil Moisture Sensor
+  - Requires RAK12035 Soil Moisture Sensor
   - I2C address is programable on the RAK12035 MCU via I2C
 rak12025:
-  description: RAK12025 WisBlock Gyroscope Sensor
+  description: RAK12025 Gyroscope Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12025/overview/
   i2c_address: '0x68'
   mapping:
@@ -1074,7 +1074,7 @@ rak12025:
   type: WisSensor
 rak12027:
   type: WisSensor
-  description: RAK12027 WisBlock Earthquake Sensor
+  description: RAK12027 Earthquake Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12027/overview/
   mapping:
     2: GND
@@ -1092,7 +1092,7 @@ rak12027:
   i2c_address: '0x55'
   double: true
 rak12028:
-  description: RAK12028 WisBlock T-Beam-Fork Connector Module
+  description: RAK12028 T-Beam-Fork Connector Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12028/overview/
   i2c_address: '0x68'
   mapping:
@@ -1127,7 +1127,7 @@ rak12029:
     40: GND
   i2c_address: '0x2A'
 rak12031:
-  description: RAK12031 WisBlock T-Beam-Fork Sensor
+  description: RAK12031 T-Beam-Fork Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12031/overview/
   i2c_address: '0x68'
   mapping:
@@ -1143,7 +1143,7 @@ rak12031:
   notes:
   - This modules requires RAK12028 connector or a RAK19005 Sensor Extension Cable
 rak12032:
-  description: RAK12032 WisBlock 3-Axis Accelerometer Sensor
+  description: RAK12032 3-Axis Accelerometer Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12032/overview/
   i2c_address: '0x1D'
   mapping:
@@ -1200,16 +1200,16 @@ rak12034:
     23: GND
   i2c_address: '0x69'
 rak12035:
-  description: RAK12035 WisBlock Soil Moisture Sensor
+  description: RAK12035 Soil Moisture Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12035/overview/
   i2c_address: '0x20'
   type: WisModule
   notes:
-  - This modules requires RAK12023 WisBlock Soil Moisture Sensor Connector
+  - This modules requires RAK12023 Soil Moisture Sensor Connector
   - I2C address is programable via I2C
 rak12037:
   type: WisIO
-  description: RAK12037 WisBlock CO2 Sensor
+  description: RAK12037 CO2 Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12037/overview/
   mapping:
     3: GND
@@ -1224,7 +1224,7 @@ rak12037:
   i2c_address: '0x61'
 rak12039:
   type: WisIO
-  description: RAK12039 WisBlock PM Sensor
+  description: RAK12039 PM Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12039/overview/
   mapping:
     1: VBAT
@@ -1245,7 +1245,7 @@ rak12039:
   - Change RESET pin swapping resistors R7 and R13
   - Change SET pin swapping resistors R8 and R14
 rak12040:
-  description: RAK12040 WisBlock 8x8 IR Sensor
+  description: RAK12040 8x8 IR Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12040/overview/
   i2c_address: '0x68'
   double: true
@@ -1264,7 +1264,7 @@ rak12040:
   notes:
   - I2C address is 0x68 if R3 populated (default) and 0x69 if R2 populated
 rak12044:
-  description: RAK12044 WisBlock Hall Effect Sensor
+  description: RAK12044 Hall Effect Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12044/overview/
   i2c_address: '0x56'
   mapping:
@@ -1281,7 +1281,7 @@ rak12044:
   type: WisSensor
 rak12047:
   type: WisSensor
-  description: RAK12047 WisBlock VOC Sensor
+  description: RAK12047 VOC Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12047/overview/
   mapping:
     2: GND
@@ -1294,7 +1294,7 @@ rak12047:
     23: GND
   i2c_address: '0x59'
 rak12052:
-  description: RAK12052 WisBlock Thermal IR Array Module
+  description: RAK12052 Thermal IR Array Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12052/overview/
   i2c_address: '0x33'
   mapping:
@@ -1307,7 +1307,7 @@ rak12052:
     40: GND
   type: WisIO
 rak12054:
-  description: RAK12054 WisBlock Encoder Sensor
+  description: RAK12054 Encoder Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12054/overview/
   i2c_address: '0x36'
   mapping:
@@ -1323,7 +1323,7 @@ rak12054:
     23: GND
   type: WisSensor
 rak12059:
-  description: RAK12059 WisBlock Liquid Level Sensor
+  description: RAK12059 Liquid Level Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12059/overview/
   i2c_address: '0x48'
   double: true
@@ -1343,7 +1343,7 @@ rak12059:
   - I2C address can be changed to 0x49, 0x4A or 0x4B modifying solder bridge pads
 rak12500:
   type: WisSensor
-  description: RAK12500 WisBlock GNSS Location Module
+  description: RAK12500 GNSS Location Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12500/overview/
   mapping:
     1: UART_RX
@@ -1371,7 +1371,7 @@ rak12501:
     24: RXD
 rak13001:
   type: WisIO
-  description: RAK13001 WisBlock Relay Module
+  description: RAK13001 Relay Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13001/overview/
   mapping:
     3: GND
@@ -1390,7 +1390,7 @@ rak13001:
   - Remap DO signal modifying resistors R2, R5 and R8
 rak13002:
   type: WisIO
-  description: RAK13002 WisBlock IO Module
+  description: RAK13002 IO Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13002/overview/
   mapping:
     3: GND
@@ -1427,7 +1427,7 @@ rak13002:
     40: GND
 rak13003:
   type: WisIO
-  description: RAK13003 WisBlock IO ExpanderModule
+  description: RAK13003 IO ExpanderModule
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13003/overview/
   mapping:
     3: GND
@@ -1448,7 +1448,7 @@ rak13003:
   i2c_address: '0x20'
 rak13004:
   type: WisIO
-  description: RAK13004 WisBlock PWM ExpanderModule
+  description: RAK13004 PWM ExpanderModule
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13004/overview/
   mapping:
     3: GND
@@ -1463,7 +1463,7 @@ rak13004:
   i2c_address: '0x47'
 rak13005:
   type: WisIO
-  description: RAK13005 WisBlock LIN Bus Module
+  description: RAK13005 LIN Bus Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13005/overview/
   mapping:
     3: GND
@@ -1477,7 +1477,7 @@ rak13005:
     40: GND
 rak13006:
   type: WisIO
-  description: RAK13006 WisBlock CAN Module
+  description: RAK13006 CAN Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13006/overview/
   mapping:
     3: GND
@@ -1497,7 +1497,7 @@ rak13006:
     40: GND
 rak13007:
   type: WisIO
-  description: RAK13007 WisBlock Relay Module
+  description: RAK13007 Relay Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13007/overview/
   mapping:
     3: GND
@@ -1512,7 +1512,7 @@ rak13007:
   - Remap DO signal modifying resistors R2, R5 and R8
 rak13009:
   type: WisSensor
-  description: RAK13009 WisBlock QWIIC Module
+  description: RAK13009 QWIIC Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13009/overview/
   mapping:
     2: GND
@@ -1527,7 +1527,7 @@ rak13009:
   - I2C address will depend on the sensor connected to it
 rak13010:
   type: WisIO
-  description: RAK13010 WisBlock SDI Interface
+  description: RAK13010 SDI Interface
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13010/overview/
   mapping:
     1: VBAT
@@ -1543,7 +1543,7 @@ rak13010:
     40: GND
 rak13011:
   type: WisSensor
-  description: RAK13011 WisBlock Magnetic Switch Sensor
+  description: RAK13011 Magnetic Switch Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13011/overview/
   mapping:
     2: GND
@@ -1555,7 +1555,7 @@ rak13011:
   double: true
 rak13101:
   type: WisIO
-  description: RAK13101 WisBlock GSM Interface Module
+  description: RAK13101 GSM Interface Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13101/overview/
   mapping:
     1: VBAT
@@ -1570,7 +1570,7 @@ rak13101:
     40: GND
 rak13102:
   type: WisIO
-  description: RAK13102 WisBlock Blues Notecarrier Module
+  description: RAK13102 Blues Notecarrier Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13102/overview/
   mapping:
     1: VBAT
@@ -1604,12 +1604,12 @@ rak13102:
     39: GND
     40: GND
   notes:
-  - Module has 2 WisBlock sensor slots I2C, SPI, UART, IO1 and IO2
+  - Module has 2 sensor slots I2C, SPI, UART, IO1 and IO2
   - RXD1 and TXD1 signals are not used by the Blues module, only bridged to the first
     WisBlock
 rak13300:
   type: WisIO
-  description: RAK13300 WisBlock LoRa Module
+  description: RAK13300 LoRa Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13300/overview/
   mapping:
     3: GND
@@ -1631,7 +1631,7 @@ rak13300:
   - Remap SPI_NSS signal modifying resistors R2, R13 and R14
 rak13302:
   type: WisIO
-  description: RAK13302WisBlock 1W LoRa Module
+  description: RAK133021W LoRa Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13302/overview/
   mapping:
     1: VBAT
@@ -1651,7 +1651,7 @@ rak13302:
     40: GND
 rak13600:
   type: WisIO
-  description: RAK13600 WisBlock NFC Module
+  description: RAK13600 NFC Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13600/overview/
   mapping:
     3: GND
@@ -1679,7 +1679,7 @@ rak13600:
   - Change I2C signals removing R19 and R20 and populating R26 and R27
 rak13800:
   type: WisIO
-  description: RAK13800 WisBlock Ethernet Module
+  description: RAK13800 Ethernet Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13800/overview/
   mapping:
     3: GND
@@ -1702,7 +1702,7 @@ rak13800:
   - Change RSTn line swapping resistors R20 and R21
 rak13801:
   type: WisIO
-  description: RAK13801 WisBlock UWB Module
+  description: RAK13801 UWB Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13801/overview/
   mapping:
     1: VBAT
@@ -1731,7 +1731,7 @@ rak13801:
   - Populate R19 to control power via EN signal
 rak14000:
   type: WisIO
-  description: RAK14000 WisBlock E-Ink Module
+  description: RAK14000 E-Ink Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14000/overview/
   mapping:
     3: GND
@@ -1751,7 +1751,7 @@ rak14000:
     40: GND
 rak14001:
   type: WisIO
-  description: RAK14001 WisBlock RGB LED Module
+  description: RAK14001 RGB LED Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14001/overview/
   mapping:
     1: VBAT
@@ -1767,7 +1767,7 @@ rak14001:
   i2c_address: '0x38'
 rak14002:
   type: WisIO
-  description: RAK14002 WisBlock Touch Button Module
+  description: RAK14002 Touch Button Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14002/overview/
   mapping:
     3: GND
@@ -1781,7 +1781,7 @@ rak14002:
   i2c_address: '0x28'
 rak14003:
   type: WisIO
-  description: RAK14003 WisBlock LED Bargraph Module
+  description: RAK14003 LED Bargraph Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14003/overview/
   mapping:
     3: GND
@@ -1795,7 +1795,7 @@ rak14003:
   i2c_address: '0x04'
 rak14004:
   type: WisIO
-  description: RAK14004 WisBlock Keypad Module
+  description: RAK14004 Keypad Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14004/overview/
   mapping:
     3: GND
@@ -1812,7 +1812,7 @@ rak14004:
   i2c_address: '0x5F'
 rak14006:
   type: WisIO
-  description: RAK14006 WisBlock Rotary Input Module
+  description: RAK14006 Rotary Input Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14006/overview/
   mapping:
     3: GND
@@ -1827,7 +1827,7 @@ rak14006:
   - OUT_CCW can be changed to SIGNAL_B swapping resistors R7 and R8
   - OUT_CW can be changed to SIGNAL_A swapping resistors R9 and R10
 rak14007:
-  description: RAK14007 WisBlock Interface Module
+  description: RAK14007 Interface Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14007/overview/
   mapping:
     1: VBAT
@@ -1848,7 +1848,7 @@ rak14007:
   notes:
   - Supports RAK12017, RAK12004, RAK12009, RAK12035 and RAK14013
 rak14008:
-  description: RAK14008 WisBlock Gesture Sensor
+  description: RAK14008 Gesture Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14008/overview/
   i2c_address: '0x73'
   mapping:
@@ -1865,26 +1865,26 @@ rak14008:
     40: GND
   type: WisIO
 rak14009:
-  description: RAK14009 WisBlock 3x3 Keypad Module
+  description: RAK14009 3x3 Keypad Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14009/overview/
   type: WisModule
   notes:
-  - Requires RAK14004 WisBlock Keypad Module
+  - Requires RAK14004 Keypad Module
 rak14010:
-  description: RAK14009 WisBlock 3x4 Keypad Module
+  description: RAK14009 3x4 Keypad Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14010/overview/
   type: WisModule
   notes:
-  - Requires RAK14004 WisBlock Keypad Module
+  - Requires RAK14004 Keypad Module
 rak14011:
-  description: RAK14009 WisBlock 4x4 Keypad Module
+  description: RAK14009 4x4 Keypad Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14011/overview/
   type: WisModule
   notes:
-  - Requires RAK14004 WisBlock Keypad Module
+  - Requires RAK14004 Keypad Module
 rak14012:
   type: WisIO
-  description: RAK14012 WisBlock LED Matrix
+  description: RAK14012 LED Matrix
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14012/overview/
   mapping:
     1: VBAT
@@ -1903,12 +1903,12 @@ rak14012:
   - Module can power the LED Matrix from VBAT using a step-up to 5V (optional, see
     J2 jumper)
 rak14013:
-  description: RAK14013 WisBlock Joystick Module
+  description: RAK14013 Joystick Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14013/overview/
   type: WisModule
   i2c_address: '0x21'
   notes:
-  - Requires RAK14007 WisBlock Interface Module
+  - Requires RAK14007 Interface Module
   - I2C address can be changed via I2C
 rak14014:
   type: WisIO
@@ -1933,7 +1933,7 @@ rak14014:
   i2c_address: '0x38'
 rak15000:
   type: WisSensor
-  description: RAK15000 WisBlock EEPROM Module
+  description: RAK15000 EEPROM Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak15000/overview/
   mapping:
     2: GND
@@ -1952,7 +1952,7 @@ rak15000:
   - I2C address can be changed to 0x54 by moving resistor from R4 to R3
 rak15001:
   type: WisSensor
-  description: RAK15001 WisBlock Flash Module
+  description: RAK15001 Flash Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak15001/overview/
   mapping:
     2: GND
@@ -1972,7 +1972,7 @@ rak15001:
     23: GND
 rak15002:
   type: WisIO
-  description: RAK15002 WisBlock SD Card Module
+  description: RAK15002 SD Card Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak15002/overview/
   mapping:
     3: GND
@@ -1987,7 +1987,7 @@ rak15002:
     40: GND
 rak15003:
   type: WisSensor
-  description: RAK15003 WisBlock 32kB FRAM Module
+  description: RAK15003 32kB FRAM Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak15003/overview/
   mapping:
     2: GND
@@ -2001,7 +2001,7 @@ rak15003:
   i2c_address: '0x56'
 rak15004:
   type: WisSensor
-  description: RAK15004 WisBlock 64kB FRAM Module
+  description: RAK15004 64kB FRAM Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak15004/overview/
   mapping:
     2: GND
@@ -2017,7 +2017,7 @@ rak15004:
   i2c_address: '0x56'
 rak15005:
   type: WisSensor
-  description: RAK15005 WisBlock 128kB FRAM Module
+  description: RAK15005 128kB FRAM Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak15005/overview/
   mapping:
     2: GND
@@ -2033,7 +2033,7 @@ rak15005:
   i2c_address: '0x56'
 rak15006:
   type: WisSensor
-  description: RAK15006 WisBlock 512kB FRAM Module
+  description: RAK15006 512kB FRAM Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak15006/overview/
   mapping:
     2: GND
@@ -2052,7 +2052,7 @@ rak15006:
     23: GND
 rak15007:
   type: WisSensor
-  description: RAK15007 WisBlock 1MByte FRAM Module
+  description: RAK15007 1MByte FRAM Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak15007/overview/
   mapping:
     2: GND
@@ -2071,7 +2071,7 @@ rak15007:
     23: GND
 rak16000:
   type: WisIO
-  description: RAK16000 WisBlock DC Current Sensor
+  description: RAK16000 DC Current Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak16000/overview/
   mapping:
     3: GND
@@ -2084,7 +2084,7 @@ rak16000:
   i2c_address: '0x41'
 rak16001:
   type: WisIO
-  description: RAK16001 WisBlock ADC Interface
+  description: RAK16001 ADC Interface
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak16001/overview/
   mapping:
     3: GND
@@ -2096,7 +2096,7 @@ rak16001:
     40: GND
   i2c_address: '0x48'
 rak16002:
-  description: RAK16002 WisBlock Coulomb Sensor
+  description: RAK16002 Coulomb Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak16002/overview/
   i2c_address: '0x64'
   mapping:
@@ -2111,7 +2111,7 @@ rak16002:
   type: WisIO
 rak17000:
   type: WisIO
-  description: RAK17000 WisBlock Motor Drive Module
+  description: RAK17000 Motor Drive Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak17000/overview/
   mapping:
     1: VBAT
@@ -2126,7 +2126,7 @@ rak17000:
     39: GND
     40: GND
 rak17001:
-  description: RAK17001 WisBlock H-Bridge Module
+  description: RAK17001 H-Bridge Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak17001/overview/
   mapping:
     1: VBAT
@@ -2149,7 +2149,7 @@ rak17001:
   - Populate R15 to enable RESET on IO1
 rak18000:
   type: WisIO
-  description: RAK18000 WisBlock Stero Microphone Module
+  description: RAK18000 Stero Microphone Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18000/overview/
   mapping:
     3: GND
@@ -2161,7 +2161,7 @@ rak18000:
     40: GND
 rak18001:
   type: WisSensor
-  description: RAK18001 WisBlock Buzzer Module
+  description: RAK18001 Buzzer Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18001/overview/
   mapping:
     2: GND
@@ -2176,7 +2176,7 @@ rak18001:
   - R6 enableS PWM2 (default), R5 enables PWM1
 rak18003:
   type: WisIO
-  description: RAK18003 WisBlock Audio Interposer
+  description: RAK18003 Audio Interposer
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18003/overview/
   mapping:
     1: VBAT
@@ -2207,7 +2207,7 @@ rak18003:
   - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
 rak18030:
   type: WisIO
-  description: RAK18030 WisBlock Audio PDM Microphone Module
+  description: RAK18030 Audio PDM Microphone Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18030/overview/
   mapping:
     3: GND
@@ -2220,7 +2220,7 @@ rak18030:
     40: GND
 rak18031:
   type: WisIO
-  description: RAK18031 WisBlock Audio PDM Microphone Module
+  description: RAK18031 Audio PDM Microphone Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18031/overview/
   mapping:
     3: GND
@@ -2233,7 +2233,7 @@ rak18031:
     40: GND
 rak18032:
   type: WisIO
-  description: RAK18032 WisBlock Audio Ultrasonic Microphone Module
+  description: RAK18032 Audio Ultrasonic Microphone Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18032/overview/
   mapping:
     3: GND
@@ -2246,7 +2246,7 @@ rak18032:
     40: GND
 rak18033:
   type: WisIO
-  description: RAK18033 WisBlock Audio Stereo Microphone Header Module
+  description: RAK18033 Audio Stereo Microphone Header Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18033/overview/
   mapping:
     3: GND
@@ -2259,7 +2259,7 @@ rak18033:
     40: GND
 rak18040:
   type: WisIO
-  description: RAK18040 WisBlock Audio Analog Microphone to I2S Module
+  description: RAK18040 Audio Analog Microphone to I2S Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18040/overview/
   mapping:
     1: VBAT
@@ -2280,14 +2280,14 @@ rak18040:
   notes:
   - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
 rak18041:
-  description: RAK18041 WisBlock Analog Microphone Module
+  description: RAK18041 Analog Microphone Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18041/overview/
   type: WisIO
   notes:
-  - Requires RAK18040 WisBlock Audio Analog Microphone to I2S Module
+  - Requires RAK18040 Audio Analog Microphone to I2S Module
 rak18060:
   type: WisIO
-  description: RAK18060 WisBlock Audio Stereo Amplifier Module
+  description: RAK18060 Audio Stereo Amplifier Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18060/overview/
   mapping:
     1: VBAT
@@ -2311,7 +2311,7 @@ rak18060:
   - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
 rak18061:
   type: WisIO
-  description: RAK18061 WisBlock Audio Mono Amplifier Module
+  description: RAK18061 Audio Mono Amplifier Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18061/overview/
   mapping:
     1: VBAT
@@ -2335,7 +2335,7 @@ rak18061:
   - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
 rak18080:
   type: WisIO
-  description: RAK18080 WisBlock Audio DSP Board Module
+  description: RAK18080 Audio DSP Board Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18080/overview/
   mapping:
     1: VBAT
@@ -2366,7 +2366,7 @@ rak18080:
   - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
 rak19001:
   type: WisBase
-  description: RAK19001 WisBlock Dual IO Base Board
+  description: RAK19001 Dual IO Base Board
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19001/overview/
   mapping:
     3V3: 3V3
@@ -2407,7 +2407,7 @@ rak19001:
   - AIN0 is connected to battery (ADC_VBAT)
 rak19002:
   type: WisSensor
-  description: RAK19002 WisBlock Boost Module
+  description: RAK19002 Boost Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19002/overview/
   mapping:
     2: GND
@@ -2422,7 +2422,7 @@ rak19002:
   - R3 enables EN2 (default), R1 enables EN1
 rak19003:
   type: WisBase
-  description: RAK19003 WisBlock Mini Base Board
+  description: RAK19003 Mini Base Board
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19003/overview/
   mapping:
     3V3: 3V3
@@ -2453,7 +2453,7 @@ rak19003:
       1: UART1_TX
       24: UART1_RX
 rak19004:
-  description: RAK19004 WisBlock Green Power Module
+  description: RAK19004 Green Power Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19004/overview/
   type: WisModule
 rak19005:
@@ -2471,7 +2471,7 @@ rak19006:
     40: GND
 rak19007:
   type: WisBase
-  description: RAK19007 WisBlock Base Board 2nd Gen
+  description: RAK19007 Base Board 2nd Gen
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19007/overview/
   mapping:
     3V3: 3V3
@@ -2511,7 +2511,7 @@ rak19008:
   type: Accessories
 rak19009:
   type: WisBase
-  description: RAK19009 WisBlock Mini Base Board with Power Slot
+  description: RAK19009 Mini Base Board with Power Slot
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19009/overview/
   mapping:
     3V3: 3V3
@@ -2540,7 +2540,7 @@ rak19009:
       24: UART1_RX
 rak19010:
   type: WisBase
-  description: RAK19010 WisBlock Base Board with Power Slot
+  description: RAK19010 Base Board with Power Slot
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19010/overview/
   mapping:
     3V3: 3V3
@@ -2572,7 +2572,7 @@ rak19010:
       24: UART1_RX
 rak19011:
   type: WisBase
-  description: RAK19011 WisBlock Dual IO Base Board with Power Slot
+  description: RAK19011 Dual IO Base Board with Power Slot
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19011/overview/
   mapping:
     3V3: 3V3
@@ -2627,7 +2627,7 @@ rak19011:
   notes:
   - AIN0 is connected to battery (ADC_VBAT)
 rak19012:
-  description: RAK19012 WisBlock USB LiPo Solar Power Slot Module
+  description: RAK19012 USB LiPo Solar Power Slot Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19012/overview/
   mapping:
     1: VBAT
@@ -2648,7 +2648,7 @@ rak19012:
     40: GND
   type: WisPower
 rak19013:
-  description: RAK19013 WisBlock LiPo Solar Power Slot Module
+  description: RAK19013 LiPo Solar Power Slot Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19013/overview/
   mapping:
     1: VBAT
@@ -2667,7 +2667,7 @@ rak19013:
     40: GND
   type: WisPower
 rak19014:
-  description: RAK19014 WisBlock Battery USB Power Slot Module
+  description: RAK19014 Battery USB Power Slot Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19014/overview/
   mapping:
     1: VBAT
@@ -2687,7 +2687,7 @@ rak19014:
     40: GND
   type: WisPower
 rak19015:
-  description: RAK19015 WisBlock Battery Power Slot Module
+  description: RAK19015 Battery Power Slot Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19015/overview/
   mapping:
     1: VBAT
@@ -2703,7 +2703,7 @@ rak19015:
     40: GND
   type: WisPower
 rak19016:
-  description: RAK19016 WisBlock 5-24V Power Slot Module
+  description: RAK19016 5-24V Power Slot Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19016/overview/
   mapping:
     1: VBAT
@@ -2722,7 +2722,7 @@ rak19016:
     40: GND
   type: WisPower
 rak19017:
-  description: RAK19017 WisBlock POE Slot Module
+  description: RAK19017 POE Slot Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19017/overview/
   mapping:
     1: VBAT
@@ -2738,8 +2738,8 @@ rak19017:
     40: GND
   type: WisPower
 rak19018:
-  description: RAK19018 WisBlock PoE Module
+  description: RAK19018 PoE Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19018/overview/
   type: WisModule
   notes:
-  - Requires RAK13800 WisBlock Ethernet Module
+  - Requires RAK13800 Ethernet Module

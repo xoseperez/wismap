@@ -1,5 +1,5 @@
 rak12054:
-  description: RAK12054 WisBlock Encoder Sensor
+  description: RAK12054 Encoder Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12054/overview/
   i2c_address: '0x36'
   mapping:

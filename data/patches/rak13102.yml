@@ -1,5 +1,5 @@
 rak13102:
-  description: RAK13102 WisBlock Blues Notecarrier Module
+  description: RAK13102 Blues Notecarrier Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13102/overview/
   mapping:
     1: VBAT
@@ -34,6 +34,6 @@ rak13102:
     40: GND
   type: WisIO
   notes:
-  - Module has 2 WisBlock sensor slots I2C, SPI, UART, IO1 and IO2
+  - Module has 2 sensor slots I2C, SPI, UART, IO1 and IO2
   - RXD1 and TXD1 signals are not used by the Blues module, only bridged to the first
     WisBlock

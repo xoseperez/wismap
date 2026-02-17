@@ -1,5 +1,5 @@
 rak13800:
-  description: RAK13800 WisBlock Ethernet Module
+  description: RAK13800 Ethernet Module
   i2c_address: null
   mapping:
     1: null

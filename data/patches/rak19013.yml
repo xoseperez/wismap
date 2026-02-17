@@ -1,5 +1,5 @@
 rak19013:
-  description: RAK19013 WisBlock LiPo Solar Power Slot Module
+  description: RAK19013 LiPo Solar Power Slot Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19013/overview/
   mapping:
     1: VBAT

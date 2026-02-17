@@ -1,5 +1,5 @@
 rak19017:
-  description: RAK19017 WisBlock POE Slot Module
+  description: RAK19017 POE Slot Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19017/overview/
   mapping:
     1: VBAT

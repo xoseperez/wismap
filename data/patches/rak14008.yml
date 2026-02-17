@@ -1,5 +1,5 @@
 rak14008:
-  description: RAK14008 WisBlock Gesture Sensor
+  description: RAK14008 Gesture Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14008/overview/
   i2c_address: '0x73'
   mapping:

@@ -1,5 +1,5 @@
 rak19015:
-  description: RAK19015 WisBlock Battery Power Slot Module
+  description: RAK19015 Battery Power Slot Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19015/overview/
   mapping:
     1: VBAT

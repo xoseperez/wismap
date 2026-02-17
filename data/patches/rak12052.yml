@@ -1,5 +1,5 @@
 rak12052:
-  description: RAK12052 WisBlock Thermal IR Array Module
+  description: RAK12052 Thermal IR Array Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12052/overview/
   i2c_address: '0x33'
   mapping:

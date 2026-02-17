@@ -1,5 +1,5 @@
 rak4631-r:
-  description: RAK4631 nRF52840 WisBlock Core RUI
+  description: RAK4631 nRF52840 Core RUI
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak4631-r/overview/
   mapping:
     3V3: 3V3

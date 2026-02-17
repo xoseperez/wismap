@@ -281,7 +281,7 @@ def import_sheet(data, sheet):
     if module_type == "WisSensor":
         module_description = sheet.cell(row = 29, column = 2 + column_offset).value
         rows = 24
-    data[module_code]['description'] = module_description.strip(' "\'\t\r\n')
+    data[module_code]['description'] = module_description.strip(' "\'\t\r\n').replace("WisBlock ", "")
 
     # Get documentation
     module_docs = f"https://docs.rakwireless.com/product-categories/wisblock/{ sheet.title.lower() }/overview/"

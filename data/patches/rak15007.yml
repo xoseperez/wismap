@@ -1,5 +1,5 @@
 rak15007:
-  description: RAK15007 WisBlock 1MByte FRAM Module
+  description: RAK15007 1MByte FRAM Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak15007/overview/
   mapping:
     2: GND

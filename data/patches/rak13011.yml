@@ -1,5 +1,5 @@
 rak13011:
-  description: RAK13011 WisBlock Magnetic Switch Sensor
+  description: RAK13011 Magnetic Switch Sensor
   double: true
   mapping:
     7: null

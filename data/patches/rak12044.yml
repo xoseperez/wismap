@@ -1,5 +1,5 @@
 rak12044:
-  description: RAK12044 WisBlock Hall Effect Sensor
+  description: RAK12044 Hall Effect Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12044/overview/
   i2c_address: '0x56'
   mapping:

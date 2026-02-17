@@ -1,5 +1,5 @@
 rak12047:
-  description: RAK12047 WisBlock VOC Sensor
+  description: RAK12047 VOC Sensor
   mapping:
     9: null
     16: null

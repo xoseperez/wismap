@@ -1,5 +1,5 @@
 rak12032:
-  description: RAK12032 WisBlock 3-Axis Accelerometer Sensor
+  description: RAK12032 3-Axis Accelerometer Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12032/overview/
   i2c_address: '0x1D'
   mapping:

@@ -1,8 +1,8 @@
 rak14013:
-  description: RAK14013 WisBlock Joystick Module
+  description: RAK14013 Joystick Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14013/overview/
   type: WisModule
   i2c_address: '0x21'
   notes:
-  - Requires RAK14007 WisBlock Interface Module
+  - Requires RAK14007 Interface Module
   - I2C address can be changed via I2C

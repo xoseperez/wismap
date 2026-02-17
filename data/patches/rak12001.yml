@@ -1,5 +1,5 @@
 rak12001:
-  description: RAK12001 WisBlock Fingerprint Sensor
+  description: RAK12001 Fingerprint Sensor
   double: true
   mapping:
     11: 3V3_S

@@ -1,6 +1,6 @@
 rak18041:
-  description: RAK18041 WisBlock Analog Microphone Module
+  description: RAK18041 Analog Microphone Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18041/overview/
   type: WisIO
   notes:
-  - Requires RAK18040 WisBlock Audio Analog Microphone to I2S Module
+  - Requires RAK18040 Audio Analog Microphone to I2S Module

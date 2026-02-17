@@ -1,5 +1,5 @@
 rak18003:
-  description: RAK18003 WisBlock Audio Interposer
+  description: RAK18003 Audio Interposer
   mapping:
     5: 3V3 (NC)
     6: 3V3_S

@@ -1,5 +1,5 @@
 rak12022:
-  description: RAK12022 WisBlock PT100 Module
+  description: RAK12022 PT100 Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12022/overview/
   mapping:
     3: GND
