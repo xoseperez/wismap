@@ -1,6 +1,6 @@
 rak12040:
   description: RAK12040 WisBlock 8x8 IR Sensor
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12040
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12040/overview/
   i2c_address: '0x68'
   double: true
   mapping:

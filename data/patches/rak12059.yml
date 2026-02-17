@@ -1,6 +1,6 @@
 rak12059:
   description: RAK12059 WisBlock Liquid Level Sensor
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12059
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12059/overview/
   i2c_address: '0x48'
   double: true
   mapping:

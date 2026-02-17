@@ -1,6 +1,6 @@
 rak3372:
   description: RAK3372 STM32WLE5 WSisBlock Core
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK3372
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak3372/overview/
   mapping:
     3V3: VDD
     AIN0: AN0

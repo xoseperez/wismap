@@ -1,6 +1,6 @@
 rak12023:
   description: RAK12023 WisBlock Soil Moisture Sensor Connector
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12023
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12023/overview/
   mapping:
     1: null
     2: null

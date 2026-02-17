@@ -1,6 +1,6 @@
 rak12020:
   description: RAK12020 WisBlock Light Sensor
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12020
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12020/overview/
   i2c_address: '0x29'
   mapping:
     2: GND

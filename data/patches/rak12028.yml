@@ -1,6 +1,6 @@
 rak12028:
   description: RAK12028 WisBlock T-Beam-Fork Connector Module
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12028
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12028/overview/
   i2c_address: '0x68'
   mapping:
     2: GND

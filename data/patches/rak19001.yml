@@ -1,7 +1,7 @@
 rak19001:
   type: WisBase
   description: RAK19001 WisBlock Dual IO Base Board
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19001/
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19001/overview/
   mapping:
     VDD: VDD
     GND: GND

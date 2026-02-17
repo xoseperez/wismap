@@ -1,6 +1,6 @@
 rak16002:
   description: RAK16002 WisBlock Coulomb Sensor
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK16002
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak16002/overview/
   i2c_address: '0x64'
   mapping:
     1: VBAT

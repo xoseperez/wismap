@@ -1,6 +1,6 @@
 rak19012:
   description: RAK19012 WisBlock USB LiPo Solar Power Slot Module
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19012
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19012/overview/
   mapping:
     1: VBAT
     2: VBAT

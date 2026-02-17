@@ -1,6 +1,6 @@
 rak11722:
   description: RAK11722 Ambiq Apollo3 WSisBlock Core
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK11722
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak11722/overview/
   mapping:
     3V3: VCC
     AIN0: ADC8

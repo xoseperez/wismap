@@ -284,7 +284,7 @@ def import_sheet(data, sheet):
     data[module_code]['description'] = module_description.strip(' "\'\t\r\n')
 
     # Get documentation
-    module_docs = "https://docs.rakwireless.com/Product-Categories/WisBlock/" + sheet.title.upper()
+    module_docs = f"https://docs.rakwireless.com/product-categories/wisblock/{ sheet.title.lower() }/overview/"
     data[module_code]['documentation'] = module_docs
 
     # Get mapping

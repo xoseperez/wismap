@@ -1,6 +1,6 @@
 rak13009:
   description: RAK13009 WisBlock QWIIC Module
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK13009
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13009/overview/
   mapping:
     2: GND
     7: I2C_SCL

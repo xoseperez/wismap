@@ -1,7 +1,7 @@
 rak19003:
   type: WisBase
   description: RAK19003 WisBlock Mini Base Board
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19003/
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19003/overview/
   mapping:
     VDD: VDD
     GND: GND

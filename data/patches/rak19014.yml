@@ -1,6 +1,6 @@
 rak19014:
   description: RAK19014 WisBlock Battery USB Power Slot Module
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19014
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19014/overview/
   mapping:
     1: VBAT
     2: VBAT

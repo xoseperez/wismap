@@ -1,6 +1,6 @@
 rak14010:
   description: RAK14009 WisBlock 3x4 Keypad Module
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK14010
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14010/overview/
   type: WisModule
   notes:
   - Requires RAK14004 WisBlock Keypad Module

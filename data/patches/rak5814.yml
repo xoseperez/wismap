@@ -1,6 +1,6 @@
 rak5814:
   description: RAK5814 WisBlock Crypto Module
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK5814
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak5814/overview/
   i2c_address: '0x60'
   mapping:
     2: GND

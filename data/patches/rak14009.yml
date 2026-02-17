@@ -1,6 +1,6 @@
 rak14009:
   description: RAK14009 WisBlock 3x3 Keypad Module
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK14009
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14009/overview/
   type: WisModule
   notes:
   - Requires RAK14004 WisBlock Keypad Module

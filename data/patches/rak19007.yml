@@ -1,7 +1,7 @@
 rak19007:
   type: WisBase
   description: RAK19007 WisBlock Base Board 2nd Gen
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19007/
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19007/overview/
   mapping:
     VDD: VDD
     GND: GND

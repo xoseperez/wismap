@@ -1,6 +1,6 @@
 rak14007:
   description: RAK14007 WisBlock Interface Module
-  documentation: https://docs.rakwireless.com/Product-Categories/WisBlock/RAK14007
+  documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14007/overview/
   mapping:
     1: VBAT
     2: VBAT

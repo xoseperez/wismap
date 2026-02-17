@@ -2,7 +2,7 @@ rak6421:
   type: WisBase
   description: RAK6421 WisBlock Pi Hat
   functions: raspberry
-  documentation: https://docs.rakwireless.com/Product-Categories/WisHat/RAK6421/
+  documentation: https://docs.rakwireless.com/product-categories/wishat/rak6421-wisblock-pi-hat/overview/
   i2c_address: '0x48'
   mapping:
     3V3: 3V3
