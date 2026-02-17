@@ -22,6 +22,7 @@ _frontend_dist = os.path.join(_project_root, "frontend", "dist")
 definitions, config = load_data(_data_folder)
 
 app = Flask(__name__, static_folder=_frontend_dist, static_url_path="")
+app.json.sort_keys = False
 CORS(app)
 
 # ---------------------------------------------------------------------------

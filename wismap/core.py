@@ -38,6 +38,10 @@ SLOT_NAMES = {
     'POWER': 'Power slot',
 }
 
+SLOT_ORDER = ['CORE', 'POWER', 'IO_A', 'IO_B',
+              'SENSOR_A', 'SENSOR_B', 'SENSOR_C', 'SENSOR_D',
+              'SENSOR_E', 'SENSOR_F']
+
 # -----------------------------------------------------------------------------
 # Data loading
 # -----------------------------------------------------------------------------
@@ -255,7 +259,10 @@ def get_base_slots(definitions, config, base_id):
     slot_def = config.get('slots', {})
     result = {}
 
-    for slot_name, slot_overrides in base['slots'].items():
+    sorted_slots = sorted(base['slots'].items(),
+                          key=lambda x: SLOT_ORDER.index(x[0]) if x[0] in SLOT_ORDER else len(SLOT_ORDER))
+
+    for slot_name, slot_overrides in sorted_slots:
         slot_overrides = slot_overrides or {}
         resolved = merge(copy.deepcopy(slot_def[slot_name]), copy.deepcopy(slot_overrides))
         double = slot_overrides.get('double', False)
@@ -319,7 +326,9 @@ def combine(definitions, config, base_id, slot_assignments):
     # Resolve slot pin definitions (deepcopy to avoid mutation)
     slot_def = config.get('slots', {})
     slots = {}
-    for slot_name in definitions[base_id]['slots'].keys():
+    sorted_slot_names = sorted(definitions[base_id]['slots'].keys(),
+                               key=lambda x: SLOT_ORDER.index(x) if x in SLOT_ORDER else len(SLOT_ORDER))
+    for slot_name in sorted_slot_names:
         slots[slot_name] = merge(
             copy.deepcopy(slot_def[slot_name]),
             definitions[base_id]['slots'][slot_name] or {}
