@@ -1,4 +1,5 @@
 rak12019:
+  description: RAK12019 UV Light Module
   mapping:
     9: null
     11: 3V3_S

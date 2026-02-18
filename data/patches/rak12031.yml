@@ -13,4 +13,4 @@ rak12031:
     23: GND
   type: WisSensor
   notes:
-  - This modules requires RAK12028 connector or a RAK19005 Sensor Extension Cable
+  - This module requires RAK12028 connector or a RAK19005 Sensor Extension Cable

@@ -1,4 +1,5 @@
 rak12014:
+  description: RAK12014 Laser ToF Module
   mapping:
     2: GND
     7: I2C_SCL

@@ -1,4 +1,5 @@
 rak1904:
+  description: RAK1904 3-Axis Acceleration Sensor
   mapping:
     13: INT1
     15: INT2

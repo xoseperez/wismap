@@ -1,4 +1,5 @@
 rak12034:
+  description: RAK12034 9-Axis Accelerometer
   mapping:
     13: INT1
     15: INT2

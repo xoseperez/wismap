@@ -46,7 +46,7 @@ rak1903:
   i2c_address: '0x44'
 rak1904:
   type: WisSensor
-  description: RAK1904 3-axis Acceleration Sensor
+  description: RAK1904 3-Axis Acceleration Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak1904/overview/
   mapping:
     2: GND
@@ -896,7 +896,7 @@ rak12013:
     40: GND
 rak12014:
   type: WisSensor
-  description: RAK12014 Laser ToF module
+  description: RAK12014 Laser ToF Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12014/overview/
   mapping:
     2: GND
@@ -967,7 +967,7 @@ rak12018:
     40: GND
 rak12019:
   type: WisSensor
-  description: RAK12019 UV Light module
+  description: RAK12019 UV Light Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12019/overview/
   mapping:
     2: GND
@@ -1003,7 +1003,7 @@ rak12020:
   - R13 enables VDD (default), R7 enables 3V3_S
 rak12021:
   type: WisSensor
-  description: RAK12021 RGB sensor
+  description: RAK12021 RGB Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12021/overview/
   mapping:
     2: GND
@@ -1141,7 +1141,7 @@ rak12031:
     23: GND
   type: WisSensor
   notes:
-  - This modules requires RAK12028 connector or a RAK19005 Sensor Extension Cable
+  - This module requires RAK12028 connector or a RAK19005 Sensor Extension Cable
 rak12032:
   description: RAK12032 3-Axis Accelerometer Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12032/overview/
@@ -1183,7 +1183,7 @@ rak12033:
   double: true
 rak12034:
   type: WisSensor
-  description: RAK12034 9DOF Accelerometer
+  description: RAK12034 9-Axis Accelerometer
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12034/overview/
   mapping:
     2: GND
@@ -1205,7 +1205,7 @@ rak12035:
   i2c_address: '0x20'
   type: WisModule
   notes:
-  - This modules requires RAK12023 Soil Moisture Sensor Connector
+  - This module requires RAK12023 Soil Moisture Sensor Connector
   - I2C address is programable via I2C
 rak12037:
   type: WisIO
@@ -1470,7 +1470,7 @@ rak13005:
     3: GND
     4: GND
     5: 3V3
-    33: MCU_TXC1
+    33: MCU_TXD1
     34: MCU_RXD1
     37: MCU_WK
     38: EN
@@ -2223,7 +2223,7 @@ rak18030:
     40: GND
 rak18031:
   type: WisIO
-  description: RAK18030 Audio PDM Microphone Module (MP34DT06JTR)
+  description: RAK18031 Audio PDM Microphone Module (MP34DT06JTR)
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18031/overview/
   mapping:
     3: GND

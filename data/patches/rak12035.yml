@@ -4,5 +4,5 @@ rak12035:
   i2c_address: '0x20'
   type: WisModule
   notes:
-  - This modules requires RAK12023 Soil Moisture Sensor Connector
+  - This module requires RAK12023 Soil Moisture Sensor Connector
   - I2C address is programable via I2C
