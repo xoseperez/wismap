@@ -1,4 +1,9 @@
 rak13007:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak13007/rak13007.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak13007/datasheet/rak13007-schematics.png
+  - https://images.docs.rakwireless.com/wisblock/rak13007/datasheet/relay-schematic.png
   mapping:
     5: null
     6: 3V3_S

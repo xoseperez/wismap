@@ -1,4 +1,13 @@
 rak13102:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak13102/rak13102.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak13102/datasheet/power_supply.png
+  - https://images.docs.rakwireless.com/wisblock/rak13102/datasheet/sim_circuit.png
+  - https://images.docs.rakwireless.com/wisblock/rak13102/datasheet/io_connector.png
+  - https://images.docs.rakwireless.com/wisblock/rak13102/datasheet/usb_debug.png
+  - https://images.docs.rakwireless.com/wisblock/rak13102/datasheet/m2-connector.png
+  - https://images.docs.rakwireless.com/wisblock/rak13102/datasheet/sensor-slot.png
   description: RAK13102 Blues Notecarrier Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak13102/overview/
   mapping:

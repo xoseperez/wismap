@@ -1,4 +1,8 @@
 rak12014:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12014/rak12014.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12014/datasheet/schematic.png
   description: RAK12014 Laser ToF Module
   mapping:
     2: GND

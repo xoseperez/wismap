@@ -1,3 +1,7 @@
 rak5802:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak5802/rak5802.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak5802/datasheet/schematic.png
   mapping:
     29: TCON (NC)

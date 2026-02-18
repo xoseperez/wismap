@@ -1,4 +1,9 @@
 rak18060:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak18060/rak18060.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak18060/datasheet/rak18060_wisblock_board_connector_power_select.png
+  - https://images.docs.rakwireless.com/wisblock/rak18060/datasheet/rak18060_left_right_channel.png
   mapping:
     1: VBAT
     2: VBAT

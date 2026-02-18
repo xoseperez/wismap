@@ -1,4 +1,8 @@
 rak14009:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak14009/rak14009.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak14009/datasheet/image-20210728180224068.png
   description: RAK14009 3x3 Keypad Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14009/overview/
   type: WisModule

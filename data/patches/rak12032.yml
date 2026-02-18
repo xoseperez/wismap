@@ -1,4 +1,8 @@
 rak12032:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12032/rak12032.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12032/datasheet/rak12032-schematic.png
   description: RAK12032 3-Axis Accelerometer Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12032/overview/
   i2c_address: '0x1D'

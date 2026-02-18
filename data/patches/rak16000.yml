@@ -1,4 +1,11 @@
 rak16000:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak16000/rak16000.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak16000/datasheet/rak16000_i2c.png
+  - https://images.docs.rakwireless.com/wisblock/rak16000/datasheet/rak16000_pup.png
+  - https://images.docs.rakwireless.com/wisblock/rak16000/datasheet/image-20210722204440705.png
+  - https://images.docs.rakwireless.com/wisblock/rak16000/datasheet/rak16000_sch.png
   mapping:
     1: null
     2: null

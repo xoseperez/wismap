@@ -1,4 +1,8 @@
 rak12052:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12052/rak12052.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12052/datasheet/rak12052_schematic.png
   description: RAK12052 Thermal IR Array Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12052/overview/
   i2c_address: '0x33'

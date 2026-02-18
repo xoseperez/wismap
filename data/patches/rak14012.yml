@@ -1,4 +1,11 @@
 rak14012:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak14012/rak14012.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak14012/datasheet/connector.png
+  - https://images.docs.rakwireless.com/wisblock/rak14012/datasheet/boost.png
+  - https://images.docs.rakwireless.com/wisblock/rak14012/datasheet/power.png
+  - https://images.docs.rakwireless.com/wisblock/rak14012/datasheet/connector_for_led.png
   description: RAK14012 LED Matrix
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14012/overview/
   mapping:

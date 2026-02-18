@@ -1,4 +1,8 @@
 rak14008:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak14008/rak14008.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak14008/datasheet/rak14008-schematic.png
   description: RAK14008 Gesture Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14008/overview/
   i2c_address: '0x73'

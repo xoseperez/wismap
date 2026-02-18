@@ -1,4 +1,9 @@
 rak19011:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak19011/rak19011.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak19011/datasheet/schematic1.png
+  - https://images.docs.rakwireless.com/wisblock/rak19011/datasheet/schematic2.png
   type: WisBase
   description: RAK19011 Dual IO Base Board with Power Slot
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19011/overview/

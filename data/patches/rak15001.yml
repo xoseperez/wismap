@@ -1,4 +1,8 @@
 rak15001:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak15001/rak15001.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak15001/datasheet/schematic.png
   mapping:
     13: HOLD
     15: WP

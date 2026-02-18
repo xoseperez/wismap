@@ -1,2 +1,6 @@
 rak4631:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak4631/rak4631.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak4631/datasheet/schematic.png
   description: RAK4631 nRF52840 LoRaWAN

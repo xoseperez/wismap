@@ -1,4 +1,8 @@
 rak14000:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak14000/rak14000.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak14000/datasheet/driver-schematic.png
   mapping:
     5: null
     6: 3V3

@@ -1,1 +1,5 @@
 rak15002:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak15002/rak15002.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak15002/datasheet/module-schematic.png

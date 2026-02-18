@@ -1,4 +1,8 @@
 rak12039:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12039/rak12039.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12039/datasheet/schematic.png
   mapping:
     5: null
     6: 3V3_S

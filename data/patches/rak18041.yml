@@ -1,4 +1,8 @@
 rak18041:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak18041/rak18041.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak18041/datasheet/schematic.png
   description: RAK18041 Analog Microphone Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18041/overview/
   type: WisIO

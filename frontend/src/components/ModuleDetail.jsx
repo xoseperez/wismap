@@ -77,6 +77,25 @@ export default function ModuleDetail({ moduleId, onBack, onSelect }) {
           <ul>{info.notes.map((n, i) => <li key={i}>{n}</li>)}</ul>
         </div>
       )}
+
+      {info.schematics && info.schematics.length > 0 && (
+        <>
+          <h3 style={{ marginTop: '1rem' }}>Schematics</h3>
+          {info.schematics.map((url, i) => (
+            <img key={i} src={url} alt={`${info.id.toUpperCase()} schematic ${i + 1}`} style={{ maxWidth: '100%', display: 'block' }} />
+          ))}
+        </>
+      )}
+
+      {info.images && info.images.length > 0 && (
+        <>
+          <h3 style={{ marginTop: '1rem' }}>Images</h3>
+          {info.images.map((url, i) => (
+            <img key={i} src={url} alt={`${info.id.toUpperCase()} ${i + 1}`} style={{ maxWidth: '400px', display: 'block' }} />
+          ))}
+        </>
+      )}
+
     </div>
   )
 }

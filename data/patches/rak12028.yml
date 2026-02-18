@@ -1,4 +1,8 @@
 rak12028:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12028/rak12028.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12028/datasheet/rak12028-schematic.png
   description: RAK12028 T-Beam-Fork Connector Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12028/overview/
   i2c_address: '0x68'

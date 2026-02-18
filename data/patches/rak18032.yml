@@ -1,1 +1,5 @@
 rak18032:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak18032/rak18032.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak18032/datasheet/rak18032-schem.png

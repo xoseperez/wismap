@@ -1,4 +1,8 @@
 rak14007:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak14007/rak14007.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak14007/datasheet/rak14007_schematic_diagram.png
   description: RAK14007 Interface Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14007/overview/
   mapping:

@@ -1,4 +1,9 @@
 rak19003:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak19003/rak19003.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak19003/datasheet/rak19003-schematic-diagram.png
+  - https://images.docs.rakwireless.com/wisblock/rak19003/datasheet/rak19003-schematic-connectors-diagram.png
   type: WisBase
   description: RAK19003 Mini Base Board
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19003/overview/

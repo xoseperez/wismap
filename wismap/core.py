@@ -96,6 +96,8 @@ def get_module_info(definitions, config, module_id, show_nc=False):
         'type': mod['type'],
         'description': mod['description'],
         'documentation': mod.get('documentation', ''),
+        'images': mod.get('images') or [],
+        'schematics': mod.get('schematics') or [],
         'double': mod.get('double', False) if mod['type'] == 'WisSensor' else None,
         'i2c_address': mod.get('i2c_address', None),
         'mapping': None,

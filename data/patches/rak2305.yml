@@ -1,4 +1,8 @@
 rak2305:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak2305/rak2305.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak2305/datasheet/schematic.png
   mapping:
     5: 3V3_R (NC)
     14: IO34

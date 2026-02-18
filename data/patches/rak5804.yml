@@ -1,1 +1,5 @@
 rak5804:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak5804/rak5804.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak5804/datasheet/schematic-diagram.png

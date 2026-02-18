@@ -1,1 +1,5 @@
 rak1906:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak1906/rak1906.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak1906/datasheet/rak1906-schematic.png

@@ -1,4 +1,12 @@
 rak12029:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12029/rak12029.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12029/datasheet/power_supply.png
+  - https://images.docs.rakwireless.com/wisblock/rak12029/datasheet/inductive_sensor.png
+  - https://images.docs.rakwireless.com/wisblock/rak12029/datasheet/i2c_circuit.png
+  - https://images.docs.rakwireless.com/wisblock/rak12029/datasheet/i2c_address.png
+  - https://images.docs.rakwireless.com/wisblock/rak12029/datasheet/clock_circuit.png
   mapping:
     1: null
     2: null

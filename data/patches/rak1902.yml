@@ -1,3 +1,7 @@
 rak1902:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak1902/rak1902.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak1902/datasheet/rak1902-schematics.png
   mapping:
     13: INT1

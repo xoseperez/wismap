@@ -1,3 +1,7 @@
 rak19005:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak19005/rak19005.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak19005/datasheet/rak19005-schematic1.png
   description: RAK19005 Sensor Extension Cable
   type: Accessories

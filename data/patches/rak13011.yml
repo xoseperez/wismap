@@ -1,4 +1,8 @@
 rak13011:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak13011/rak13011.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak13011/datasheet/rak13011_schematic.png
   description: RAK13011 Magnetic Switch Sensor
   double: true
   mapping:

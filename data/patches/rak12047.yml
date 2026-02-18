@@ -1,4 +1,8 @@
 rak12047:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12047/rak12047.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12047/datasheet/rak12047-schem.png
   description: RAK12047 VOC Sensor
   mapping:
     9: null

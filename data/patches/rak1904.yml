@@ -1,4 +1,8 @@
 rak1904:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak1904/rak1904.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak1904/datasheet/rak1904-schematics.png
   description: RAK1904 3-Axis Acceleration Sensor
   mapping:
     13: INT1

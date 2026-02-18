@@ -1,3 +1,7 @@
 rak19006:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak19006/rak19006.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak19006/datasheet/rak19006-schematic.png
   mapping:
     5: null

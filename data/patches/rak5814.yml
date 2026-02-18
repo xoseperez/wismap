@@ -1,4 +1,8 @@
 rak5814:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak5814/rak5814.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak5814/datasheet/rak5814_schematic.png
   description: RAK5814 Crypto Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak5814/overview/
   i2c_address: '0x60'

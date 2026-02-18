@@ -1,4 +1,8 @@
 rak12008:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12008/rak12008.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12008/datasheet/rak12008-schematic.png
   type: WisSensor
   mapping:
     1: null

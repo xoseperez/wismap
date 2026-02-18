@@ -1,4 +1,8 @@
 rak19013:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak19013/rak19013.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak19013/datasheet/rak19013-schematic.png
   description: RAK19013 LiPo Solar Power Slot Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19013/overview/
   mapping:

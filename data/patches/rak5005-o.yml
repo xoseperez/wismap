@@ -1,4 +1,9 @@
 rak5005-o:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak5005-o/rak5005-o.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak5005-o/datasheet/16.schematic1.png
+  - https://images.docs.rakwireless.com/wisblock/rak5005-o/datasheet/17.schematic2.png
   type: WisBase
   description: RAK5005-O Base Board
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak5005-o/overview/

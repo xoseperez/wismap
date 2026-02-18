@@ -1,4 +1,8 @@
 rak19010:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak19010/rak19010.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak19010/datasheet/schematic.svg
   type: WisBase
   description: RAK19010 Base Board with Power Slot
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19010/overview/

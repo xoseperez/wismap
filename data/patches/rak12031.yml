@@ -1,4 +1,9 @@
 rak12031:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12031/rak12031.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12031/datasheet/rak12031-connectors.png
+  - https://images.docs.rakwireless.com/wisblock/rak12031/datasheet/ee-sx1041.png
   description: RAK12031 T-Beam-Fork Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12031/overview/
   i2c_address: '0x68'

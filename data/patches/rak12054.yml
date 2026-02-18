@@ -1,4 +1,8 @@
 rak12054:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12054/rak12054.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12054/datasheet/rak12054-schematic.png
   description: RAK12054 Encoder Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12054/overview/
   i2c_address: '0x36'

@@ -1,4 +1,10 @@
 rak19001:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak19001/rak19001.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak19001/datasheet/schematic1.png
+  - https://images.docs.rakwireless.com/wisblock/rak19001/datasheet/schematic2.png
+  - https://images.docs.rakwireless.com/wisblock/rak19001/datasheet/schematic3.png
   type: WisBase
   description: RAK19001 Dual IO Base Board
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19001/overview/

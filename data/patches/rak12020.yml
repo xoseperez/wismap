@@ -1,4 +1,8 @@
 rak12020:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12020/rak12020.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12020/datasheet/rak12020-schematic.png
   description: RAK12020 Light Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12020/overview/
   i2c_address: '0x29'

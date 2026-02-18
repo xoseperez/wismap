@@ -1,4 +1,8 @@
 rak12027:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12027/rak12027.jpg
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12027/datasheet/rak12027-schem.jpg
   double: true
   mapping:
     11: null

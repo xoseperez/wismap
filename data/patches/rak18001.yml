@@ -1,4 +1,8 @@
 rak18001:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak18001/rak18001.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak18001/datasheet/schematic.png
   mapping:
     10: PWM1 (NC)
     13: PWM2

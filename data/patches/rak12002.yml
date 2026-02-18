@@ -1,4 +1,8 @@
 rak12002:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12002/rak12002.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12002/datasheet/schematic_diagram.png
   mapping:
     9: 3V3
     13: CLKOUT

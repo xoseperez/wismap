@@ -1,4 +1,8 @@
 rak12022:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12022/rak12022.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12022/datasheet/rak12022_schematic.png
   description: RAK12022 PT100 Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12022/overview/
   mapping:

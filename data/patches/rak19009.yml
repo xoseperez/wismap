@@ -1,4 +1,8 @@
 rak19009:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak19009/rak19009.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak19009/datasheet/rak19009-schematic.png
   type: WisBase
   description: RAK19009 Mini Base Board with Power Slot
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19009/overview/

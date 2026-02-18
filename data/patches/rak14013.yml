@@ -1,4 +1,8 @@
 rak14013:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak14013/rak14013.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak14013/datasheet/rak14013_schematic_diagram.png
   description: RAK14013 Joystick Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak14013/overview/
   type: WisModule

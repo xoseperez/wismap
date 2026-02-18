@@ -1,4 +1,8 @@
 rak12025:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12025/rak12025.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12025/datasheet/rak12025_schematics.png
   description: RAK12025 Gyroscope Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12025/overview/
   i2c_address: '0x68'

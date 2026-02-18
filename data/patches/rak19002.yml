@@ -1,4 +1,8 @@
 rak19002:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak19002/rak19002.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak19002/datasheet/schematic.png
   mapping:
     10: EN1 (NC)
     13: EN2

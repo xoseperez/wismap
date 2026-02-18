@@ -1,4 +1,9 @@
 rak13006:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak13006/rak13006.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak13006/datasheet/can-chip-phy.png
+  - https://images.docs.rakwireless.com/wisblock/rak13006/datasheet/5v-boost.png
   mapping:
     5: null
     6: 3V3_S

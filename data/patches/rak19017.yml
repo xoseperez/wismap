@@ -1,4 +1,8 @@
 rak19017:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak19017/rak19017.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak19017/datasheet/schematic.png
   description: RAK19017 POE Slot Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19017/overview/
   mapping:

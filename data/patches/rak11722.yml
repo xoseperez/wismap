@@ -1,4 +1,8 @@
 rak11722:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak11722/rak11722.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak11722/datasheet/schematic.png
   description: RAK11722 Ambiq Apollo3 LoRaWAN
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak11722/overview/
   mapping:

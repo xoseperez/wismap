@@ -1,4 +1,9 @@
 rak19018:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak19018/rak19018.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak19018/datasheet/poe-module.png
+  - https://images.docs.rakwireless.com/wisblock/rak19018/datasheet/connectors.png
   description: RAK19018 PoE Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19018/overview/
   type: WisModule

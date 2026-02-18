@@ -1,4 +1,8 @@
 rak15004:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak15004/rak15004.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak15004/datasheet/rak15004-schem.png
   mapping:
     9: null
     11: 3V3_S

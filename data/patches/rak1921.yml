@@ -1,4 +1,6 @@
 rak1921:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak1921/rak1921.png
   description: RAK1921 OLED Display
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak1921/overview/
   i2c_address: '0x76'

@@ -73,6 +73,10 @@ def action_info(*args):
 
     # Notes (we'll collect and print at the end, like the original)
     notes = list(info['notes'])
+    for url in info.get('images', []):
+        notes.append(f"Image: {url}")
+    for url in info.get('schematics', []):
+        notes.append(f"Schematic: {url}")
 
     print(f"Module: {module.upper()}")
     print(f"Type: {info['type']}")

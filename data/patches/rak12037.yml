@@ -1,4 +1,8 @@
 rak12037:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12037/rak12037.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12037/datasheet/rak12037-schem.jpg
   mapping:
     1: null
     2: null

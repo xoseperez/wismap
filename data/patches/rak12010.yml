@@ -1,4 +1,8 @@
 rak12010:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12010/rak12010.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12010/datasheet/rak12010-schematic.png
   mapping:
     9: null
     11: 3V3_S

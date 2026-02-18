@@ -1,4 +1,11 @@
 rak12012:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12012/rak12012.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12012/datasheet/power_supply.png
+  - https://images.docs.rakwireless.com/wisblock/rak12012/datasheet/voltage_level.png
+  - https://images.docs.rakwireless.com/wisblock/rak12012/datasheet/max30102.png
+  - https://images.docs.rakwireless.com/wisblock/rak12012/datasheet/wisconnector.png
   mapping:
     1: null
     2: null

@@ -1,4 +1,8 @@
 rak15000:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak15000/rak15000.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak15000/datasheet/schematic.png
   mapping:
     9: 3V3 (NC)
     11: 3V3_S

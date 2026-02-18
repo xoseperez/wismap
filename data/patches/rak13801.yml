@@ -1,4 +1,8 @@
 rak13801:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak13801/rak13801.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak13801/datasheet/rak13801-schem.jpg
   mapping:
     18: null
     19: IRQ (NC)

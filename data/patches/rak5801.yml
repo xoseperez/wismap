@@ -1,4 +1,8 @@
 rak5801:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak5801/rak5801.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak5801/datasheet/schematic.png
   mapping:
     5: 3V3 (NC)
     21: A0 (NC)

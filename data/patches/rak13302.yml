@@ -1,2 +1,7 @@
 rak13302:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak13302/rak13302.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak13302/datasheet/rak13302-module-pinout.png
+  - https://images.docs.rakwireless.com/wisblock/rak13302/datasheet/sx162.png
   description: RAK13302 1W LoRa Module

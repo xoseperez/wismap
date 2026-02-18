@@ -1,4 +1,8 @@
 rak13003:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak13003/rak13003.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak13003/datasheet/module-schematic.png
   description: RAK13003 IO Expander Module
   mapping:
     25: SPI_CS

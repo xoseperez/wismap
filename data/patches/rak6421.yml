@@ -1,4 +1,9 @@
 rak6421:
+  images:
+  - https://images.docs.rakwireless.com/wishat/rak6421/rak6421.png
+  schematics:
+  - https://images.docs.rakwireless.com/wishat/rak6421/datasheet/rak6421-schematic-1.png
+  - https://images.docs.rakwireless.com/wishat/rak6421/datasheet/rak6421-schematic-2.png
   type: WisBase
   description: RAK6421 Pi Hat
   functions: raspberry

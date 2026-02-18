@@ -1,4 +1,8 @@
 rak16002:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak16002/rak16002.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak16002/datasheet/rak16002_schematic.png
   description: RAK16002 Coulomb Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak16002/overview/
   i2c_address: '0x64'

@@ -1,4 +1,14 @@
 rak13300:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak13300/rak13300.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak13300/datasheet/pinout.png
+  - https://images.docs.rakwireless.com/wisblock/rak13300/datasheet/oscillator.png
+  - https://images.docs.rakwireless.com/wisblock/rak13300/datasheet/sx162.png
+  - https://images.docs.rakwireless.com/certification/ce.png
+  - https://images.docs.rakwireless.com/certification/fcc.png
+  - https://images.docs.rakwireless.com/certification/ised.png
+  - https://images.docs.rakwireless.com/certification/ukca.png
   mapping:
     1: null
     2: null

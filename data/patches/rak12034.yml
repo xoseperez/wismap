@@ -1,4 +1,8 @@
 rak12034:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12034/rak12034.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12034/datasheet/schematic.jpg
   description: RAK12034 9-Axis Accelerometer
   mapping:
     13: INT1

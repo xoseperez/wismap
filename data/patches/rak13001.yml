@@ -1,4 +1,8 @@
 rak13001:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak13001/rak13001.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak13001/datasheet/rak13001-schematic.png
   mapping:
     10: DI
     24: DO (NC)

@@ -1,4 +1,8 @@
 rak12059:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12059/rak12059.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12059/datasheet/rak12059-schematic.png
   description: RAK12059 Liquid Level Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12059/overview/
   i2c_address: '0x48'

@@ -1,4 +1,8 @@
 rak12001:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12001/rak12001.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12001/datasheet/schematic.png
   description: RAK12001 Fingerprint Sensor
   double: true
   mapping:

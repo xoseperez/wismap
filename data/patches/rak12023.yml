@@ -1,4 +1,8 @@
 rak12023:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12023/rak12023.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12023/datasheet/rak12023-schematic.png
   description: RAK12023 Soil Moisture Sensor Connector
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12023/overview/
   mapping:

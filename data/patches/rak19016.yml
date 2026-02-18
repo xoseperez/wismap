@@ -1,4 +1,8 @@
 rak19016:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak19016/rak19016.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak19016/datasheet/rak19016-schematic.jpg
   description: RAK19016 5-24V Power Slot Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19016/overview/
   mapping:

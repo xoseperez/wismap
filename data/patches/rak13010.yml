@@ -1,4 +1,8 @@
 rak13010:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak13010/rak13010.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak13010/datasheet/rak13010-schem.jpg
   mapping:
     1: VBAT
     2: VBAT

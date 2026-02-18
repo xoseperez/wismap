@@ -1,4 +1,8 @@
 rak12040:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12040/rak12040.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12040/datasheet/rak12040-schematic.png
   description: RAK12040 8x8 IR Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12040/overview/
   i2c_address: '0x68'

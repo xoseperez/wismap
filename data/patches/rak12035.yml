@@ -1,4 +1,8 @@
 rak12035:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12035/rak12035.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12035/datasheet/rak12035-schematic.png
   description: RAK12035 Soil Moisture Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12035/overview/
   i2c_address: '0x20'

@@ -1,4 +1,8 @@
 rak13600:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak13600/rak13600.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak13600/datasheet/schematic.png
   mapping:
     1: null
     2: null

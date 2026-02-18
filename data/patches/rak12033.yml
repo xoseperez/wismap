@@ -1,4 +1,8 @@
 rak12033:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12033/rak12033.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12033/datasheet/rak12033-schematic.jpg
   double: true
   mapping:
     13: INT1

@@ -1,1 +1,5 @@
 rak14001:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak14001/rak14001.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak14001/datasheet/rak14001-schematic.png

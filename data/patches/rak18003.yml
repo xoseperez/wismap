@@ -1,4 +1,8 @@
 rak18003:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak18003/rak18003.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak18003/datasheet/rak18003-schematic-1.png
   description: RAK18003 Audio Interposer
   mapping:
     5: 3V3 (NC)

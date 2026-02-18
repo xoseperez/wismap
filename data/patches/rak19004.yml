@@ -1,4 +1,8 @@
 rak19004:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak19004/rak19004.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak19004/datasheet/rak19004-schematic.png
   description: RAK19004 Green Power Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19004/overview/
   type: WisModule

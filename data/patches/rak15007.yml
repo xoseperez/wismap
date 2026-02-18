@@ -1,4 +1,8 @@
 rak15007:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak15007/rak15007.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak15007/datasheet/rak15007-schematic.png
   description: RAK15007 1MByte FRAM Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak15007/overview/
   mapping:

@@ -1,4 +1,8 @@
 rak12044:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak12044/rak12044.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak12044/datasheet/rak12044-schematic.png
   description: RAK12044 Hall Effect Sensor
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak12044/overview/
   i2c_address: '0x56'

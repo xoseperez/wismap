@@ -1,2 +1,6 @@
 rak11310:
+  images:
+  - https://images.docs.rakwireless.com/wisblock/rak11310/rak11310.png
+  schematics:
+  - https://images.docs.rakwireless.com/wisblock/rak11310/datasheet/schematic.png
   description: RAK11310 RP4020 LoRaWAN
