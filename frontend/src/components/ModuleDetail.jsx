@@ -23,6 +23,9 @@ export default function ModuleDetail({ moduleId, onBack, onSelect }) {
         <dd><a href={info.documentation} target="_blank" rel="noreferrer">{info.documentation}</a></dd>
         {info.double !== null && <><dt>Long (double)</dt><dd>{info.double ? 'Yes' : 'No'}</dd></>}
         {info.i2c_address && <><dt>I2C Address</dt><dd>{info.i2c_address}</dd></>}
+
+        {info.notes && info.notes.length > 0 && <><dt>Notes</dt><dd><ul style={{ paddingLeft: '12px' }}>{info.notes.map((n, i) => <li key={i}>{n}</li>)}</ul></dd></>}
+
       </dl>
 
       {info.mapping && info.mapping.length > 0 && (
@@ -69,13 +72,6 @@ export default function ModuleDetail({ moduleId, onBack, onSelect }) {
             </table>
           </div>
         </>
-      )}
-
-      {info.notes && info.notes.length > 0 && (
-        <div className="notes">
-          <h3>Notes</h3>
-          <ul>{info.notes.map((n, i) => <li key={i}>{n}</li>)}</ul>
-        </div>
       )}
 
       {info.schematics && info.schematics.length > 0 && (
