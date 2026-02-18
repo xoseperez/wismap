@@ -1,6 +1,6 @@
 rak13800:
   description: RAK13800 Ethernet Module
-  i2c_address: null
+  i2c_address: '0x59'
   mapping:
     1: null
     2: null

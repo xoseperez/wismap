@@ -349,7 +349,7 @@ def action_import(patch=True):
             with open(patch_file) as f:
                 patch = yaml.load(f, Loader=yaml.loader.SafeLoader)
                 if patch:
-                    patches.update(patch)
+                    patches.update({k: v for k, v in patch.items() if v is not None})
 
         # Apply
         if len(patches.keys()):

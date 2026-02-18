@@ -831,8 +831,8 @@ rak12009:
     3: GND
     4: GND
     5: 3V3
-    19: I2C_SCL
-    20: I2C_SDA
+    19: I2C_SDA
+    20: I2C_SCL
     37: ALERT
     38: EN
     39: GND
@@ -876,8 +876,8 @@ rak12012:
     3: GND
     4: GND
     6: 3V3_S
-    19: I2C_SCL
-    20: I2C_SDA
+    19: I2C_SDA
+    20: I2C_SCL
     32: INT
     39: GND
     40: GND
@@ -1119,8 +1119,8 @@ rak12029:
     3: GND
     4: GND
     6: 3V3_S
-    19: I2C_SCL
-    20: I2C_SDA
+    19: I2C_SDA
+    20: I2C_SCL
     37: SD
     38: INT
     39: GND
@@ -1215,8 +1215,8 @@ rak12037:
     3: GND
     4: GND
     6: 3V3_S
-    19: I2C_SCL
-    20: I2C_SDA
+    19: I2C_SDA
+    20: I2C_SCL
     37: PWM
     38: RDY
     39: GND
@@ -1232,8 +1232,8 @@ rak12039:
     3: GND
     4: GND
     6: 3V3_S
-    19: I2C_SCL
-    20: I2C_SDA
+    19: I2C_SDA
+    20: I2C_SCL
     31: RESET (NC)
     32: SET (NC)
     37: RESET
@@ -1357,6 +1357,7 @@ rak12500:
     16: VDD
     23: GND
     24: UART_TX
+  i2c_address: '0x42'
 rak12501:
   type: WisSensor
   description: RAK12501 GNSS GPS Location Module Quectel L76K
@@ -1696,7 +1697,7 @@ rak13800:
     38: INTn
     39: GND
     40: GND
-  i2c_address: null
+  i2c_address: '0x59'
   notes:
   - Change CS line swapping resistors R18 and R19
   - Change RSTn line swapping resistors R20 and R21
@@ -1997,6 +1998,8 @@ rak15003:
     12: WP
     13: WP
     14: 3V3_S
+    17: I2C_SDA
+    18: I2C_SCL
     23: GND
   i2c_address: '0x56'
 rak15004:
@@ -2077,8 +2080,8 @@ rak16000:
     3: GND
     4: GND
     6: 3V3_S
-    19: I2C_SCL
-    20: I2C_SDA
+    19: I2C_SDA
+    20: I2C_SCL
     39: GND
     40: GND
   i2c_address: '0x41'
@@ -2090,8 +2093,8 @@ rak16001:
     3: GND
     4: GND
     6: 3V3_S
-    19: I2C_SCL
-    20: I2C_SDA
+    19: I2C_SDA
+    20: I2C_SCL
     39: GND
     40: GND
   i2c_address: '0x48'
@@ -2207,7 +2210,7 @@ rak18003:
   - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
 rak18030:
   type: WisIO
-  description: RAK18030 Audio PDM Microphone Module
+  description: RAK18030 Audio PDM Microphone Module (SPK0641HT4H-1)
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18030/overview/
   mapping:
     3: GND
@@ -2220,7 +2223,7 @@ rak18030:
     40: GND
 rak18031:
   type: WisIO
-  description: RAK18031 Audio PDM Microphone Module
+  description: RAK18030 Audio PDM Microphone Module (MP34DT06JTR)
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak18031/overview/
   mapping:
     3: GND

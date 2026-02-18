@@ -6,3 +6,4 @@ rak12500:
     16: VDD
     17: null
     18: null
+  i2c_address: '0x42'
