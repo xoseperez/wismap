@@ -35,7 +35,9 @@ function App() {
   return (
     <div className="app">
       <header>
-        <h1 style={{ cursor: 'pointer' }} onClick={() => { setResetKey(k => k + 1); setSelectedModule(null) }}>WisMAP</h1>
+        <h1 style={{ cursor: 'pointer' }} onClick={() => { setResetKey(k => k + 1); setSelectedModule(null) }}>
+          WisMAP <span style={{ fontSize: '0.5em', fontWeight: 'normal', opacity: 0.7 }}>RAKwireless WisBlock PIN Mapper</span>
+        </h1>
         <nav>
           <button
             className={view === 'combine' ? 'active' : ''}
