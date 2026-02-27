@@ -6,7 +6,8 @@ WisMAP identifies potential pin conflicts between modules in [RAKwireless WisBlo
 Features:
 
 * Browse all WisBlock modules with filtering by type (filters persist across navigation)
-* View detailed pin mappings and documentation links for any module
+* Search modules by name, description, or tags (protocol, sensor type, communication, use case)
+* View detailed pin mappings, documentation links, and clickable tags for any module
 * Combine modules on a base board and detect pin conflicts, I2C address collisions, and signal incompatibilities
 * Export combine results to Markdown or PDF
 * Shareable URLs for combine configurations
@@ -87,6 +88,7 @@ Quick examples:
 ```
 python wismap.py -v              # show version
 python wismap.py list            # list all modules
+python wismap.py search modbus   # search modules by tag, type, or description
 python wismap.py info rak12008   # show module details
 python wismap.py combine rak6421 rak5802 rak5801 empty empty rak12002 rak18001
 ```

@@ -51,7 +51,7 @@ Alternative ways to run the code are available:
 usage: python wismap.py [-h] [-v] [-m] [-n] action [extra]
 
 positional arguments:
-  action          Action to run: list, info, combine, import, clean
+  action          Action to run: list, search, info, combine, import, clean
 
 options:
   -h, --help      show this help message and exit
@@ -129,9 +129,29 @@ Example output:
 ```
 
 
+### Search
+
+Searches modules by matching a term against the module ID, type, description, and tags. Outputs a filtered list with Module, Type, Description, and Documentation columns.
+
+```
+python3 wismap.py search modbus
+```
+
+Example output:
+
+```
+┌─────────┬───────┬────────────────────────────────┬───────────────────────────────────────────────────────────────────────────┐
+│ Module  │ Type  │ Description                    │ Documentation                                                             │
+├─────────┼───────┼────────────────────────────────┼───────────────────────────────────────────────────────────────────────────┤
+│ RAK5802 │ WisIO │ RAK5802 RS485 Interface Module │ https://docs.rakwireless.com/product-categories/wisblock/rak5802/overview/ │
+└─────────┴───────┴────────────────────────────────┴───────────────────────────────────────────────────────────────────────────┘
+```
+
+Tags cover protocol/interface (i2c, spi, uart, rs485, modbus, can), communication (lorawan, ble, wifi, nb-iot, gnss), sensor type (temperature, humidity, pressure, co2, voc), and use case (environmental, motion, industrial, audio, display, storage).
+
 ### Info
 
-Let's you choose one of the modules and shows basic information for it: description, link to documentation, pin mapping...
+Let's you choose one of the modules and shows basic information for it: description, link to documentation, tags, pin mapping...
 
 ```
 python3 wismap.py info

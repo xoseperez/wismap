@@ -4,6 +4,17 @@ Changelog
 All notable changes to this project will be documented in this file.
 
 
+## 0.3.0 — 2026-02-27
+
+* Add searchable tags to all ~140 modules (protocol, sensor type, communication, use case)
+* Tags stored in patch files and merged into definitions.yml during import
+* Web UI: search now matches against module tags in addition to ID and description
+* Web UI: module detail page shows tags as clickable badges that filter the module list
+* CLI: new `search` action to filter modules by type, description, or tags
+* CLI: `info` action now displays tags
+* CLI: `list` and `search` actions now include a Documentation column
+
+
 ## 0.2.1 — 2026-02-27
 
 * Add version flag (`-v`/`--version`) to the CLI
