@@ -17,6 +17,8 @@ function App() {
   const [selectedModule, setSelectedModule] = useState(null)
   const [initialConfig, setInitialConfig] = useState(null)
   const [resetKey, setResetKey] = useState(0)
+  const [typeFilter, setTypeFilter] = useState('All')
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     const apply = () => {
@@ -35,7 +37,7 @@ function App() {
   return (
     <div className="app">
       <header>
-        <h1 style={{ cursor: 'pointer' }} onClick={() => { setResetKey(k => k + 1); setSelectedModule(null) }}>
+        <h1 style={{ cursor: 'pointer' }} onClick={() => { setResetKey(k => k + 1); setSelectedModule(null); setTypeFilter('All'); setSearch('') }}>
           WisMAP <span style={{ fontSize: '0.5em', fontWeight: 'normal', opacity: 0.7 }}>RAKwireless WisBlock PIN Mapper</span>
         </h1>
         <nav>
@@ -56,7 +58,13 @@ function App() {
 
       <div key={'modules-' + resetKey} style={{ display: view === 'modules' ? undefined : 'none' }}>
         {!selectedModule && (
-          <ModuleList onSelect={setSelectedModule} />
+          <ModuleList
+            onSelect={setSelectedModule}
+            typeFilter={typeFilter}
+            onTypeFilterChange={setTypeFilter}
+            search={search}
+            onSearchChange={setSearch}
+          />
         )}
         {selectedModule && (
           <ModuleDetail

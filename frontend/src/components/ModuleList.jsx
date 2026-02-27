@@ -3,10 +3,8 @@ import { fetchModules } from '../api'
 
 const TYPES = ['All', 'WisBase', 'WisCore', 'WisIO', 'WisSensor', 'WisPower', 'WisModule', 'Accessories']
 
-export default function ModuleList({ onSelect }) {
+export default function ModuleList({ onSelect, typeFilter, onTypeFilterChange, search, onSearchChange }) {
   const [modules, setModules] = useState([])
-  const [typeFilter, setTypeFilter] = useState('All')
-  const [search, setSearch] = useState('')
 
   useEffect(() => {
     fetchModules().then(setModules)
@@ -24,15 +22,18 @@ export default function ModuleList({ onSelect }) {
   return (
     <div>
       <div className="filters">
-        <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)}>
+        <select value={typeFilter} onChange={e => onTypeFilterChange(e.target.value)}>
           {TYPES.map(t => <option key={t} value={t}>{t}</option>)}
         </select>
         <input
           type="text"
           placeholder="Search modules..."
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={e => onSearchChange(e.target.value)}
         />
+        {(typeFilter !== 'All' || search) && (
+          <button onClick={() => { onTypeFilterChange('All'); onSearchChange('') }}>Clear</button>
+        )}
         <span>{filtered.length} modules</span>
       </div>
       <table>
