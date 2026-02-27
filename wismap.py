@@ -301,7 +301,10 @@ def import_sheet(data, sheet):
             pin = int(pin)
         if function != "NC":
             mapping[pin] = function
-    data[module_code]['mapping'] = mapping
+    if module_type == 'WisBase':
+        data[module_code]['naming'] = mapping
+    else:
+        data[module_code]['mapping'] = mapping
 
     # I2C Address
     address = str(sheet.cell(row = row+3, column = 2+column_offset).value)
@@ -362,8 +365,9 @@ def action_import(patch=True):
     # Filter & sort mappings
     print("Filtering and sorting")
     for module in data:
-        if 'mapping' in data[module]:
-            data[module]['mapping'] = dict(sorted([(k, v) for k, v in data[module]['mapping'].items() if v is not None ]))
+        for key in ('mapping', 'naming'):
+            if key in data[module]:
+                data[module][key] = dict(sorted([(k, v) for k, v in data[module][key].items() if v is not None ]))
     data = dict(sorted(data.items(), key=lambda e: int(re.findall(r"\d+", e[0])[0])))
 
     # Resume

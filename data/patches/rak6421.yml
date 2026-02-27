@@ -9,7 +9,7 @@ rak6421:
   functions: raspberry
   documentation: https://docs.rakwireless.com/product-categories/wishat/rak6421-wisblock-pi-hat/overview/
   i2c_address: '0x48'
-  mapping:
+  naming:
     3V3: 3V3
     5V: 5V
     GND: GND

@@ -7,7 +7,7 @@ rak5005-o:
   type: WisBase
   description: RAK5005-O Base Board
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak5005-o/overview/
-  mapping:
+  naming:
     VDD: VDD
     GND: GND
     3V3: 3V3

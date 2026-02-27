@@ -410,7 +410,7 @@ rak5005-o:
   type: WisBase
   description: RAK5005-O Base Board
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak5005-o/overview/
-  mapping:
+  naming:
     3V3: 3V3
     3V3_S: 3V3_S
     AIN0: ADC_VBAT
@@ -618,7 +618,7 @@ rak6421:
   functions: raspberry
   documentation: https://docs.rakwireless.com/product-categories/wishat/rak6421-wisblock-pi-hat/overview/
   i2c_address: '0x48'
-  mapping:
+  naming:
     3V3: 3V3
     5V: 5V
     AIN1: AIN1
@@ -2987,7 +2987,7 @@ rak19001:
   type: WisBase
   description: RAK19001 Dual IO Base Board
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19001/overview/
-  mapping:
+  naming:
     3V3: 3V3
     3V3_S: 3V3_S
     AIN0: ADC_VBAT
@@ -3052,7 +3052,7 @@ rak19003:
   type: WisBase
   description: RAK19003 Mini Base Board
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19003/overview/
-  mapping:
+  naming:
     3V3: 3V3
     3V3_S: 3V3_S
     AIN0: ADC_VBAT
@@ -3118,7 +3118,7 @@ rak19007:
   type: WisBase
   description: RAK19007 Base Board 2nd Gen
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19007/overview/
-  mapping:
+  naming:
     3V3: 3V3
     3V3_S: 3V3_S
     AIN0: ADC_VBAT
@@ -3166,7 +3166,7 @@ rak19009:
   type: WisBase
   description: RAK19009 Mini Base Board with Power Slot
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19009/overview/
-  mapping:
+  naming:
     3V3: 3V3
     3V3_S: 3V3_S
     BOOT0: BOOT0
@@ -3199,7 +3199,7 @@ rak19010:
   type: WisBase
   description: RAK19010 Base Board with Power Slot
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19010/overview/
-  mapping:
+  naming:
     3V3: 3V3
     3V3_S: 3V3_S
     AIN1: AIN1
@@ -3236,7 +3236,7 @@ rak19011:
   type: WisBase
   description: RAK19011 Dual IO Base Board with Power Slot
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19011/overview/
-  mapping:
+  naming:
     3V3: 3V3
     3V3_S: 3V3_S
     AIN0: AIN0

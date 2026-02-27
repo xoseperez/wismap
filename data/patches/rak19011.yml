@@ -7,7 +7,7 @@ rak19011:
   type: WisBase
   description: RAK19011 Dual IO Base Board with Power Slot
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19011/overview/
-  mapping:
+  naming:
     VDD: VDD
     GND: GND
     3V3: 3V3
