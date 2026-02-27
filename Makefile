@@ -65,7 +65,7 @@ docker-build:
 	docker build -t wismap .
 
 docker-run:
-	docker run --rm -p 5000:5000 wismap
+	docker run --rm -p 5000:5000 -v ./data:/app/data:ro wismap
 
 docker-up:
 	docker compose up -d --build
