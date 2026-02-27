@@ -9,3 +9,9 @@ rak12013:
     5: null
     6: 3V3_S
     31: OUT
+  tags:
+  - radar
+  - microwave
+  - presence
+  - motion
+  - gpio

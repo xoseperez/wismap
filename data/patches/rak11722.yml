@@ -43,3 +43,10 @@ rak11722:
     39: GND
     40: GND
   type: WisCore
+  tags:
+  - lorawan
+  - lora
+  - microcontroller
+  - spi
+  - i2c
+  - uart

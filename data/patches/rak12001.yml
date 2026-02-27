@@ -15,3 +15,8 @@ rak12001:
     via R7
   - The 5V line in the sensor connector uses 3V3_S via R8 using a step up, alternatively
     can use 3V3_S via R9
+  tags:
+  - fingerprint
+  - biometric
+  - security
+  - uart

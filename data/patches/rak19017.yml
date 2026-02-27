@@ -18,3 +18,7 @@ rak19017:
     39: GND
     40: GND
   type: WisPower
+  tags:
+  - power
+  - poe
+  - ethernet

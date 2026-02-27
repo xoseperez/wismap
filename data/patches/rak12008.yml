@@ -29,3 +29,9 @@ rak12008:
   i2c_address: '0x2C'
   notes:
   - I2C address can be changed changing the resistor at R7
+  tags:
+  - co2
+  - gas
+  - air-quality
+  - environmental
+  - i2c

@@ -12,3 +12,7 @@ rak13011:
     14: null
     17: null
     18: null
+  tags:
+  - magnetic
+  - switch
+  - gpio

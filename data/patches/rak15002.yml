@@ -3,3 +3,7 @@ rak15002:
   - https://images.docs.rakwireless.com/wisblock/rak15002/rak15002.png
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak15002/datasheet/module-schematic.png
+  tags:
+  - sd-card
+  - storage
+  - spi

@@ -19,3 +19,7 @@ rak13009:
   type: WisSensor
   notes:
   - I2C address will depend on the sensor connected to it
+  tags:
+  - qwiic
+  - i2c
+  - connector

@@ -10,3 +10,7 @@ rak12015:
     32: OUT (NC)
   notes:
   - Enable OUT signal populating R5
+  tags:
+  - vibration
+  - piezo
+  - analog

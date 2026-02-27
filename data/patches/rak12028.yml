@@ -22,3 +22,7 @@ rak12028:
   type: WisSensor
   notes:
   - This is the connector module for RAK12031
+  tags:
+  - beam-fork
+  - connector
+  - i2c

@@ -15,3 +15,9 @@ rak12039:
   notes:
   - Change RESET pin swapping resistors R7 and R13
   - Change SET pin swapping resistors R8 and R14
+  tags:
+  - particulate
+  - dust
+  - air-quality
+  - environmental
+  - uart

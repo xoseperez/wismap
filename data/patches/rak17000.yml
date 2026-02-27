@@ -7,3 +7,8 @@ rak17000:
     1: VBAT
     2: VBAT
     22: null
+  tags:
+  - motor
+  - dc-motor
+  - actuator
+  - i2c

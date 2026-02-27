@@ -8,3 +8,7 @@ rak12010:
     11: 3V3_S
     14: 3V3_S
     16: null
+  tags:
+  - light
+  - ambient-light
+  - i2c

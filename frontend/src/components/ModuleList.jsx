@@ -14,7 +14,8 @@ export default function ModuleList({ onSelect, typeFilter, onTypeFilterChange, s
     const q = search.toLowerCase()
     return modules.filter(m => {
       if (typeFilter !== 'All' && m.type !== typeFilter) return false
-      if (q && !m.id.includes(q) && !m.description.toLowerCase().includes(q)) return false
+      if (q && !m.id.includes(q) && !m.description.toLowerCase().includes(q)
+          && !(m.tags || []).some(tag => tag.includes(q))) return false
       return true
     })
   }, [modules, typeFilter, search])

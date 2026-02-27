@@ -11,3 +11,9 @@ rak12500:
     17: null
     18: null
   i2c_address: '0x42'
+  tags:
+  - gnss
+  - gps
+  - location
+  - tracking
+  - spi

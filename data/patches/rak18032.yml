@@ -3,3 +3,8 @@ rak18032:
   - https://images.docs.rakwireless.com/wisblock/rak18032/rak18032.png
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak18032/datasheet/rak18032-schem.png
+  tags:
+  - microphone
+  - audio
+  - ultrasonic
+  - pdm

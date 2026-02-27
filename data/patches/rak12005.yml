@@ -9,3 +9,7 @@ rak12005:
     6: 3V3_S (NC)
   notes:
   - Switch between 3V3 and 3V3_S swapping resistors in R1 and R2
+  tags:
+  - rain
+  - weather
+  - analog

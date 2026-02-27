@@ -18,3 +18,8 @@ rak12054:
     18: I2C_SCL
     23: GND
   type: WisSensor
+  tags:
+  - encoder
+  - rotary
+  - input
+  - i2c

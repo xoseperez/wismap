@@ -4,3 +4,13 @@ rak4631:
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak4631/datasheet/schematic.png
   description: RAK4631 nRF52840 LoRaWAN
+  tags:
+  - lorawan
+  - lora
+  - ble
+  - bluetooth
+  - nrf52840
+  - microcontroller
+  - spi
+  - i2c
+  - uart

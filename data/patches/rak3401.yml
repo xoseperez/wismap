@@ -4,3 +4,11 @@ rak3401:
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak3401/datasheet/schematic.svg
   description: RAK3401 nRF52840 BLE Module
+  tags:
+  - ble
+  - bluetooth
+  - nrf52840
+  - microcontroller
+  - spi
+  - i2c
+  - uart

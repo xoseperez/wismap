@@ -20,3 +20,8 @@ rak5814:
   type: WisSensor
   notes:
   - I2C address can be changed programmatically
+  tags:
+  - crypto
+  - security
+  - encryption
+  - i2c

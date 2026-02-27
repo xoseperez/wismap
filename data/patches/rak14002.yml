@@ -3,3 +3,8 @@ rak14002:
   - https://images.docs.rakwireless.com/wisblock/rak14002/rak14002.png
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak14002/datasheet/rak14002-schematic.png
+  tags:
+  - touch
+  - button
+  - input
+  - i2c

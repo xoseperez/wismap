@@ -4,3 +4,7 @@ rak18031:
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak18031/datasheet/rak18031-schem.png
   description: RAK18031 Audio PDM Microphone Module (MP34DT06JTR)
+  tags:
+  - microphone
+  - audio
+  - pdm

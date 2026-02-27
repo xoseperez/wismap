@@ -12,3 +12,9 @@ rak18060:
     9: VBUS
   notes:
   - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
+  tags:
+  - amplifier
+  - audio
+  - speaker
+  - stereo
+  - i2s

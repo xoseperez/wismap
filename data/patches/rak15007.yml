@@ -22,3 +22,8 @@ rak15007:
     22: SPI_CS
     23: GND
   type: WisSensor
+  tags:
+  - fram
+  - storage
+  - memory
+  - i2c

@@ -20,3 +20,7 @@ rak12025:
     18: I2C_SCL
     23: GND
   type: WisSensor
+  tags:
+  - gyroscope
+  - motion
+  - i2c

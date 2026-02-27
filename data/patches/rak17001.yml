@@ -24,3 +24,8 @@ rak17001:
   notes:
   - Populate R14 to enable RESET on RESET signal
   - Populate R15 to enable RESET on IO1
+  tags:
+  - motor
+  - h-bridge
+  - actuator
+  - gpio

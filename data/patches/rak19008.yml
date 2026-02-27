@@ -5,3 +5,7 @@ rak19008:
   - https://images.docs.rakwireless.com/wisblock/rak19008/datasheet/rak19008_sch.png
   description: RAK19008 IO Extension Cable
   type: Accessories
+  tags:
+  - cable
+  - accessory
+  - io-extension

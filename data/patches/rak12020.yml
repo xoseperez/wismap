@@ -22,3 +22,6 @@ rak12020:
   type: WisSensor
   notes:
   - R13 enables VDD (default), R7 enables 3V3_S
+  tags:
+  - light
+  - i2c

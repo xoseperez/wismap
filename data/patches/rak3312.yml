@@ -4,3 +4,13 @@ rak3312:
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak3312/rak3312-schematic.svg
   description: RAK3312 ESP32-S3 LoRaWAN
+  tags:
+  - lorawan
+  - lora
+  - esp32
+  - wifi
+  - ble
+  - microcontroller
+  - spi
+  - i2c
+  - uart

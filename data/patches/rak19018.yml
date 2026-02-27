@@ -9,3 +9,7 @@ rak19018:
   type: WisModule
   notes:
   - Requires RAK13800 Ethernet Module
+  tags:
+  - poe
+  - power
+  - ethernet

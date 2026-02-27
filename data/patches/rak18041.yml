@@ -8,3 +8,7 @@ rak18041:
   type: WisIO
   notes:
   - Requires RAK18040 Audio Analog Microphone to I2S Module
+  tags:
+  - microphone
+  - audio
+  - analog

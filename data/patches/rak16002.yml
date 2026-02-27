@@ -16,3 +16,8 @@ rak16002:
     39: GND
     40: GND
   type: WisIO
+  tags:
+  - coulomb
+  - battery
+  - power-monitoring
+  - i2c

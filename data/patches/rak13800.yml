@@ -19,3 +19,7 @@ rak13800:
   notes:
   - Change CS line swapping resistors R18 and R19
   - Change RSTn line swapping resistors R20 and R21
+  tags:
+  - ethernet
+  - networking
+  - spi

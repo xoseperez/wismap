@@ -7,3 +7,7 @@ rak1904:
   mapping:
     13: INT1
     15: INT2
+  tags:
+  - accelerometer
+  - motion
+  - i2c

@@ -45,10 +45,39 @@ def action_list():
 
     print()
     table = Table(box=table_format)
-    for column in ['Module', "Type", "Description"]:
+    for column in ['Module', "Type", "Description", "Documentation"]:
         table.add_column(column)
     for module in definitions.keys():
-        table.add_row(*[module.upper(), definitions[module]['type'], definitions[module]['description']], style='bright_green')
+        table.add_row(module.upper(), definitions[module]['type'], definitions[module]['description'], definitions[module].get('documentation', ''), style='bright_green')
+    console = Console()
+    console.print(table)
+    print()
+
+# -----------------------------------------------------------------------------
+# Action SEARCH
+# -----------------------------------------------------------------------------
+
+def action_search(*args):
+
+    if len(args) == 0:
+        print("ERROR: search requires a search term")
+        print("Usage: python wismap.py search <term>")
+        return
+
+    q = args[0].lower()
+
+    print()
+    table = Table(box=table_format)
+    for column in ['Module', "Type", "Description", "Documentation"]:
+        table.add_column(column)
+    for module in definitions.keys():
+        mod = definitions[module]
+        tags = mod.get('tags', [])
+        if (q in module
+            or q in mod['type'].lower()
+            or q in mod['description'].lower()
+            or any(q in tag for tag in tags)):
+            table.add_row(module.upper(), mod['type'], mod['description'], mod.get('documentation', ''), style='bright_green')
     console = Console()
     console.print(table)
     print()
@@ -89,6 +118,9 @@ def action_info(*args):
 
     if info['i2c_address']:
         print(f"I2C Address: {info['i2c_address']}")
+
+    if info.get('tags'):
+        print(f"Tags: {', '.join(info['tags'])}")
 
     if info['mapping'] is not None:
         print(f"Mapping:")
@@ -395,6 +427,7 @@ def action_clean():
 
 ACTIONS = {
     "list" : action_list,
+    "search" : action_search,
     "info" : action_info,
     "combine" : action_combine,
     "import" : action_import,

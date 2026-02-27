@@ -9,3 +9,7 @@ rak19002:
     15: EN1 (NC)
   notes:
   - R3 enables EN2 (default), R1 enables EN1
+  tags:
+  - power
+  - boost
+  - voltage

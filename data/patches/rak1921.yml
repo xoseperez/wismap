@@ -5,3 +5,7 @@ rak1921:
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak1921/overview/
   i2c_address: '0x76'
   type: WisModule
+  tags:
+  - display
+  - oled
+  - i2c

@@ -5,3 +5,7 @@ rak13005:
   - https://images.docs.rakwireless.com/wisblock/rak13005/datasheet/rak13005-schematic.png
   mapping:
     33: MCU_TXD1
+  tags:
+  - lin
+  - automotive
+  - serial

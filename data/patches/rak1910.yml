@@ -8,3 +8,9 @@ rak1910:
     13: 1PPS
     14: 3V3_S
     15: RESET_GPS
+  tags:
+  - gnss
+  - gps
+  - location
+  - tracking
+  - uart

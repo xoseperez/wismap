@@ -10,3 +10,8 @@ rak18001:
     16: 3V3
   notes:
   - R6 enables PWM2 (default), R5 enables PWM1
+  tags:
+  - buzzer
+  - audio
+  - alert
+  - pwm

@@ -9,3 +9,8 @@ rak14014:
     5: 3V3
     37: RESET
     38: INT
+  tags:
+  - display
+  - lcd
+  - touchscreen
+  - spi

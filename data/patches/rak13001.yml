@@ -13,3 +13,8 @@ rak13001:
   notes:
   - Remap DI signal modifying resistors R1, R4 and R7
   - Remap DO signal modifying resistors R2, R5 and R8
+  tags:
+  - relay
+  - switch
+  - control
+  - gpio

@@ -4,3 +4,11 @@ rak11310:
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak11310/datasheet/schematic.png
   description: RAK11310 RP4020 LoRaWAN
+  tags:
+  - lorawan
+  - lora
+  - rp2040
+  - microcontroller
+  - spi
+  - i2c
+  - uart

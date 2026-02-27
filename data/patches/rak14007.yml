@@ -23,3 +23,7 @@ rak14007:
   type: WisIO
   notes:
   - Supports RAK12017, RAK12004, RAK12009, RAK12035 and RAK14013
+  tags:
+  - interface
+  - breakout
+  - connector

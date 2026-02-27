@@ -22,3 +22,7 @@ rak2305:
   - Module is powered from VBAT by default, power from 3V3_R using R14 or VDD using
     R29
   - Module IO0, IO12, IO14 and IO15 are brought out
+  tags:
+  - wifi
+  - esp32
+  - spi

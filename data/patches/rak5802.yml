@@ -5,3 +5,9 @@ rak5802:
   - https://images.docs.rakwireless.com/wisblock/rak5802/datasheet/schematic.png
   mapping:
     29: TCON (NC)
+  tags:
+  - rs485
+  - modbus
+  - serial
+  - industrial
+  - uart

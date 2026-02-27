@@ -6,3 +6,8 @@ rak14000:
   mapping:
     5: null
     6: 3V3
+  tags:
+  - display
+  - e-ink
+  - e-paper
+  - spi

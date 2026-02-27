@@ -114,6 +114,20 @@ tr:hover { background: var(--rak-blue-light); }
 
 .back-btn:hover { text-decoration: underline; }
 
+/* Tags */
+.tag-list { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.tag-badge {
+  padding: 0.15rem 0.5rem;
+  background: var(--rak-blue-light);
+  color: var(--rak-blue);
+  border: 1px solid var(--rak-blue);
+  border-radius: 12px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+.tag-badge:hover { background: var(--rak-blue); color: #fff; }
+
 /* Combine tool */
 .combine-layout {
   display: grid;

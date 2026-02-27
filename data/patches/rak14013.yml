@@ -10,3 +10,7 @@ rak14013:
   notes:
   - Requires RAK14007 Interface Module
   - I2C address can be changed via I2C
+  tags:
+  - joystick
+  - input
+  - gaming

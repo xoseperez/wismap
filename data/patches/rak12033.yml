@@ -7,3 +7,8 @@ rak12033:
   mapping:
     13: INT1
     15: INT2
+  tags:
+  - accelerometer
+  - gyroscope
+  - motion
+  - i2c

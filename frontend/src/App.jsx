@@ -71,6 +71,11 @@ function App() {
             moduleId={selectedModule}
             onBack={() => setSelectedModule(null)}
             onSelect={setSelectedModule}
+            onTagClick={(tag) => {
+              setSearch(tag)
+              setSelectedModule(null)
+              setView('modules')
+            }}
           />
         )}
       </div>

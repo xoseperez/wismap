@@ -20,3 +20,8 @@ rak13600:
   - Enable 3V3 populating R17
   - Enable SPI interface populating R21, R22, R23 and R24
   - Change I2C signals removing R19 and R20 and populating R26 and R27
+  tags:
+  - nfc
+  - rfid
+  - contactless
+  - spi

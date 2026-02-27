@@ -18,3 +18,6 @@ rak13300:
     29: SPI_NSS (NC)
   notes:
   - Remap SPI_NSS signal modifying resistors R2, R13 and R14
+  tags:
+  - lora
+  - spi

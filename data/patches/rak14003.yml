@@ -3,3 +3,8 @@ rak14003:
   - https://images.docs.rakwireless.com/wisblock/rak14003/rak14003.png
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak14003/datasheet/rak14003-schematic.png
+  tags:
+  - led
+  - bargraph
+  - indicator
+  - i2c

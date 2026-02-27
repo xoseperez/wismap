@@ -31,3 +31,7 @@ rak19009:
       10: IO6
       12: IO5
       24: UART1_RX
+  tags:
+  - base-board
+  - compact
+  - power-slot

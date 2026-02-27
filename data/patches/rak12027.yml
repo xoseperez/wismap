@@ -9,3 +9,9 @@ rak12027:
     13: INT1
     14: null
     15: INT2
+  tags:
+  - earthquake
+  - seismic
+  - vibration
+  - motion
+  - i2c

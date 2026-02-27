@@ -6,3 +6,7 @@ rak19004:
   description: RAK19004 Green Power Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19004/overview/
   type: WisModule
+  tags:
+  - power
+  - green
+  - energy-harvesting

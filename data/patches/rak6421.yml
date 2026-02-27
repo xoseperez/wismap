@@ -109,3 +109,7 @@ rak6421:
       12: GPIO23
       14: 3V3
       24: UART0_RX
+  tags:
+  - raspberry-pi
+  - hat
+  - adapter

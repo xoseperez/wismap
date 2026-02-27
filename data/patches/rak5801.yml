@@ -14,3 +14,8 @@ rak5801:
   - EN signal is connected to pin 29 by default via R97, change it to R96 to enable
     secondary
   - Power via 3V3 swapping resistors R49 and R50
+  tags:
+  - 4-20ma
+  - analog
+  - industrial
+  - current-loop

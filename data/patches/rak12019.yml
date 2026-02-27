@@ -10,3 +10,7 @@ rak12019:
     13: INT
     14: 3V3_S
     16: null
+  tags:
+  - uv
+  - light
+  - i2c

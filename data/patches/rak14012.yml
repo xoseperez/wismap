@@ -25,3 +25,8 @@ rak14012:
   - Change R7, R8 and R9 to enable different DOUT
   - Module can power the LED Matrix from VBAT using a step-up to 5V (optional, see
     J2 jumper)
+  tags:
+  - led
+  - matrix
+  - display
+  - i2c

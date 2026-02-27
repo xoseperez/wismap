@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { fetchModuleInfo } from '../api'
 
-export default function ModuleDetail({ moduleId, onBack, onSelect }) {
+export default function ModuleDetail({ moduleId, onBack, onSelect, onTagClick }) {
   const [info, setInfo] = useState(null)
   const [showNc, setShowNc] = useState(false)
 
@@ -23,6 +23,14 @@ export default function ModuleDetail({ moduleId, onBack, onSelect }) {
         <dd><a href={info.documentation} target="_blank" rel="noreferrer">{info.documentation}</a></dd>
         {info.double !== null && <><dt>Long (double)</dt><dd>{info.double ? 'Yes' : 'No'}</dd></>}
         {info.i2c_address && <><dt>I2C Address</dt><dd>{info.i2c_address}</dd></>}
+        {info.tags && info.tags.length > 0 && (
+          <><dt>Tags</dt>
+          <dd><span className="tag-list">
+            {info.tags.map(tag => (
+              <button key={tag} className="tag-badge" onClick={() => onTagClick(tag)}>{tag}</button>
+            ))}
+          </span></dd></>
+        )}
 
         {info.notes && info.notes.length > 0 && <><dt>Notes</dt><dd><ul style={{ paddingLeft: '12px' }}>{info.notes.map((n, i) => <li key={i}>{n}</li>)}</ul></dd></>}
 

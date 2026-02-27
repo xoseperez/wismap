@@ -7,3 +7,9 @@ rak12047:
   mapping:
     9: null
     16: null
+  tags:
+  - voc
+  - gas
+  - air-quality
+  - environmental
+  - i2c

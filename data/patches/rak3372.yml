@@ -35,3 +35,11 @@ rak3372:
     37: ADC5
     38: PA9 (NC)
   type: WisCore
+  tags:
+  - lorawan
+  - lora
+  - stm32
+  - microcontroller
+  - spi
+  - i2c
+  - uart

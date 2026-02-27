@@ -4,3 +4,7 @@ rak18030:
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak18030/datasheet/rak18030-schem.png
   description: RAK18030 Audio PDM Microphone Module (SPK0641HT4H-1)
+  tags:
+  - microphone
+  - audio
+  - pdm

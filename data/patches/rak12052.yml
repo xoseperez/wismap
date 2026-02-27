@@ -15,3 +15,9 @@ rak12052:
     39: GND
     40: GND
   type: WisIO
+  tags:
+  - thermal
+  - ir
+  - imaging
+  - temperature
+  - i2c

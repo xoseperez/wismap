@@ -21,3 +21,7 @@ rak19016:
     39: GND
     40: GND
   type: WisPower
+  tags:
+  - power
+  - dc-input
+  - industrial

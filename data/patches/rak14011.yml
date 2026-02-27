@@ -8,3 +8,7 @@ rak14011:
   type: WisModule
   notes:
   - Requires RAK14004 Keypad Module
+  tags:
+  - keypad
+  - input
+  - button

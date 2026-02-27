@@ -3,3 +3,10 @@ rak1906:
   - https://images.docs.rakwireless.com/wisblock/rak1906/rak1906.png
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak1906/datasheet/rak1906-schematic.png
+  tags:
+  - temperature
+  - humidity
+  - pressure
+  - gas
+  - environmental
+  - i2c

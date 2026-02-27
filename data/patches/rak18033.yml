@@ -3,3 +3,7 @@ rak18033:
   - https://images.docs.rakwireless.com/wisblock/rak18033/rak18033.png
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak18033/datasheet/rak18033-schem.png
+  tags:
+  - microphone
+  - audio
+  - stereo

@@ -22,3 +22,8 @@ rak12022:
   notes:
   - R9 enables SPI_CS on default CS line (default), R12 connects CS to IO3 and R13
     connects CS to IO4
+  tags:
+  - temperature
+  - pt100
+  - rtd
+  - spi

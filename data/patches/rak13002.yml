@@ -3,3 +3,7 @@ rak13002:
   - https://images.docs.rakwireless.com/wisblock/rak13002/rak13002.png
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak13002/datasheet/image-20210329161838694.png
+  tags:
+  - io-expansion
+  - gpio
+  - breakout

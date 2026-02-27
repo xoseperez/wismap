@@ -10,3 +10,8 @@ rak15004:
     14: 3V3_S
     17: I2C_SDA
     18: I2C_SCL
+  tags:
+  - fram
+  - storage
+  - memory
+  - i2c

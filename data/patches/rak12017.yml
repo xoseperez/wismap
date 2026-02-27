@@ -7,3 +7,7 @@ rak12017:
     1: null
     2: null
     5: null
+  tags:
+  - distance
+  - tof
+  - i2c

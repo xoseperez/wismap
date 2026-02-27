@@ -11,3 +11,8 @@ rak13007:
     36: DO (NC)
   notes:
   - Remap DO signal modifying resistors R2, R5 and R8
+  tags:
+  - relay
+  - switch
+  - control
+  - gpio

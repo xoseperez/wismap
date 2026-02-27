@@ -9,3 +9,9 @@ rak13101:
   - https://images.docs.rakwireless.com/wisblock/rak13101/datasheet/io_connector.png
   - https://images.docs.rakwireless.com/wisblock/rak13101/datasheet/usb_debug.png
   - https://images.docs.rakwireless.com/wisblock/rak13101/datasheet/led_pwrkey.png
+  tags:
+  - gsm
+  - cellular
+  - 2g
+  - sms
+  - uart

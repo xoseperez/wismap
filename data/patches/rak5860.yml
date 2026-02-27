@@ -16,3 +16,8 @@ rak5860:
   - https://images.docs.rakwireless.com/wisblock/rak5860/datasheet/gnss_antenna.png
   - https://images.docs.rakwireless.com/certification/ce.png
   - https://images.docs.rakwireless.com/certification/fcc.png
+  tags:
+  - nb-iot
+  - lte
+  - cellular
+  - uart

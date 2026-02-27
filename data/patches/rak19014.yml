@@ -22,3 +22,7 @@ rak19014:
     39: GND
     40: GND
   type: WisPower
+  tags:
+  - power
+  - usb
+  - battery

@@ -45,3 +45,6 @@ rak19001:
       double: true
   notes:
   - AIN0 is connected to battery (ADC_VBAT)
+  tags:
+  - base-board
+  - dual-io

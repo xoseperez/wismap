@@ -35,3 +35,6 @@ rak19003:
     SENSOR_D:
       1: UART1_TX
       24: UART1_RX
+  tags:
+  - base-board
+  - compact

@@ -10,3 +10,7 @@ rak12035:
   notes:
   - This module requires RAK12023 Soil Moisture Sensor Connector
   - I2C address is programable via I2C
+  tags:
+  - soil
+  - moisture
+  - agriculture

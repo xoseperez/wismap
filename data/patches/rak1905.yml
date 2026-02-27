@@ -6,3 +6,9 @@ rak1905:
   description: RAK1905 9-Axis Motion Sensor Module
   mapping:
     13: INT1
+  tags:
+  - accelerometer
+  - gyroscope
+  - magnetometer
+  - motion
+  - i2c

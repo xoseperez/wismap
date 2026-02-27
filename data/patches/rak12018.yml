@@ -12,3 +12,8 @@ rak12018:
     1: null
     2: null
     5: null
+  tags:
+  - barcode
+  - qr-code
+  - scanner
+  - uart

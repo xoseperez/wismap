@@ -3,3 +3,8 @@ rak12003:
   - https://images.docs.rakwireless.com/wisblock/rak12003/rak12003.png
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak12003/datasheet/schematic.png
+  tags:
+  - temperature
+  - infrared
+  - ir
+  - i2c

@@ -12,3 +12,8 @@ rak14004:
   mapping:
     33: RX
     34: TX
+  tags:
+  - keypad
+  - input
+  - button
+  - i2c

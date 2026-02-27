@@ -11,3 +11,8 @@ rak18080:
     9: VBUS
   notes:
   - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
+  tags:
+  - dsp
+  - audio
+  - processing
+  - i2s

@@ -21,3 +21,7 @@ rak12059:
   type: WisSensor
   notes:
   - I2C address can be changed to 0x49, 0x4A or 0x4B modifying solder bridge pads
+  tags:
+  - liquid-level
+  - water
+  - i2c

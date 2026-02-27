@@ -5,3 +5,7 @@ rak19006:
   - https://images.docs.rakwireless.com/wisblock/rak19006/datasheet/rak19006-schematic.png
   mapping:
     5: null
+  tags:
+  - wireless-charging
+  - power
+  - qi

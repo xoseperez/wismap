@@ -11,3 +11,8 @@ rak12021:
     13: SENSOR_INT
     14: 3V3_S
     16: null
+  tags:
+  - light
+  - rgb
+  - color
+  - i2c

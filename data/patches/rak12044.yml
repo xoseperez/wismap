@@ -18,3 +18,7 @@ rak12044:
     18: I2C_SCL
     23: GND
   type: WisSensor
+  tags:
+  - hall-effect
+  - magnetic
+  - i2c

@@ -46,3 +46,8 @@ rak13102:
   - Module has 2 sensor slots I2C, SPI, UART, IO1 and IO2
   - RXD1 and TXD1 signals are not used by the Blues module, only bridged to the first
     WisBlock
+  tags:
+  - cellular
+  - notecard
+  - iot-cloud
+  - i2c

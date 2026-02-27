@@ -18,3 +18,8 @@ rak13801:
   - Change RSTn line swapping resistors R3 and R13
   - Change Wakeup line swapping resistors R10 and R11
   - Populate R19 to control power via EN signal
+  tags:
+  - uwb
+  - ranging
+  - positioning
+  - spi

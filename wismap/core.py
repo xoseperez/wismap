@@ -83,6 +83,7 @@ def list_modules(definitions, type_filter=None):
             'id': module_id,
             'type': module_data['type'],
             'description': module_data['description'],
+            'tags': module_data.get('tags', []),
         })
     return result
 
@@ -107,6 +108,7 @@ def get_module_info(definitions, config, module_id, show_nc=False):
         'schematics': mod.get('schematics') or [],
         'double': mod.get('double', False) if mod['type'] == 'WisSensor' else None,
         'i2c_address': mod.get('i2c_address', None),
+        'tags': mod.get('tags', []),
         'mapping': None,
         'slots_table': None,
         'notes': None,

@@ -19,3 +19,7 @@ rak14008:
     39: GND
     40: GND
   type: WisIO
+  tags:
+  - gesture
+  - proximity
+  - i2c

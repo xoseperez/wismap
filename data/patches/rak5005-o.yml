@@ -39,3 +39,5 @@ rak5005-o:
       double: true
       double_blocks: SENSOR_D
     SENSOR_D: null
+  tags:
+  - base-board

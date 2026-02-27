@@ -12,3 +12,8 @@ rak14006:
   notes:
   - OUT_CCW can be changed to SIGNAL_B swapping resistors R7 and R8
   - OUT_CW can be changed to SIGNAL_A swapping resistors R9 and R10
+  tags:
+  - rotary
+  - encoder
+  - input
+  - gpio

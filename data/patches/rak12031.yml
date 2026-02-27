@@ -19,3 +19,7 @@ rak12031:
   type: WisSensor
   notes:
   - This module requires RAK12028 connector or a RAK19005 Sensor Extension Cable
+  tags:
+  - beam-fork
+  - counting
+  - i2c

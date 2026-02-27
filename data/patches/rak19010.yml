@@ -34,3 +34,6 @@ rak19010:
       double: true
       1: UART1_TX
       24: UART1_RX
+  tags:
+  - base-board
+  - power-slot

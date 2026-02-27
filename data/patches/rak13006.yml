@@ -11,3 +11,8 @@ rak13006:
     29: CLKO_SF
     31: SPI_CS (NC)
     32: INT1
+  tags:
+  - can
+  - automotive
+  - industrial
+  - spi

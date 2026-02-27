@@ -4,3 +4,10 @@ rak11200:
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak11200/datasheet/schematic.png
   description: RAK11200 ESP32 WiFi Module
+  tags:
+  - wifi
+  - esp32
+  - microcontroller
+  - spi
+  - i2c
+  - uart
