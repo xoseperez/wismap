@@ -5,9 +5,11 @@ WisMAP identifies potential pin conflicts between modules in [RAKwireless WisBlo
 
 Features:
 
-* Browse all WisBlock modules with filtering by type
+* Browse all WisBlock modules with filtering by type (filters persist across navigation)
 * View detailed pin mappings and documentation links for any module
 * Combine modules on a base board and detect pin conflicts, I2C address collisions, and signal incompatibilities
+* Export combine results to Markdown or PDF
+* Shareable URLs for combine configurations
 * Supports ~140 modules across all WisBlock types (Base, Core, IO, Sensor, Power)
 
 The REST API (Flask) and the web frontend (React) have been developed with the assistance of [Claude Code](https://claude.ai/code), Anthropic's AI coding tool.
@@ -74,7 +76,7 @@ The repository includes a pre-built `data/definitions.yml` with ~140 module defi
 make import
 ```
 
-This downloads the spreadsheet, parses each sheet, applies patches from `data/patches.yml`, and regenerates `definitions.yml`.
+This downloads the spreadsheet, parses each sheet, applies patches from `data/patches/*.yml`, and regenerates `definitions.yml`.
 
 ## CLI
 
@@ -83,9 +85,10 @@ WisMAP also provides a command-line interface for terminal usage. See [CLI.md](C
 Quick examples:
 
 ```
-make list
-make info
-make combine
+python wismap.py -v              # show version
+python wismap.py list            # list all modules
+python wismap.py info rak12008   # show module details
+python wismap.py combine rak6421 rak5802 rak5801 empty empty rak12002 rak18001
 ```
 
 ## Roadmap

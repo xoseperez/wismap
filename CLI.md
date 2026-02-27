@@ -48,13 +48,14 @@ Alternative ways to run the code are available:
 ## Usage
 
 ```
-usage: python wismap.py [-h] [-m] [-n] action [extra]
+usage: python wismap.py [-h] [-v] [-m] [-n] action [extra]
 
 positional arguments:
   action          Action to run: list, info, combine, import, clean
 
 options:
   -h, --help      show this help message and exit
+  -v, --version   show program's version number and exit
   -m, --markdown  Show tables in markdown format
   -n, --nc        Show NC pins
 
