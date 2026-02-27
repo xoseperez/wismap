@@ -4,6 +4,7 @@ WisBlock-IO-Pin-Mapper.xlsx
 # Python
 *.pyc
 .venv
+.work
 __pycache__
 
 # NodeJS

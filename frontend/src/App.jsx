@@ -81,7 +81,10 @@ function App() {
         />
       </div>
 
-      <footer>Copyright &copy; 2026 RAKwireless Technology Limited. All rights reserved.</footer>
+      <footer>
+        <div>WisMAP {__APP_VERSION__}</div>
+        <div>Copyright &copy; 2026 RAKwireless Technology Limited. All rights reserved.</div>
+      </footer>
     </div>
   )
 }

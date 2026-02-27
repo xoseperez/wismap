@@ -15,6 +15,7 @@ import inquirer
 import argparse
 import textwrap
 
+from wismap import __version__
 from wismap.core import (
     load_data, list_modules, get_module_info, get_base_slots, combine,
     PINS_PER_TYPE, SLOT_NAMES,
@@ -403,9 +404,10 @@ ACTIONS = {
 parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
     prog='python wismap.py',
-    usage='%(prog)s [-h] [-m] [-n] action [extra]',
+    usage='%(prog)s [-h] [-v] [-m] [-n] action [extra]',
     epilog=textwrap.dedent('''The 'info' action accepts the name of the module to show as an extra argument.\nThe 'combine' action accepts a list of modules to mount on the different slots, starting with the base module.''')
 )
+parser.add_argument('-v', '--version', action='version', version=f'WisMAP {__version__}')
 parser.add_argument('action', default='list', nargs='?', help='Action to run: '+ ', '.join(ACTIONS.keys()))
 parser.add_argument('-m', '--markdown', default=False, help='Show tables in markdown format', action='store_true')
 parser.add_argument('-n', '--nc', default=False, help='Show NC pins', action='store_true')
