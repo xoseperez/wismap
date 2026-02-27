@@ -217,34 +217,46 @@ rak3312:
   description: RAK3312 ESP32-S3 LoRaWAN
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak3312/overview/
   mapping:
-    3V3: VDD
-    AIN0: GPIO1
-    AIN1: GPIO2
-    BOOT0: BOOT
-    GND: GND
-    I2C1_SCL: GPIO40
-    I2C1_SDA: GPIO9
-    I2C2_SCL: GPIO18
-    I2C2_SDA: GPIO17
-    IO1: GPIO21
-    IO2: GPIO14
-    IO3: GPIO41
-    IO4: GPIO41
-    IO5: GPIO38
-    IO6: GPIO39
-    LED1: GPIO46
-    LED2: GPIO45
-    None: IO7
-    RESET: RESET
-    RXD1: GPIO43
-    SPI_CLK: GPIO13
-    SPI_CS: GPIO12
-    SPI_MISO: GPIO10
-    SPI_MOSI: GPIO11
-    TXD1: GPIO44
-    USB+: USB+
-    USB-: USB-
-    VDD: VDD
+    1: VBAT_1
+    2: VBAT_2
+    3: GND
+    4: GND
+    5: VDD
+    6: VDD
+    7: USB+
+    8: USB-
+    9: VBUS
+    10: SW1
+    11: TXD0
+    12: RXD0
+    13: RESET
+    14: GPIO46
+    15: GPIO45
+    16: LED3
+    17: VDD
+    18: VDD
+    19: GPIO9
+    20: GPIO40
+    21: GPIO1
+    22: GPIO2
+    23: BOOT
+    24: IO7
+    25: GPIO12
+    26: GPIO13
+    27: GPIO10
+    28: GPIO11
+    29: GPIO21
+    30: GPIO14
+    31: GPIO41
+    32: GPIO42
+    33: GPIO44
+    34: GPIO43
+    35: GPIO17
+    36: GPIO18
+    37: GPIO38
+    38: GPIO39
+    39: GND
+    40: GND
   images:
   - https://images.docs.rakwireless.com/wisblock/rak3312/rak3312.png
   schematics:
@@ -254,36 +266,41 @@ rak3372:
   description: RAK3372 STM32WLE5 LoRaWAN
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak3372/overview/
   mapping:
-    3V3: VDD
-    AIN0: AN0
-    AIN1: AN1
-    BOOT0: BOOT0
-    GND: GND
-    I2C1_SCL: I2C_SCL
-    I2C1_SDA: I2C_SDA
-    I2C2_SCL: ADC4
-    I2C2_SDA: PA9
-    IO1: PB5
-    IO2: PA8
-    IO3: PB12
-    IO4: ADC3
-    IO5: ADC5
-    IO6: PA9 (NC)
-    IO7: ADC4 (NC)
-    LED1: PA0
-    LED2: PA1
-    RESET: RST
-    RXD0: UART2_RX (NC)
-    RXD1: UART1_RX
-    SPI_CLK: SPI_CLK
-    SPI_CS: SPI_NSS
-    SPI_MISO: SPI_MISO
-    SPI_MOSI: SPI_MOSI
-    TXD0: UART2_TX (NC)
-    TXD1: UART1_TX
-    USB+: UART2_TX
-    USB-: UART2_RX
-    VDD: 3V3
+    3: GND
+    4: GND
+    5: 3V3
+    6: 3V3
+    7: USB+
+    8: USB-
+    11: TXD0 (NC)
+    12: RXD0 (NC)
+    13: RST
+    14: PA0
+    15: PA1
+    17: 3V3
+    18: 3V3
+    19: I2C_SDA
+    20: I2C_SCL
+    21: ADC1
+    22: ADC2
+    23: BOOT0
+    24: ADC4 (NC)
+    25: SPI_NSS
+    26: SPI_CLK
+    27: SPI_MISO
+    28: SPI_MOSI
+    29: PB5
+    30: PA8
+    31: PB12
+    32: ADC3
+    33: TXD1
+    34: RXD1
+    35: PDC4
+    36: PA9
+    37: ADC5
+    38: PA9 (NC)
+    39: GND
+    40: GND
   images:
   - https://images.docs.rakwireless.com/wisblock/rak3372/rak3372.png
   schematics:
@@ -293,41 +310,45 @@ rak3401:
   description: RAK3401 nRF52840 BLE Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak3401/overview/
   mapping:
-    3V3: 3V3
-    AIN0: P0.05
-    AIN1: P0.31
-    GND: GND
-    I2C1_SCL: P0.14
-    I2C1_SDA: P0.13
-    I2C2_SCL: P0.25
-    I2C2_SDA: P0.24
-    IO1: P0.17
-    IO2: P1.02
-    IO3: P0.21
-    IO4: P0.04
-    IO5: P0.09
-    IO6: P0.10
-    IO7: P0.28
-    LED1: P1.03
-    LED2: P1.04
-    LED3: P0.02
-    RESET: RESET
-    RXD0: P0.19
-    RXD1: P0.15
-    SPI_CLK: P0.03
-    SPI_CS: P0.26
-    SPI_MISO: P0.29
-    SPI_MOSI: P0.30
-    SW1: P1.01
-    TXD0: P0.20
-    TXD1: P0.16
-    USB+: USB+
-    USB-: USB-
-    VBAT_NRF: VBAT_NRF
-    VBAT_SX: VBAT_SX
-    VBUS: VBUS
-    VDD: VDD
-    VDD_NRF: VDD_NRF
+    1: VBAT_NRF
+    2: VBAT_SX
+    3: GND
+    4: GND
+    5: 3V3
+    6: 3V3
+    7: USB+
+    8: USB-
+    9: VBUS
+    10: P1.01
+    11: P0.20
+    12: P0.19
+    13: RESET
+    14: P1.03
+    15: P1.04
+    16: P0.02
+    17: VDD
+    18: VDD_NRF
+    19: P0.13
+    20: P0.14
+    21: P0.05
+    22: P0.31
+    24: P0.28
+    25: P0.26
+    26: P0.03
+    27: P0.29
+    28: P0.30
+    29: P0.17
+    30: P1.02
+    31: P0.21
+    32: P0.04
+    33: P0.16
+    34: P0.15
+    35: P0.24
+    36: P0.25
+    37: P0.09
+    38: P0.10
+    39: GND
+    40: GND
   images:
   - https://images.docs.rakwireless.com/wisblock/rak3401/rak3401.png
   schematics:
@@ -337,41 +358,45 @@ rak4631:
   description: RAK4631 nRF52840 LoRaWAN
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak4631/overview/
   mapping:
-    3V3: 3V3
-    AIN0: P0.05
-    AIN1: P0.31
-    GND: GND
-    I2C1_SCL: P0.14
-    I2C1_SDA: P0.13
-    I2C2_SCL: P0.25
-    I2C2_SDA: P0.24
-    IO1: P0.17
-    IO2: P1.02
-    IO3: P0.21
-    IO4: P0.04
-    IO5: P0.09
-    IO6: P0.10
-    IO7: P0.28
-    LED1: P1.03
-    LED2: P1.04
-    LED3: P0.02
-    RESET: RESET
-    RXD0: P0.19
-    RXD1: P0.15
-    SPI_CLK: P0.03
-    SPI_CS: P0.26
-    SPI_MISO: P0.29
-    SPI_MOSI: P0.30
-    SW1: P1.01
-    TXD0: P0.20
-    TXD1: P0.16
-    USB+: USB+
-    USB-: USB-
-    VBAT_NRF: VBAT_NRF
-    VBAT_SX: VBAT_SX
-    VBUS: VBUS
-    VDD: VDD
-    VDD_NRF: VDD_NRF
+    1: VBAT_NRF
+    2: VBAT_SX
+    3: GND
+    4: GND
+    5: 3V3
+    6: 3V3
+    7: USB+
+    8: USB-
+    9: VBUS
+    10: P1.01
+    11: P0.20
+    12: P0.19
+    13: RESET
+    14: P1.03
+    15: P1.04
+    16: P0.02
+    17: VDD
+    18: VDD_NRF
+    19: P0.13
+    20: P0.14
+    21: P0.05
+    22: P0.31
+    24: P0.28
+    25: P0.26
+    26: P0.03
+    27: P0.29
+    28: P0.30
+    29: P0.17
+    30: P1.02
+    31: P0.21
+    32: P0.04
+    33: P0.16
+    34: P0.15
+    35: P0.24
+    36: P0.25
+    37: P0.09
+    38: P0.10
+    39: GND
+    40: GND
   images:
   - https://images.docs.rakwireless.com/wisblock/rak4631/rak4631.png
   schematics:
@@ -696,36 +721,41 @@ rak11200:
   description: RAK11200 ESP32 WiFi Module
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak11200/overview/
   mapping:
-    3V3: 3V3
-    AIN0: SENSOR_VP
-    AIN1: SENSOR_VIN
-    BOOT0: IO0
-    GND: GND
-    I2C1_SCL: IO5
-    I2C1_SDA: IO4
-    I2C2_SCL: IO18
-    I2C2_SDA: IO15
-    IO1: IO14
-    IO2: IO27
-    IO3: IO26
-    IO4: IO23
-    IO5: IO13
-    IO6: IO22
-    LED1: IO12
-    LED2: IO2
-    RESET: EN
-    RXD0: RXD0
-    RXD1: IO19
-    SPI_CLK: IO33
-    SPI_CS: IO32
-    SPI_MISO: IO35
-    SPI_MOSI: IO25
-    SW1: IO34
-    TXD0: TXD0
-    TXD1: IO21
-    USB+: USB+
-    USB-: USB-
-    VDD: 3V3
+    3: GND
+    4: GND
+    5: 3V3
+    6: 3V3
+    7: USB+
+    8: USB-
+    10: IO34
+    11: TXD0
+    12: RXD0
+    13: EN
+    14: IO12
+    15: IO2
+    17: 3V3
+    18: 3V3
+    19: IO4
+    20: IO5
+    21: SENSOR_VP
+    22: SENSOR_VIN
+    23: IO0
+    25: IO32
+    26: IO33
+    27: IO35
+    28: IO25
+    29: IO14
+    30: IO27
+    31: IO26
+    32: IO23
+    33: IO21
+    34: IO19
+    35: IO15
+    36: IO18
+    37: IO13
+    38: IO22
+    39: GND
+    40: GND
   images:
   - https://images.docs.rakwireless.com/wisblock/rak11200/rak11200.png
   schematics:
@@ -735,35 +765,40 @@ rak11310:
   description: RAK11310 RP4020 LoRaWAN
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak11310/overview/
   mapping:
-    3V3: 3V3
-    AIN0: ADC0
-    AIN1: ADC1
-    BOOT0: BOOT
-    GND: GND
-    I2C1_SCL: GPIO3
-    I2C1_SDA: GPIO2
-    I2C2_SCL: GPIO21
-    I2C2_SDA: GPIO20
-    IO1: GPIO6
-    IO2: GPIO22
-    IO3: GPIO7
-    IO4: GPIO28/ADC2
-    IO5: GPIO9
-    IO6: GPIO8
-    LED1: GPIO23
-    LED2: GPIO24
-    RESET: RUN
-    RXD0: GPIO1
-    RXD1: GPIO5
-    SPI_CLK: GPIO10
-    SPI_CS: GPIO13
-    SPI_MISO: GPIO16
-    SPI_MOSI: GPIO19
-    TXD0: GPIO0
-    TXD1: GPIO4
-    USB+: USB+
-    USB-: USB-
-    VDD: 3V3
+    3: GND
+    4: GND
+    5: 3V3
+    6: 3V3
+    7: USB+
+    8: USB-
+    11: GPIO0
+    12: GPIO1
+    13: RUN
+    14: GPIO23
+    15: GPIO24
+    17: 3V3
+    18: 3V3
+    19: GPIO2
+    20: GPIO3
+    21: ADC0
+    22: ADC1
+    23: BOOT
+    25: GPIO13
+    26: GPIO10
+    27: GPIO16
+    28: GPIO19
+    29: GPIO6
+    30: GPIO22
+    31: GPIO7
+    32: GPIO28/ADC2
+    33: GPIO4
+    34: GPIO5
+    35: GPIO20
+    36: GPIO21
+    37: GPIO9
+    38: GPIO8
+    39: GND
+    40: GND
   images:
   - https://images.docs.rakwireless.com/wisblock/rak11310/rak11310.png
   schematics:
@@ -773,32 +808,41 @@ rak11722:
   description: RAK11722 Ambiq Apollo3 LoRaWAN
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak11722/overview/
   mapping:
-    3V3: VCC
-    AIN0: ADC8
-    AIN1: ADC5
-    BOOT0: BOOT0
-    GND: GND
-    I2C1_SCL: I2C2_SCL
-    I2C1_SDA: I2C2_SDA
-    IO1: GPIO38
-    IO2: GPIO4
-    IO3: GPIO37
-    IO4: ADC3
-    IO5: ADC9
-    IO6: GPIO36
-    IO7: ADC4
-    LED1: GPIO44
-    LED2: GPIO45
-    RESET: nRST
-    RXD1: UART1_RX
-    SPI_CLK: SPI_SCK
-    SPI_CS: SPI_NSS
-    SPI_MISO: SPI_MISO
-    SPI_MOSI: SPI_MOSI
-    TXD1: UART1_TX
-    USB+: UART0_RX
-    USB-: UART0_TX
-    VDD: 3V3
+    3: GND
+    4: GND
+    5: 3V3
+    6: 3V3
+    7: USB+
+    8: USB-
+    11: UART0_TX (NC)
+    12: UART0_RX (NC)
+    13: nRST
+    14: GPIO44
+    15: GPIO45
+    17: 3V3
+    18: 3V3
+    19: I2C2_SDA
+    20: I2C2_SCL
+    21: ADC8
+    22: ADC5
+    23: SWO
+    24: ADC4
+    25: SPI_NSS
+    26: SPI_SCK
+    27: SPI_MISO
+    28: SPI_MOSI
+    29: GPIO38
+    30: GPIO4
+    31: GPIO37
+    32: ADC3
+    33: UART1_TX
+    34: UART1_RX
+    35: ADC4 (NC)
+    36: GPIO36 (NC)
+    37: ADC9
+    38: GPIO36
+    39: GND
+    40: GND
   images:
   - https://images.docs.rakwireless.com/wisblock/rak11722/rak11722.png
   schematics:

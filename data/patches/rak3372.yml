@@ -6,32 +6,32 @@ rak3372:
   description: RAK3372 STM32WLE5 LoRaWAN
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak3372/overview/
   mapping:
-    3V3: VDD
-    AIN0: AN0
-    AIN1: AN1
-    GND: GND
-    I2C1_SCL: I2C_SCL
-    I2C1_SDA: I2C_SDA
-    I2C2_SCL: ADC4
-    I2C2_SDA: PA9
-    IO1: PB5
-    IO2: PA8
-    IO3: PB12
-    IO4: ADC3
-    IO5: ADC5
-    IO6: PA9 (NC)
-    IO7: ADC4 (NC)
-    LED1: PA0
-    LED2: PA1
-    RESET: RST
-    RXD0: UART2_RX (NC)
-    RXD1: UART1_RX
-    SPI_CLK: SPI_CLK
-    SPI_CS: SPI_NSS
-    SPI_MISO: SPI_MISO
-    SPI_MOSI: SPI_MOSI
-    TXD0: UART2_TX (NC)
-    TXD1: UART1_TX
-    USB+: UART2_TX
-    USB-: UART2_RX
+    3: GND
+    5: 3V3
+    7: USB+
+    8: USB-
+    11: TXD0 (NC)
+    12: RXD0 (NC)
+    13: RST
+    14: PA0
+    15: PA1
+    19: I2C_SDA
+    20: I2C_SCL
+    21: ADC1
+    22: ADC2
+    24: ADC4 (NC)
+    25: SPI_NSS
+    26: SPI_CLK
+    27: SPI_MISO
+    28: SPI_MOSI
+    29: PB5
+    30: PA8
+    31: PB12
+    32: ADC3
+    33: TXD1
+    34: RXD1
+    35: PDC4
+    36: PA9
+    37: ADC5
+    38: PA9 (NC)
   type: WisCore

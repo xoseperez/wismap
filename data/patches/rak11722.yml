@@ -6,32 +6,40 @@ rak11722:
   description: RAK11722 Ambiq Apollo3 LoRaWAN
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak11722/overview/
   mapping:
-    3V3: VCC
-    AIN0: ADC8
-    AIN1: ADC5
-    GND: GND
-    I2C1_SCL: I2C2_SCL
-    I2C1_SDA: I2C2_SDA
-    IO1: GPIO38
-    IO2: GPIO4
-    IO3: GPIO37
-    IO4: ADC3
-    IO5: ADC9
-    IO6: GPIO36
-    IO7: ADC4
-    LED1: GPIO44
-    LED2: GPIO45
-    RESET: nRST
-    RXD1: UART1_RX
-    SPI_CLK: SPI_SCK
-    SPI_CS: SPI_NSS
-    SPI_MISO: SPI_MISO
-    SPI_MOSI: SPI_MOSI
-    I2C2_SCL: 
-    I2C2_SDA: 
-    TXD1: UART1_TX
-    USB+: UART0_RX
-    USB-: UART0_TX
-    VBA: 
-    VBAT: 
+    1:
+    2: 
+    3: GND
+    5: 3V3
+    7: USB+
+    8: USB-
+    11: UART0_TX (NC)
+    12: UART0_RX (NC)
+    13: nRST
+    14: GPIO44
+    15: GPIO45
+    16:
+    17: 3V3
+    18: 3V3
+    19: I2C2_SDA
+    20: I2C2_SCL
+    21: ADC8
+    22: ADC5
+    23: SWO
+    24: ADC4
+    25: SPI_NSS
+    26: SPI_SCK
+    27: SPI_MISO
+    28: SPI_MOSI
+    29: GPIO38
+    30: GPIO4
+    31: GPIO37
+    32: ADC3
+    33: UART1_TX
+    34: UART1_RX
+    35: ADC4 (NC)
+    36: GPIO36 (NC)
+    37: ADC9
+    38: GPIO36
+    39: GND
+    40: GND
   type: WisCore

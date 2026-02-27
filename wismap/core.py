@@ -194,9 +194,9 @@ def _function_mapping(definitions, config, mapping_name, slot_module, slots):
         slot_mapping[slot] = {}
         module = slot_module[slot]
         if module and module != 'BLOCKED' and module != 'EMPTY':
-            if definitions[module]['type'] in ['WisCore', 'WisBase']:
+            if definitions[module]['type'] in ['WisBase']:
                 slot_mapping[slot] = definitions[module].get('mapping', {})
-            elif definitions[module]['type'] in ['WisIO', 'WisSensor', 'WisPower']:
+            elif definitions[module]['type'] in ['WisCore', 'WisIO', 'WisSensor', 'WisPower']:
                 slot_mapping[slot] = _combine_pins(slots[slot], definitions[module].get('mapping', {}))
             slot_mapping[slot]['I2C_ADDR'] = definitions[module].get('i2c_address', "")
 

@@ -279,7 +279,6 @@ def import_sheet(data, sheet):
         module_description = module_code
     if module_type == "WisCore":
         module_description = module_code
-        key_column = 2 + column_offset
     if module_type == "WisIO":
         module_description = sheet.cell(row = 45, column = 2 + column_offset).value
     if module_type == "WisSensor":
