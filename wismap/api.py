@@ -19,7 +19,7 @@ _project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _data_folder = os.path.join(_project_root, "data")
 _frontend_dist = os.path.join(_project_root, "frontend", "dist")
 
-definitions, config = load_data(_data_folder)
+definitions, config, rules = load_data(_data_folder)
 
 app = Flask(__name__, static_folder=_frontend_dist, static_url_path="")
 app.json.sort_keys = False
@@ -64,7 +64,7 @@ def api_combine():
     if base.lower() not in definitions:
         return jsonify({"error": f"Base board not found: {base}"}), 404
 
-    result = combine(definitions, config, base, slot_assignments)
+    result = combine(definitions, config, base, slot_assignments, rules)
     return jsonify(result)
 
 # ---------------------------------------------------------------------------

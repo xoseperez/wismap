@@ -71,13 +71,12 @@ export default function FunctionTable({ result }) {
                 </td>
               ))}
             </tr>
-            {function_table['I2C_ADDR'] && (
-              <tr className="i2c-addr-row">
-                {function_table['I2C_ADDR'].map((cell, i) => <td key={i}>{cell}</td>)}
-              </tr>
-            )}
-            {Object.entries(function_table).filter(([fn]) => fn !== 'I2C_ADDR').map(([fn, row]) => (
-              <tr key={fn} className={conflictFns.has(fn) ? 'conflict' : ''}>
+            {Object.entries(function_table).map(([fn, row]) => (
+              <tr key={fn} className={
+                conflictFns.has(fn) ? 'conflict'
+                : fn === 'I2C_ADDR' ? 'i2c-addr-row'
+                : ''
+              }>
                 {row.map((cell, i) => <td key={i}>{cell}</td>)}
               </tr>
             ))}

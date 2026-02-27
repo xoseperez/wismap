@@ -17,7 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY wismap.py ./
 COPY wismap/ ./wismap/
-COPY data/config.yml data/definitions.yml ./data/
+COPY data/config.yml data/definitions.yml data/rules.yml ./data/
 COPY data/patches/ ./data/patches/
 
 # Copy built frontend

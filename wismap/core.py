@@ -49,6 +49,7 @@ SLOT_ORDER = ['CORE', 'POWER', 'IO_A', 'IO_B',
 def load_data(data_folder="./data"):
     definitions_file = os.path.join(data_folder, "definitions.yml")
     config_file = os.path.join(data_folder, "config.yml")
+    rules_file = os.path.join(data_folder, "rules.yml")
 
     definitions = {}
     if os.path.isfile(definitions_file):
@@ -61,7 +62,13 @@ def load_data(data_folder="./data"):
         with open(config_file) as f:
             config = yaml.load(f, Loader=yaml.loader.SafeLoader)
 
-    return definitions, config
+    rules = []
+    if os.path.isfile(rules_file):
+        with open(rules_file) as f:
+            rules_data = yaml.load(f, Loader=yaml.loader.SafeLoader)
+            rules = rules_data.get('rules', []) if rules_data else []
+
+    return definitions, config, rules
 
 # -----------------------------------------------------------------------------
 # Action: list
@@ -211,11 +218,23 @@ def _function_mapping(definitions, config, mapping_name, slot_module, slots):
     return function_slot
 
 
-def _detect_conflicts(definitions, slot_module, function_slot):
+def _check_condition(condition, values):
+    non_empty = _count_non_empty(values)
+    if condition == 'duplicates':
+        return non_empty > _count_unique(values)
+    elif condition == 'any_used':
+        return non_empty > 0
+    elif condition == 'multiple_used':
+        return non_empty > 1
+    return False
+
+
+def _detect_conflicts(definitions, slot_module, function_slot, rules):
     functions = []
     notes = []
 
     mapping_name = definitions[slot_module['BASE']].get('functions', 'default')
+    base_id = slot_module['BASE']
 
     skip_columns = 3
     if mapping_name == 'raspberry':
@@ -223,28 +242,60 @@ def _detect_conflicts(definitions, slot_module, function_slot):
     if 'POWER' in slot_module:
         skip_columns += 1
 
-    for function, values in function_slot.items():
-        non_empty = _count_non_empty(values[skip_columns:])
-        unique = _count_unique(values[skip_columns:])
-        if function == 'I2C_ADDR':
-            if non_empty > unique:
-                notes.append('Possible conflict with I2C addresses')
-                functions.append(function)
-        if function == 'AIN0' and slot_module['BASE'] != "rak6421":
-            if non_empty > 0:
-                notes.append('Possible conflict with ADC_VBAT if using AIN0')
-                functions.append(function)
-        if function.startswith("IO") or function.startswith("AIN") or function.startswith("GPIO") or \
-           function.startswith("UART") or function.startswith("LED") or function.startswith("SW") or function.startswith("SPI_CS"):
-            if non_empty > 1:
-                notes.append(f"Possible conflict with {function}")
-                functions.append(function)
-        if function == 'IO2':
-            if non_empty > 0:
-                if _count_non_empty(function_slot['3V3_S'][skip_columns:]) > 0:
-                    notes.append(f"Possible conflict with 3V3_S enable signal if using IO2")
-                    functions.append(function)
-                    functions.append('3V3_S')
+    for rule in rules:
+        exclude = rule.get('exclude', [])
+
+        # If the base board is excluded, skip the rule entirely
+        if base_id in exclude:
+            continue
+
+        # Determine which functions this rule applies to
+        match = rule['match']
+        if 'function' in match:
+            target_functions = [match['function']]
+        elif 'function_prefix' in match:
+            target_functions = [
+                f for f in function_slot
+                if any(f.startswith(p) for p in match['function_prefix'])
+            ]
+        else:
+            continue
+
+        condition = match['condition']
+
+        for func in target_functions:
+            if func not in function_slot:
+                continue
+
+            values = function_slot[func][skip_columns:]
+
+            # Filter out values from excluded slot modules
+            if exclude:
+                slot_names = list(slot_module.keys())[skip_columns:]
+                values = [
+                    v for v, slot in zip(values, slot_names)
+                    if slot_module.get(slot) not in exclude
+                ]
+
+            if not _check_condition(condition, values):
+                continue
+
+            # Check also_requires (cross-reference)
+            if 'also_requires' in match:
+                ref = match['also_requires']
+                ref_func = ref['function']
+                if ref_func not in function_slot:
+                    continue
+                ref_values = function_slot[ref_func][skip_columns:]
+                if not _check_condition(ref['condition'], ref_values):
+                    continue
+
+            # Rule fires
+            description = rule['description'].format(function=func)
+            notes.append(description)
+
+            highlights = rule.get('highlights', [func])
+            functions.extend(h for h in highlights if h not in functions)
 
     return functions, notes
 
@@ -308,7 +359,7 @@ def get_base_slots(definitions, config, base_id):
 # Action: combine — main
 # -----------------------------------------------------------------------------
 
-def combine(definitions, config, base_id, slot_assignments):
+def combine(definitions, config, base_id, slot_assignments, rules=None):
     """
     Run the combine analysis.
 
@@ -349,7 +400,7 @@ def combine(definitions, config, base_id, slot_assignments):
     function_slot = _function_mapping(definitions, config, mapping_name, slot_module, slots)
 
     # Detect conflicts
-    conflict_functions, conflict_notes = _detect_conflicts(definitions, slot_module, function_slot)
+    conflict_functions, conflict_notes = _detect_conflicts(definitions, slot_module, function_slot, rules or [])
 
     # Gather notes & documentation
     documentation = []

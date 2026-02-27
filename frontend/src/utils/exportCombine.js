@@ -47,14 +47,8 @@ export function exportMarkdown(result, shareUrl) {
   const moduleVals = Object.values(slot_module).map(v => v.toUpperCase())
   lines.push('| MODULE | ' + moduleVals.join(' | ') + ' |')
 
-  // I2C_ADDR row first
-  if (function_table['I2C_ADDR']) {
-    lines.push('| ' + function_table['I2C_ADDR'].join(' | ') + ' |')
-  }
-
-  // Remaining rows
+  // Function rows
   for (const [fn, row] of Object.entries(function_table)) {
-    if (fn === 'I2C_ADDR') continue
     const fnLabel = conflictFns.has(fn) ? `**${row[0]}**` : row[0]
     const cells = [fnLabel, ...row.slice(1)]
     lines.push('| ' + cells.join(' | ') + ' |')
@@ -122,14 +116,8 @@ export function exportPdf(result, shareUrl) {
   const moduleRow = ['MODULE', ...Object.values(slot_module).map(v => v.toUpperCase())]
   body.push(moduleRow)
 
-  // I2C_ADDR row
-  if (function_table['I2C_ADDR']) {
-    body.push([...function_table['I2C_ADDR']])
-  }
-
-  // Remaining function rows
-  for (const [fn, row] of Object.entries(function_table)) {
-    if (fn === 'I2C_ADDR') continue
+  // Function rows
+  for (const [, row] of Object.entries(function_table)) {
     body.push([...row])
   }
 
@@ -159,19 +147,15 @@ export function exportPdf(result, shareUrl) {
         data.cell.styles.textColor = [0, 106, 198]   // --rak-blue
       }
 
-      // I2C_ADDR row (index 1 if it exists)
-      const i2cRowIndex = function_table['I2C_ADDR'] ? 1 : -1
-      if (data.row.index === i2cRowIndex) {
+      // Conflict rows and I2C_ADDR styling
+      const fnName = data.row.raw[0]
+      if (conflictFns.has(fnName)) {
+        data.cell.styles.fillColor = [255, 185, 185]  // --rak-gold-light (red-tinted)
+        data.cell.styles.textColor = [36, 36, 36]
+      } else if (fnName === 'I2C_ADDR') {
         data.cell.styles.fillColor = [240, 240, 240]
         data.cell.styles.textColor = [102, 102, 102]  // --rak-text-muted
         data.cell.styles.fontStyle = 'italic'
-      }
-
-      // Conflict rows
-      const fnName = data.row.raw[0]
-      if (data.row.index > i2cRowIndex && conflictFns.has(fnName)) {
-        data.cell.styles.fillColor = [255, 185, 185]  // --rak-gold-light (red-tinted)
-        data.cell.styles.textColor = [36, 36, 36]
       }
     },
   })

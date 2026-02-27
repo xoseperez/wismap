@@ -35,7 +35,7 @@ show_nc = False
 table_format = box.SQUARE # box.SQUARE or box.MARKDOWN
 
 # Load data via core
-definitions, config = load_data(data_folder)
+definitions, config, rules = load_data(data_folder)
 
 # -----------------------------------------------------------------------------
 # Action LIST
@@ -206,7 +206,7 @@ def action_combine(*args):
 
     # Build slot_assignments (without BASE)
     slot_assignments = {k: v for k, v in slot_module.items() if k != 'BASE'}
-    result = combine(definitions, config, slot_module['BASE'], slot_assignments)
+    result = combine(definitions, config, slot_module['BASE'], slot_assignments, rules)
 
     # -------------------------------------------------------------------------
     # View

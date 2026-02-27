@@ -645,6 +645,8 @@ rak6421:
       16: NC
       17: 3V3
       18: 3V3
+      21: AIN0
+      22: AIN1
       25: SPI_CS0
       29: GPIO17
       30: GPIO12
