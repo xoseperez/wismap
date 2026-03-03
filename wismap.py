@@ -166,7 +166,14 @@ def action_combine(*args):
 
     # Select base module
     if len(args) > 0:
-        slot_module['BASE'] = args[0].lower()
+        base_id = args[0].lower()
+        if base_id not in definitions:
+            print(f"[error] Unknown module '{base_id}'. Use 'python wismap.py list' to see available modules.")
+            sys.exit(1)
+        if definitions[base_id]['type'] != 'WisBase':
+            print(f"[error] '{base_id}' is not a base board.")
+            sys.exit(1)
+        slot_module['BASE'] = base_id
     else:
         choices = [(definitions[module]['description'], module) for module in definitions.keys() if definitions[module]['type'] == 'WisBase']
         questions = [inquirer.List('output', message="Select Base Board", choices=choices, carousel=True)]
@@ -187,6 +194,9 @@ def action_combine(*args):
                 if module == 'empty':
                     slot_module[slot] = 'EMPTY'
                 else:
+                    if module not in definitions:
+                        print(f"[error] Unknown module '{module}'. Use 'python wismap.py list' to see available modules.")
+                        sys.exit(1)
                     slot_module[slot] = module
             index+=1
 
@@ -251,16 +261,23 @@ def action_combine(*args):
     documentation = result['documentation']
     notes = result['notes']
 
+    # Filter out empty slot columns (index 0 is "Function", indices 1+ map to slot_module values)
+    slot_values = list(result['slot_module'].values())
+    non_empty_indices = [0] + [i + 1 for i, v in enumerate(slot_values) if v != 'EMPTY']
+    display_columns = [columns[i] for i in non_empty_indices]
+    module_row = ['MODULE'] + [v.upper() for v in slot_values]
+    display_module_row = [module_row[i] for i in non_empty_indices]
+
     # Get core board mapping
     print()
     table = Table(box=table_format)
-    for column in columns:
+    for column in display_columns:
         table.add_column(column)
-    table.add_row(*['MODULE']+[v.upper() for k, v in result['slot_module'].items()], style="bright_blue")
+    table.add_row(*display_module_row, style="bright_blue")
 
     for function, row in function_slot.items():
         style = "bright_yellow" if function in conflict_functions else "bright_green"
-        table.add_row(*row, style=style)
+        table.add_row(*[row[i] for i in non_empty_indices], style=style)
     console = Console()
     console.print(table)
 
