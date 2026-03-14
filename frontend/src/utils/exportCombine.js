@@ -1,35 +1,6 @@
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
-
-function triggerDownload(content, filename, mimeType) {
-  const blob = new Blob([content], { type: mimeType })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = filename
-  document.body.appendChild(a)
-  a.click()
-  document.body.removeChild(a)
-  URL.revokeObjectURL(url)
-}
-
-/**
- * Parse a documentation string into { label, url }.
- * Format: "Description text: https://..."
- */
-function formatDate() {
-  const d = new Date()
-  const yyyy = d.getFullYear()
-  const mm = String(d.getMonth() + 1).padStart(2, '0')
-  const dd = String(d.getDate()).padStart(2, '0')
-  return `${yyyy}/${mm}/${dd}`
-}
-
-function parseDocLink(d) {
-  const idx = d.lastIndexOf(': http')
-  if (idx === -1) return { label: d, url: null }
-  return { label: d.slice(0, idx), url: d.slice(idx + 2) }
-}
+import { triggerDownload, formatDate, parseDocLink } from './exportUtils.js'
 
 export function exportMarkdown(result, shareUrl) {
   const { columns, slot_module, function_table, conflicts, documentation, notes } = result
@@ -161,7 +132,7 @@ export function exportPdf(result, shareUrl) {
   })
 
   // Notes and conflicts below the table
-  let y = doc.lastAutoTable.finalY + 8
+  let y = doc.lastAutoTable.finalY + 12
 
   if (conflicts.notes.length > 0 || notes.length > 0) {
     doc.setFontSize(11)
@@ -187,7 +158,7 @@ export function exportPdf(result, shareUrl) {
 
   // Documentation
   if (documentation.length > 0) {
-    y += 3
+    y += 7
     doc.setFontSize(11)
     doc.setTextColor(102, 102, 102)
     if (y > 190) { doc.addPage(); y = 15 }

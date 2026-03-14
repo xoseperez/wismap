@@ -5,7 +5,8 @@ and the React frontend as static files.
 """
 
 import os
-from flask import Flask, jsonify, request, send_from_directory
+import requests as http_requests
+from flask import Flask, jsonify, request, send_from_directory, Response
 from flask_cors import CORS
 
 from wismap.core import load_data, list_modules, get_module_info, get_base_slots, combine
@@ -66,6 +67,22 @@ def api_combine():
 
     result = combine(definitions, config, base, slot_assignments, rules)
     return jsonify(result)
+
+@app.route("/api/image-proxy")
+def api_image_proxy():
+    """Proxy remote images to avoid CORS issues in PDF export."""
+    url = request.args.get("url", "")
+    if not url.startswith("https://images.docs.rakwireless.com/"):
+        return jsonify({"error": "URL not allowed"}), 403
+    try:
+        resp = http_requests.get(url, timeout=15)
+        resp.raise_for_status()
+        return Response(
+            resp.content,
+            content_type=resp.headers.get("Content-Type", "image/png"),
+        )
+    except Exception:
+        return jsonify({"error": "Failed to fetch image"}), 502
 
 # ---------------------------------------------------------------------------
 # SPA fallback — serve React index.html for non-API routes

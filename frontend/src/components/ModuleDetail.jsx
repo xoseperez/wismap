@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
 import { fetchModuleInfo } from '../api'
+import { exportModuleMarkdown, exportModulePdf } from '../utils/exportModule'
 
 export default function ModuleDetail({ moduleId, onBack, onSelect, onTagClick }) {
   const [info, setInfo] = useState(null)
   const [showNc, setShowNc] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const [exporting, setExporting] = useState(false)
 
   useEffect(() => {
     fetchModuleInfo(moduleId, showNc).then(setInfo)
@@ -99,6 +102,31 @@ export default function ModuleDetail({ moduleId, onBack, onSelect, onTagClick })
           ))}
         </>
       )}
+
+      <div className="docs">
+        <h3>Actions</h3>
+        <ul>
+          <li>
+            <a href={`#module/${info.id}`} onClick={e => {
+              e.preventDefault()
+              window.location.hash = `#module/${info.id}`
+              const url = `${window.location.origin}${window.location.pathname}#module/${info.id}`
+              navigator.clipboard.writeText(url).then(() => {
+                setCopied(true)
+                setTimeout(() => setCopied(false), 2000)
+              })
+            }}>
+              {copied ? 'Copied!' : 'Copy link to this module'}
+            </a>
+          </li>
+          <li><a href="#" onClick={e => { e.preventDefault(); exportModuleMarkdown(info) }}>Export as Markdown</a></li>
+          <li><a href="#" onClick={async e => {
+            e.preventDefault()
+            setExporting(true)
+            try { await exportModulePdf(info) } finally { setExporting(false) }
+          }}>{exporting ? 'Exporting...' : 'Export as PDF'}</a></li>
+        </ul>
+      </div>
 
     </div>
   )

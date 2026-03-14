@@ -5,11 +5,19 @@ import ModuleDetail from './components/ModuleDetail'
 import CombineTool from './components/CombineTool'
 
 function parseHash(hash) {
-  // Expected format: #combine/base/mod1/mod2/...
-  if (!hash.startsWith('#combine/')) return null
-  const parts = hash.slice('#combine/'.length).split('/')
-  if (parts.length < 1 || !parts[0]) return null
-  return { base: parts[0], modules: parts.slice(1) }
+  // #combine/base/mod1/mod2/...
+  if (hash.startsWith('#combine/')) {
+    const parts = hash.slice('#combine/'.length).split('/')
+    if (parts.length < 1 || !parts[0]) return null
+    return { type: 'combine', base: parts[0], modules: parts.slice(1) }
+  }
+  // #module/<id>
+  if (hash.startsWith('#module/')) {
+    const id = hash.slice('#module/'.length)
+    if (!id) return null
+    return { type: 'module', id }
+  }
+  return null
 }
 
 function App() {
@@ -22,11 +30,15 @@ function App() {
 
   useEffect(() => {
     const apply = () => {
-      const config = parseHash(window.location.hash)
-      if (config) {
-        setInitialConfig(config)
+      const parsed = parseHash(window.location.hash)
+      if (parsed && parsed.type === 'combine') {
+        setInitialConfig(parsed)
         setView('combine')
         setSelectedModule(null)
+      } else if (parsed && parsed.type === 'module') {
+        setSelectedModule(parsed.id)
+        setView('modules')
+        setInitialConfig(null)
       }
     }
     apply()

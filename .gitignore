@@ -14,3 +14,7 @@ frontend/dist
 # Claude
 .claude
 CLAUDE.md
+
+# Vagrant
+.vagrant
+Vagrantfile
