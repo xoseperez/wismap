@@ -4,6 +4,13 @@ Changelog
 All notable changes to this project will be documented in this file.
 
 
+## 0.3.1 — 2026-03-14
+
+* Add export options (PDF, Markdown) to the module detail page
+* Improve PDF export layout
+* CLI combine: validate input modules and skip empty slots in output
+
+
 ## 0.3.0 — 2026-02-27
 
 * Add searchable tags to all ~140 modules (protocol, sensor type, communication, use case)
