@@ -4,10 +4,13 @@ Serves module data and conflict analysis via JSON endpoints,
 and the React frontend as static files.
 """
 
+import logging
 import os
 import requests as http_requests
 from flask import Flask, jsonify, request, send_from_directory, Response
 from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 from wismap.core import load_data, list_modules, get_module_info, get_base_slots, combine
 
@@ -25,6 +28,50 @@ definitions, config, rules = load_data(_data_folder)
 app = Flask(__name__, static_folder=_frontend_dist, static_url_path="")
 app.json.sort_keys = False
 CORS(app)
+
+# ---------------------------------------------------------------------------
+# Rate limiting — configurable via environment variables
+# ---------------------------------------------------------------------------
+
+_default_limit = os.environ.get("RATELIMIT_DEFAULT", "120/minute")
+_combine_limit = os.environ.get("RATELIMIT_COMBINE", "30/minute")
+_proxy_limit = os.environ.get("RATELIMIT_PROXY", "60/minute")
+_storage_uri = os.environ.get("RATELIMIT_STORAGE_URI", "memory://")
+_enabled = os.environ.get("RATELIMIT_ENABLED", "true").lower() in ("1", "true", "yes")
+
+logger = logging.getLogger(__name__)
+
+def _on_breach(request_limit):
+    logger.warning(
+        "Rate limit exceeded: %s from %s on %s %s",
+        request_limit.limit, get_remote_address(), request.method, request.path,
+    )
+
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=[_default_limit],
+    storage_uri=_storage_uri,
+    enabled=_enabled,
+    on_breach=_on_breach,
+)
+
+
+@app.after_request
+def set_security_headers(response):
+    response.headers["Content-Security-Policy"] = (
+        "default-src 'self'; "
+        "script-src 'self'; "
+        "style-src 'self' 'unsafe-inline'; "
+        "img-src 'self' data: https://images.docs.rakwireless.com; "
+        "connect-src 'self'; "
+        "font-src 'self'; "
+        "object-src 'none'; "
+        "frame-ancestors 'none'"
+    )
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    return response
 
 # ---------------------------------------------------------------------------
 # API routes
@@ -55,6 +102,7 @@ def api_base_slots(base_id):
 
 
 @app.route("/api/combine", methods=["POST"])
+@limiter.limit(_combine_limit)
 def api_combine():
     body = request.get_json(force=True)
     base = body.get("base")
@@ -69,6 +117,7 @@ def api_combine():
     return jsonify(result)
 
 @app.route("/api/image-proxy")
+@limiter.limit(_proxy_limit)
 def api_image_proxy():
     """Proxy remote images to avoid CORS issues in PDF export."""
     url = request.args.get("url", "")
@@ -90,6 +139,7 @@ def api_image_proxy():
 
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
+@limiter.exempt
 def serve_spa(path):
     # If the file exists in the static folder, serve it
     if path and os.path.isfile(os.path.join(_frontend_dist, path)):
@@ -105,4 +155,5 @@ def serve_spa(path):
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    debug = os.environ.get("FLASK_DEBUG", "false").lower() in ("1", "true", "yes")
+    app.run(host="0.0.0.0", port=5000, debug=debug)

@@ -93,6 +93,27 @@ python wismap.py info rak12008   # show module details
 python wismap.py combine rak6421 rak5802 rak5801 empty empty rak12002 rak18001
 ```
 
+## Environment variables
+
+The following environment variables can be used to configure the server:
+
+| Variable | Default | Description |
+|---|---|---|
+| `FLASK_DEBUG` | `false` | Enable Flask debug mode (`true`, `1`, or `yes` to enable) |
+| `RATELIMIT_ENABLED` | `true` | Enable API rate limiting (`false` to disable, e.g. during development) |
+| `RATELIMIT_DEFAULT` | `120/minute` | Default rate limit for all API endpoints |
+| `RATELIMIT_COMBINE` | `30/minute` | Rate limit for `POST /api/combine` |
+| `RATELIMIT_PROXY` | `60/minute` | Rate limit for `GET /api/image-proxy` |
+| `RATELIMIT_STORAGE_URI` | `memory://` | Storage backend for rate limit counters (use `redis://host:6379` for multi-worker deployments) |
+
+Rate limit values use the format `<amount>/<period>` where period is `second`, `minute`, `hour`, or `day`.
+
+When running with Docker Compose, set these in a `.env` file or pass them directly:
+
+```
+docker compose up -d -e RATELIMIT_COMBINE=60/minute
+```
+
 ## Roadmap
 
 * Suggest which module should go to which slot

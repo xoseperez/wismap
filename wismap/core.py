@@ -104,7 +104,7 @@ def list_modules(definitions, type_filter=None):
 # -----------------------------------------------------------------------------
 
 def get_module_info(definitions, config, module_id, show_nc=False):
-    module_id = module_id.lower()
+    module_id = module_id.strip().lower()
     if module_id not in definitions:
         return None
 
@@ -327,7 +327,7 @@ def _detect_conflicts(definitions, slot_module, function_slot, rules):
 # -----------------------------------------------------------------------------
 
 def get_base_slots(definitions, config, base_id):
-    base_id = base_id.lower()
+    base_id = base_id.strip().lower()
     if base_id not in definitions or definitions[base_id]['type'] != 'WisBase':
         return None
 
@@ -396,7 +396,9 @@ def combine(definitions, config, base_id, slot_assignments, rules=None):
     Returns:
         dict with slot_module, columns, function_table, conflicts, documentation, notes
     """
-    base_id = base_id.lower()
+    base_id = base_id.strip().lower()
+    if base_id not in definitions:
+        return None
     slot_module = {'BASE': base_id}
 
     # Resolve slot pin definitions (deepcopy to avoid mutation)
@@ -413,8 +415,12 @@ def combine(definitions, config, base_id, slot_assignments, rules=None):
     # Fill in slot_module from assignments, defaulting to EMPTY
     for slot_name in slots:
         assigned = slot_assignments.get(slot_name, 'EMPTY')
-        if assigned and assigned.lower() != 'empty' and assigned.lower() != 'blocked':
-            slot_module[slot_name] = assigned.lower()
+        if assigned and assigned.strip().lower() not in ('empty', 'blocked'):
+            canonical = assigned.strip().lower()
+            if canonical not in definitions:
+                slot_module[slot_name] = 'EMPTY'
+            else:
+                slot_module[slot_name] = canonical
         else:
             slot_module[slot_name] = 'EMPTY'
 
