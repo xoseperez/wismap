@@ -25,7 +25,7 @@ export default function ModuleDetail({ moduleId, onBack, onSelect, onTagClick })
         <dt>Documentation</dt>
         <dd><a href={info.documentation} target="_blank" rel="noreferrer">{info.documentation}</a></dd>
         {info.double !== null && <><dt>Long (double)</dt><dd>{info.double ? 'Yes' : 'No'}</dd></>}
-        {info.i2c_address && <><dt>I2C Address</dt><dd>{info.i2c_address}</dd></>}
+        {info.i2c_address && <><dt>I2C Address</dt><dd>{Array.isArray(info.i2c_address) ? info.i2c_address.join(', ') : info.i2c_address}</dd></>}
         {info.tags && info.tags.length > 0 && (
           <><dt>Tags</dt>
           <dd><span className="tag-list">

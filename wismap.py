@@ -117,7 +117,7 @@ def action_info(*args):
         print(f"Long: {info['double']}")
 
     if info['i2c_address']:
-        print(f"I2C Address: {info['i2c_address']}")
+        print(f"I2C Address: {', '.join(info['i2c_address'])}")
 
     if info.get('tags'):
         print(f"Tags: {', '.join(info['tags'])}")
@@ -356,11 +356,11 @@ def import_sheet(data, sheet):
     else:
         data[module_code]['mapping'] = mapping
 
-    # I2C Address
+    # I2C Address(es)
     address = str(sheet.cell(row = row+3, column = 2+column_offset).value)
     matches = re.findall(r"0x[0-9a-fA-F]{2}", address)
     if len(matches):
-        data[module_code]['i2c_address'] = matches[0]
+        data[module_code]['i2c_address'] = matches if len(matches) > 1 else matches[0]
 
 
 def action_import(patch=True):

@@ -4,6 +4,7 @@ rak18061:
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak18061/datasheet/rak18061_wisblock_dsp_connector_power_select.png
   - https://images.docs.rakwireless.com/wisblock/rak18061/datasheet/rak18061_left_right_channel.png
+  i2c_address: '0x4C'
   mapping:
     1: VBAT
     2: VBAT

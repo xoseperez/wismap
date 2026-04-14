@@ -3341,6 +3341,9 @@ rak18003:
   - https://images.docs.rakwireless.com/wisblock/rak18003/rak18003.png
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak18003/datasheet/rak18003-schematic-1.png
+  i2c_address:
+  - '0x23'
+  - '0x25'
   notes:
   - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
   tags:
@@ -3505,6 +3508,9 @@ rak18060:
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak18060/datasheet/rak18060_wisblock_board_connector_power_select.png
   - https://images.docs.rakwireless.com/wisblock/rak18060/datasheet/rak18060_left_right_channel.png
+  i2c_address:
+  - '0x4C'
+  - '0x4F'
   notes:
   - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
   tags:
@@ -3540,6 +3546,7 @@ rak18061:
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak18061/datasheet/rak18061_wisblock_dsp_connector_power_select.png
   - https://images.docs.rakwireless.com/wisblock/rak18061/datasheet/rak18061_left_right_channel.png
+  i2c_address: '0x4C'
   notes:
   - Change from 3V3_S to 3V3 by swapping resistors R1 and R2
   tags:

@@ -18,7 +18,8 @@ export function exportModuleMarkdown(info) {
     lines.push(`- **Long (double):** ${info.double ? 'Yes' : 'No'}`)
   }
   if (info.i2c_address) {
-    lines.push(`- **I2C Address:** ${info.i2c_address}`)
+    const addr = Array.isArray(info.i2c_address) ? info.i2c_address.join(', ') : info.i2c_address
+    lines.push(`- **I2C Address:** ${addr}`)
   }
   if (info.tags && info.tags.length > 0) {
     lines.push(`- **Tags:** ${info.tags.join(', ')}`)
@@ -134,7 +135,7 @@ export async function exportModulePdf(info) {
   ]
   if (info.documentation) metaRows.push(['Documentation', info.documentation])
   if (info.double !== null) metaRows.push(['Long (double)', info.double ? 'Yes' : 'No'])
-  if (info.i2c_address) metaRows.push(['I2C Address', info.i2c_address])
+  if (info.i2c_address) metaRows.push(['I2C Address', Array.isArray(info.i2c_address) ? info.i2c_address.join(', ') : info.i2c_address])
   if (info.tags && info.tags.length > 0) metaRows.push(['Tags', info.tags.join(', ')])
 
   autoTable(doc, {

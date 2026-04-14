@@ -43,6 +43,18 @@ SLOT_ORDER = ['CORE', 'POWER', 'IO_A', 'IO_B',
               'SENSOR_E', 'SENSOR_F']
 
 # -----------------------------------------------------------------------------
+# Helpers
+# -----------------------------------------------------------------------------
+
+def _normalize_i2c_address(value):
+    """Normalize i2c_address to a list or None."""
+    if value is None:
+        return None
+    if isinstance(value, list):
+        return value
+    return [value]
+
+# -----------------------------------------------------------------------------
 # Data loading
 # -----------------------------------------------------------------------------
 
@@ -107,7 +119,7 @@ def get_module_info(definitions, config, module_id, show_nc=False):
         'images': mod.get('images') or [],
         'schematics': mod.get('schematics') or [],
         'double': mod.get('double', False) if mod['type'] == 'WisSensor' else None,
-        'i2c_address': mod.get('i2c_address', None),
+        'i2c_address': _normalize_i2c_address(mod.get('i2c_address', None)),
         'tags': mod.get('tags', []),
         'mapping': None,
         'slots_table': None,
@@ -207,7 +219,8 @@ def _function_mapping(definitions, config, mapping_name, slot_module, slots):
                 slot_mapping[slot] = definitions[module].get('naming', {})
             elif definitions[module]['type'] in ['WisCore', 'WisIO', 'WisSensor', 'WisPower']:
                 slot_mapping[slot] = _combine_pins(slots[slot], definitions[module].get('mapping', {}))
-            slot_mapping[slot]['I2C_ADDR'] = definitions[module].get('i2c_address', "")
+            addr = _normalize_i2c_address(definitions[module].get('i2c_address', None))
+            slot_mapping[slot]['I2C_ADDR'] = ', '.join(addr) if addr else ""
 
     functions = config.get('functions', {}).get(mapping_name, [])
     function_slot = {}
@@ -223,7 +236,15 @@ def _function_mapping(definitions, config, mapping_name, slot_module, slots):
 def _check_condition(condition, values):
     non_empty = _count_non_empty(values)
     if condition == 'duplicates':
-        return non_empty > _count_unique(values)
+        # Expand comma-separated values (e.g. I2C addresses) and check
+        # for individual collisions across slots
+        all_items = []
+        for v in values:
+            if v == '' or '(NC)' in v:
+                continue
+            all_items.extend(item.strip() for item in v.split(','))
+        unique_items = set(all_items)
+        return len(all_items) > len(unique_items)
     elif condition == 'any_used':
         return non_empty > 0
     elif condition == 'multiple_used':
