@@ -11,9 +11,11 @@ __pycache__
 node_modules
 frontend/dist
 
-# Claude
-.claude
+# Agent
+AGENTS.md
 CLAUDE.md
+ai
+.claude
 
 # Vagrant
 .vagrant
