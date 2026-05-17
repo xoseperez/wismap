@@ -1,0 +1,443 @@
+{
+  "name": "07-unknown-module",
+  "description": "Module id not in WisMAP catalog.",
+  "request": {
+    "core": "RAK4631",
+    "base": "RAK19007",
+    "slots": [
+      {
+        "slot": "SENSOR_A",
+        "module": "RAK9999"
+      }
+    ]
+  },
+  "expected_status": 200,
+  "expected_response": {
+    "valid": false,
+    "conflicts": [
+      {
+        "code": "unknown_module",
+        "message": "Module 'RAK9999' is not known to WisMAP.",
+        "severity": "error",
+        "involves": [
+          {
+            "module": "RAK9999",
+            "slot": "SENSOR_A"
+          }
+        ],
+        "context": {
+          "slot": "SENSOR_A"
+        }
+      }
+    ],
+    "warnings": [],
+    "resolved": null,
+    "function_table": {
+      "I2C_ADDR": [
+        "I2C_ADDR",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "3V3": [
+        "3V3",
+        "3V3",
+        "3V3",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "3V3_S": [
+        "3V3_S",
+        "3V3_S",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "AIN0": [
+        "AIN0",
+        "ADC_VBAT",
+        "P0.05",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "AIN1": [
+        "AIN1",
+        "",
+        "P0.31",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "BOOT0": [
+        "BOOT0",
+        "BOOT0",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "GND": [
+        "GND",
+        "GND",
+        "GND",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "I2C1_SCL": [
+        "I2C1_SCL",
+        "I2C1_SCL",
+        "P0.14",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "I2C1_SDA": [
+        "I2C1_SDA",
+        "I2C1_SDA",
+        "P0.13",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "I2C2_SCL": [
+        "I2C2_SCL",
+        "",
+        "P0.25",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "I2C2_SDA": [
+        "I2C2_SDA",
+        "",
+        "P0.24",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "IO1": [
+        "IO1",
+        "",
+        "P0.17",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "IO2": [
+        "IO2",
+        "EN",
+        "P1.02",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "IO3": [
+        "IO3",
+        "",
+        "P0.21",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "IO4": [
+        "IO4",
+        "",
+        "P0.04",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "IO5": [
+        "IO5",
+        "",
+        "P0.09",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "IO6": [
+        "IO6",
+        "",
+        "P0.10",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "IO7": [
+        "IO7",
+        "",
+        "P0.28",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "IO8": [
+        "IO8",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "LED1": [
+        "LED1",
+        "LED1",
+        "P1.03",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "LED2": [
+        "LED2",
+        "LED2",
+        "P1.04",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "LED3": [
+        "LED3",
+        "",
+        "P0.02",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "RESET": [
+        "RESET",
+        "RESET",
+        "RESET",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "SPI_CLK": [
+        "SPI_CLK",
+        "",
+        "P0.03",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "SPI_CS": [
+        "SPI_CS",
+        "",
+        "P0.26",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "SPI_MISO": [
+        "SPI_MISO",
+        "",
+        "P0.29",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "SPI_MOSI": [
+        "SPI_MOSI",
+        "",
+        "P0.30",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "SW1": [
+        "SW1",
+        "",
+        "P1.01",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "UART0_RX": [
+        "UART0_RX",
+        "",
+        "P0.19",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "UART0_TX": [
+        "UART0_TX",
+        "",
+        "P0.20",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "UART1_RX": [
+        "UART1_RX",
+        "",
+        "P0.15",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "UART1_TX": [
+        "UART1_TX",
+        "",
+        "P0.16",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "USB+": [
+        "USB+",
+        "USB_P",
+        "USB+",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "USB-": [
+        "USB-",
+        "USB_N",
+        "USB-",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "VBAT": [
+        "VBAT",
+        "VBAT",
+        "VBAT_NRF",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "VBUS": [
+        "VBUS",
+        "",
+        "VBUS",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "VDD": [
+        "VDD",
+        "VDD",
+        "VDD",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "VIN": [
+        "VIN",
+        "VIN",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "columns": [
+      "Function",
+      "Base board",
+      "Core module",
+      "IO_A slot",
+      "SENSOR_A slot",
+      "SENSOR_B slot",
+      "SENSOR_C slot",
+      "SENSOR_D slot"
+    ],
+    "slot_module": {
+      "BASE": "RAK19007",
+      "CORE": "RAK4631",
+      "IO_A": "EMPTY",
+      "SENSOR_A": "EMPTY",
+      "SENSOR_B": "EMPTY",
+      "SENSOR_C": "EMPTY",
+      "SENSOR_D": "EMPTY"
+    },
+    "highlighted_functions": [],
+    "documentation": [
+      "RAK19007 Base Board 2nd Gen: https://docs.rakwireless.com/product-categories/wisblock/rak19007/overview/",
+      "RAK4631 nRF52840 LoRaWAN: https://docs.rakwireless.com/product-categories/wisblock/rak4631/overview/"
+    ],
+    "notes": []
+  }
+}

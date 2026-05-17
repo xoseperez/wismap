@@ -1,0 +1,25 @@
+{
+  "name": "10-core-in-slots-disagreeing-422",
+  "description": "CORE entry in slots[] disagrees with top-level core.",
+  "request": {
+    "core": "RAK4631",
+    "base": "RAK19007",
+    "slots": [
+      {
+        "slot": "CORE",
+        "module": "RAK11310"
+      },
+      {
+        "slot": "SENSOR_A",
+        "module": "RAK1901"
+      }
+    ]
+  },
+  "expected_status": 422,
+  "expected_response": {
+    "error": {
+      "code": "duplicate_slot",
+      "message": "CORE entry in slots[] (RAK11310) disagrees with top-level core (RAK4631). Use the top-level `core` field only."
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "12-unknown-core-404",
+  "description": "Top-level core id not in WisMAP catalog.",
+  "request": {
+    "core": "RAK9999",
+    "base": "RAK19007",
+    "slots": []
+  },
+  "expected_status": 404,
+  "expected_response": {
+    "error": {
+      "code": "core_not_found",
+      "message": "Core 'RAK9999' is not known to WisMAP."
+    }
+  }
+}

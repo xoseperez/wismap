@@ -1,0 +1,16 @@
+{
+  "name": "13-unknown-base-404",
+  "description": "Base id not in WisMAP catalog.",
+  "request": {
+    "core": "RAK4631",
+    "base": "RAK9999",
+    "slots": []
+  },
+  "expected_status": 404,
+  "expected_response": {
+    "error": {
+      "code": "base_not_found",
+      "message": "Base 'RAK9999' is not known to WisMAP."
+    }
+  }
+}

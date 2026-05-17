@@ -1,7 +1,9 @@
 """
 WisMAP Flask REST API.
-Serves module data and conflict analysis via JSON endpoints,
-and the React frontend as static files.
+
+The canonical API lives under /api/v1 (see wismap/api_v1.py).
+This module wires the blueprint, applies rate limits, exposes the
+image-proxy utility, and serves the React SPA.
 """
 
 import logging
@@ -12,9 +14,7 @@ from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
-from wismap.core import (
-    load_data_v1, list_modules, get_module_info, get_base_slots, combine,
-)
+from wismap.core import load_data_v1
 from wismap.api_v1 import bp as api_v1_bp
 
 # ---------------------------------------------------------------------------
@@ -41,7 +41,6 @@ app.register_blueprint(api_v1_bp)
 # ---------------------------------------------------------------------------
 
 _default_limit = os.environ.get("RATELIMIT_DEFAULT", "120/minute")
-_combine_limit = os.environ.get("RATELIMIT_COMBINE", "30/minute")
 _proxy_limit = os.environ.get("RATELIMIT_PROXY", "60/minute")
 _storage_uri = os.environ.get("RATELIMIT_STORAGE_URI", "memory://")
 _enabled = os.environ.get("RATELIMIT_ENABLED", "true").lower() in ("1", "true", "yes")
@@ -81,47 +80,8 @@ def set_security_headers(response):
     return response
 
 # ---------------------------------------------------------------------------
-# API routes
+# Image proxy — frontend utility for PDF export (not part of the v1 contract)
 # ---------------------------------------------------------------------------
-
-@app.route("/api/modules")
-def api_list_modules():
-    type_filter = request.args.get("type", None)
-    modules = list_modules(definitions, type_filter)
-    return jsonify(modules)
-
-
-@app.route("/api/modules/<module_id>")
-def api_module_info(module_id):
-    show_nc = request.args.get("show_nc", "false").lower() == "true"
-    info = get_module_info(definitions, config, module_id, show_nc)
-    if info is None:
-        return jsonify({"error": f"Module not found: {module_id}"}), 404
-    return jsonify(info)
-
-
-@app.route("/api/bases/<base_id>/slots")
-def api_base_slots(base_id):
-    slots = get_base_slots(definitions, config, base_id)
-    if slots is None:
-        return jsonify({"error": f"Base board not found: {base_id}"}), 404
-    return jsonify(slots)
-
-
-@app.route("/api/combine", methods=["POST"])
-@limiter.limit(_combine_limit)
-def api_combine():
-    body = request.get_json(force=True)
-    base = body.get("base")
-    slot_assignments = body.get("slots", {})
-
-    if not base:
-        return jsonify({"error": "Missing 'base' field"}), 400
-    if base.lower() not in definitions:
-        return jsonify({"error": f"Base board not found: {base}"}), 404
-
-    result = combine(definitions, config, base, slot_assignments, rules)
-    return jsonify(result)
 
 @app.route("/api/image-proxy")
 @limiter.limit(_proxy_limit)

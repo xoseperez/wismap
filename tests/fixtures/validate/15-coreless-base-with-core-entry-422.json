@@ -1,0 +1,20 @@
+{
+  "name": "15-coreless-base-with-core-entry-422",
+  "description": "RAK6421 has no CORE slot; including one in slots[] is rejected.",
+  "request": {
+    "base": "RAK6421",
+    "slots": [
+      {
+        "slot": "CORE",
+        "module": "RAK4631"
+      }
+    ]
+  },
+  "expected_status": 422,
+  "expected_response": {
+    "error": {
+      "code": "duplicate_slot",
+      "message": "Base RAK6421 does not expose a CORE slot; remove the CORE entry from slots[]."
+    }
+  }
+}

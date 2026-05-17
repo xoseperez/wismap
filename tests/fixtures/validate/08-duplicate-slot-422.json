@@ -1,0 +1,25 @@
+{
+  "name": "08-duplicate-slot-422",
+  "description": "Same slot id appears twice in slots[].",
+  "request": {
+    "core": "RAK4631",
+    "base": "RAK19007",
+    "slots": [
+      {
+        "slot": "SENSOR_A",
+        "module": "RAK1901"
+      },
+      {
+        "slot": "SENSOR_A",
+        "module": "RAK1902"
+      }
+    ]
+  },
+  "expected_status": 422,
+  "expected_response": {
+    "error": {
+      "code": "duplicate_slot",
+      "message": "Slot 'SENSOR_A' appears more than once."
+    }
+  }
+}

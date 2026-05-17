@@ -1,0 +1,15 @@
+{
+  "name": "11-core-missing-400",
+  "description": "Standard base with no top-level core supplied.",
+  "request": {
+    "base": "RAK19007",
+    "slots": []
+  },
+  "expected_status": 400,
+  "expected_response": {
+    "error": {
+      "code": "invalid_request",
+      "message": "Field `core` is required for this base."
+    }
+  }
+}

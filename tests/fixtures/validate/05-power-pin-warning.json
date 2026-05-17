@@ -1,0 +1,533 @@
+{
+  "name": "05-power-pin-warning",
+  "description": "RAK12500 uses the 3V3_S rail; IO2 is the rail's enable \u2014 yields a warning.",
+  "request": {
+    "core": "RAK4631",
+    "base": "RAK19007",
+    "slots": [
+      {
+        "slot": "SENSOR_A",
+        "module": "RAK12500"
+      }
+    ]
+  },
+  "expected_status": 200,
+  "expected_response": {
+    "valid": true,
+    "conflicts": [],
+    "warnings": [
+      {
+        "code": "power_pin_conflict",
+        "message": "Possible conflict with 3V3_S enable signal if using IO2",
+        "severity": "warning",
+        "involves": [
+          {
+            "module": "RAK12500",
+            "slot": "SENSOR_A"
+          }
+        ],
+        "context": {
+          "function": "IO2",
+          "pin": "IO2",
+          "rail": "3V3_S"
+        }
+      }
+    ],
+    "resolved": {
+      "core": "RAK4631",
+      "base": "RAK19007",
+      "slots": {
+        "SENSOR_A": {
+          "module": "RAK12500",
+          "i2c_address": "0x42",
+          "pins": {
+            "RX": {
+              "role": "UART1_TX",
+              "wisblock_pin": "WB_UART1_TX",
+              "mcu_pin": "P0.16"
+            },
+            "SCL": {
+              "role": "I2C1_SCL",
+              "wisblock_pin": "WB_I2C1_SCL",
+              "mcu_pin": "P0.14"
+            },
+            "SDA": {
+              "role": "I2C1_SDA",
+              "wisblock_pin": "WB_I2C1_SDA",
+              "mcu_pin": "P0.13"
+            },
+            "TX": {
+              "role": "UART1_RX",
+              "wisblock_pin": "WB_UART1_RX",
+              "mcu_pin": "P0.15"
+            }
+          },
+          "power": {
+            "rail": "3V3_S",
+            "control_pin": "IO2",
+            "warmup_ms": null,
+            "current_typical_uA": null,
+            "current_peak_mA": null
+          }
+        }
+      },
+      "buses": {
+        "I2C1": {
+          "slots": [
+            "CORE",
+            "SENSOR_A"
+          ],
+          "devices": [
+            {
+              "module": "RAK12500",
+              "slot": "SENSOR_A",
+              "address": "0x42"
+            }
+          ]
+        },
+        "I2C2": {
+          "slots": [
+            "CORE"
+          ],
+          "devices": []
+        },
+        "SPI1": {
+          "slots": [
+            "CORE",
+            "SENSOR_A"
+          ],
+          "devices": []
+        },
+        "UART0": {
+          "slots": [
+            "CORE"
+          ],
+          "devices": []
+        },
+        "UART1": {
+          "slots": [
+            "CORE",
+            "SENSOR_A"
+          ],
+          "devices": []
+        }
+      },
+      "lorawan": {
+        "chip": "Semtech SX1262",
+        "spi": "SPI1",
+        "pins": null
+      }
+    },
+    "function_table": {
+      "I2C_ADDR": [
+        "I2C_ADDR",
+        "",
+        "",
+        "",
+        "0x42",
+        "",
+        "",
+        ""
+      ],
+      "3V3": [
+        "3V3",
+        "3V3",
+        "3V3",
+        "",
+        "VDD",
+        "",
+        "",
+        ""
+      ],
+      "3V3_S": [
+        "3V3_S",
+        "3V3_S",
+        "",
+        "",
+        "3V3_S",
+        "",
+        "",
+        ""
+      ],
+      "AIN0": [
+        "AIN0",
+        "ADC_VBAT",
+        "P0.05",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "AIN1": [
+        "AIN1",
+        "",
+        "P0.31",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "BOOT0": [
+        "BOOT0",
+        "BOOT0",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "GND": [
+        "GND",
+        "GND",
+        "GND",
+        "",
+        "GND",
+        "",
+        "",
+        ""
+      ],
+      "I2C1_SCL": [
+        "I2C1_SCL",
+        "I2C1_SCL",
+        "P0.14",
+        "",
+        "I2C_SCL",
+        "",
+        "",
+        ""
+      ],
+      "I2C1_SDA": [
+        "I2C1_SDA",
+        "I2C1_SDA",
+        "P0.13",
+        "",
+        "I2C_SDA",
+        "",
+        "",
+        ""
+      ],
+      "I2C2_SCL": [
+        "I2C2_SCL",
+        "",
+        "P0.25",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "I2C2_SDA": [
+        "I2C2_SDA",
+        "",
+        "P0.24",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "IO1": [
+        "IO1",
+        "",
+        "P0.17",
+        "",
+        "1PPS",
+        "",
+        "",
+        ""
+      ],
+      "IO2": [
+        "IO2",
+        "EN",
+        "P1.02",
+        "",
+        "RESET_GPS",
+        "",
+        "",
+        ""
+      ],
+      "IO3": [
+        "IO3",
+        "",
+        "P0.21",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "IO4": [
+        "IO4",
+        "",
+        "P0.04",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "IO5": [
+        "IO5",
+        "",
+        "P0.09",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "IO6": [
+        "IO6",
+        "",
+        "P0.10",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "IO7": [
+        "IO7",
+        "",
+        "P0.28",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "IO8": [
+        "IO8",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "LED1": [
+        "LED1",
+        "LED1",
+        "P1.03",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "LED2": [
+        "LED2",
+        "LED2",
+        "P1.04",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "LED3": [
+        "LED3",
+        "",
+        "P0.02",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "RESET": [
+        "RESET",
+        "RESET",
+        "RESET",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "SPI_CLK": [
+        "SPI_CLK",
+        "",
+        "P0.03",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "SPI_CS": [
+        "SPI_CS",
+        "",
+        "P0.26",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "SPI_MISO": [
+        "SPI_MISO",
+        "",
+        "P0.29",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "SPI_MOSI": [
+        "SPI_MOSI",
+        "",
+        "P0.30",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "SW1": [
+        "SW1",
+        "",
+        "P1.01",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "UART0_RX": [
+        "UART0_RX",
+        "",
+        "P0.19",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "UART0_TX": [
+        "UART0_TX",
+        "",
+        "P0.20",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "UART1_RX": [
+        "UART1_RX",
+        "",
+        "P0.15",
+        "",
+        "UART_TX",
+        "",
+        "",
+        ""
+      ],
+      "UART1_TX": [
+        "UART1_TX",
+        "",
+        "P0.16",
+        "",
+        "UART_RX",
+        "",
+        "",
+        ""
+      ],
+      "USB+": [
+        "USB+",
+        "USB_P",
+        "USB+",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "USB-": [
+        "USB-",
+        "USB_N",
+        "USB-",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "VBAT": [
+        "VBAT",
+        "VBAT",
+        "VBAT_NRF",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "VBUS": [
+        "VBUS",
+        "",
+        "VBUS",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "VDD": [
+        "VDD",
+        "VDD",
+        "VDD",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "VIN": [
+        "VIN",
+        "VIN",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "columns": [
+      "Function",
+      "Base board",
+      "Core module",
+      "IO_A slot",
+      "SENSOR_A slot",
+      "SENSOR_B slot",
+      "SENSOR_C slot",
+      "SENSOR_D slot"
+    ],
+    "slot_module": {
+      "BASE": "RAK19007",
+      "CORE": "RAK4631",
+      "IO_A": "EMPTY",
+      "SENSOR_A": "RAK12500",
+      "SENSOR_B": "EMPTY",
+      "SENSOR_C": "EMPTY",
+      "SENSOR_D": "EMPTY"
+    },
+    "highlighted_functions": [
+      "IO2",
+      "3V3_S"
+    ],
+    "documentation": [
+      "RAK19007 Base Board 2nd Gen: https://docs.rakwireless.com/product-categories/wisblock/rak19007/overview/",
+      "RAK4631 nRF52840 LoRaWAN: https://docs.rakwireless.com/product-categories/wisblock/rak4631/overview/",
+      "RAK12500 GNSS Location Module: https://docs.rakwireless.com/product-categories/wisblock/rak12500/overview/"
+    ],
+    "notes": []
+  }
+}
