@@ -3,8 +3,13 @@ import autoTable from 'jspdf-autotable'
 import { triggerDownload, formatDate, parseDocLink } from './exportUtils.js'
 
 export function exportMarkdown(result, shareUrl) {
-  const { columns, slot_module, function_table, conflicts, documentation, notes } = result
-  const conflictFns = new Set(conflicts.functions)
+  const {
+    columns, slot_module, function_table,
+    conflicts = [], warnings = [],
+    highlighted_functions = [],
+    documentation = [], notes = [],
+  } = result
+  const conflictFns = new Set(highlighted_functions)
   const lines = []
 
   lines.push('# WisMAP Combine Analysis')
@@ -14,8 +19,8 @@ export function exportMarkdown(result, shareUrl) {
   lines.push('| ' + columns.join(' | ') + ' |')
   lines.push('| ' + columns.map(() => '---').join(' | ') + ' |')
 
-  // MODULE row
-  const moduleVals = Object.values(slot_module).map(v => v.toUpperCase())
+  // MODULE row (slot_module values come from v1 already in display form)
+  const moduleVals = Object.values(slot_module)
   lines.push('| MODULE | ' + moduleVals.join(' | ') + ' |')
 
   // Function rows
@@ -25,14 +30,13 @@ export function exportMarkdown(result, shareUrl) {
     lines.push('| ' + cells.join(' | ') + ' |')
   }
 
-  // Conflicts section
-  if (conflicts.notes.length > 0) {
+  // Conflicts + warnings section
+  if (conflicts.length > 0 || warnings.length > 0) {
     lines.push('')
     lines.push('## Conflicts')
     lines.push('')
-    for (const n of conflicts.notes) {
-      lines.push('- ' + n)
-    }
+    for (const c of conflicts) lines.push('- ' + c.message)
+    for (const w of warnings) lines.push('- (warning) ' + w.message)
   }
 
   // Notes section
@@ -68,8 +72,13 @@ export function exportMarkdown(result, shareUrl) {
 }
 
 export function exportPdf(result, shareUrl) {
-  const { columns, slot_module, function_table, conflicts, documentation, notes } = result
-  const conflictFns = new Set(conflicts.functions)
+  const {
+    columns, slot_module, function_table,
+    conflicts = [], warnings = [],
+    highlighted_functions = [],
+    documentation = [], notes = [],
+  } = result
+  const conflictFns = new Set(highlighted_functions)
 
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
 
@@ -83,8 +92,8 @@ export function exportPdf(result, shareUrl) {
 
   const body = []
 
-  // MODULE row
-  const moduleRow = ['MODULE', ...Object.values(slot_module).map(v => v.toUpperCase())]
+  // MODULE row (already uppercased from v1)
+  const moduleRow = ['MODULE', ...Object.values(slot_module)]
   body.push(moduleRow)
 
   // Function rows
@@ -134,17 +143,24 @@ export function exportPdf(result, shareUrl) {
   // Notes and conflicts below the table
   let y = doc.lastAutoTable.finalY + 12
 
-  if (conflicts.notes.length > 0 || notes.length > 0) {
+  if (conflicts.length > 0 || warnings.length > 0 || notes.length > 0) {
     doc.setFontSize(11)
     doc.setTextColor(102, 102, 102)
     doc.text('Notes', 14, y)
     y += 5
 
     doc.setFontSize(8)
-    for (const n of conflicts.notes) {
-      doc.setTextColor(225, 0, 0)
+    doc.setTextColor(225, 0, 0)
+    for (const c of conflicts) {
       if (y > 190) { doc.addPage(); y = 15 }
-      doc.text('- ' + n, 16, y)
+      doc.text('- ' + c.message, 16, y)
+      y += 4
+    }
+
+    doc.setTextColor(200, 130, 0)
+    for (const w of warnings) {
+      if (y > 190) { doc.addPage(); y = 15 }
+      doc.text('- (warning) ' + w.message, 16, y)
       y += 4
     }
 

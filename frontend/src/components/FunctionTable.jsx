@@ -6,25 +6,30 @@ export default function FunctionTable({ result }) {
 
   if (!result) return null
 
-  const { columns, slot_module, function_table, conflicts, documentation, notes } = result
-  const conflictFns = new Set(conflicts.functions)
+  const {
+    columns, slot_module, function_table,
+    conflicts = [], warnings = [],
+    highlighted_functions = [],
+    documentation = [], notes = [],
+  } = result
+  const conflictFns = new Set(highlighted_functions)
 
-  // Build module id -> documentation URL lookup from the documentation strings
+  // Build module id -> documentation URL lookup from the documentation strings.
   const docUrls = {}
   for (const d of documentation) {
     const idx = d.lastIndexOf(': http')
     if (idx !== -1) {
       const url = d.slice(idx + 2)
-      // Match module id from slot_module values against the description prefix
       for (const modId of Object.values(slot_module)) {
-        if (modId !== 'EMPTY' && modId !== 'BLOCKED' && d.toLowerCase().startsWith(modId.toLowerCase())) {
+        if (modId !== 'EMPTY' && modId !== 'BLOCKED'
+            && d.toLowerCase().startsWith(modId.toLowerCase())) {
           docUrls[modId] = url
         }
       }
     }
   }
 
-  // Build shareable URL from slot_module
+  // Build shareable URL from slot_module (lowercase for #combine hash).
   const buildShareUrl = () => {
     const entries = Object.entries(slot_module)
     const baseEntry = entries.find(([key]) => key === 'BASE')
@@ -33,7 +38,6 @@ export default function FunctionTable({ result }) {
     const modules = entries
       .filter(([key]) => key !== 'BASE')
       .map(([, v]) => (v === 'EMPTY' || v === 'BLOCKED') ? 'empty' : v.toLowerCase())
-    // Strip trailing "empty" segments
     while (modules.length > 0 && modules[modules.length - 1] === 'empty') {
       modules.pop()
     }
@@ -52,6 +56,13 @@ export default function FunctionTable({ result }) {
     })
   }
 
+  // Merge structured conflicts + warnings into a single notes display, then
+  // append free-text legacy notes.
+  const allConflictNotes = [
+    ...conflicts.map(c => ({ severity: 'error', text: c.message })),
+    ...warnings.map(w => ({ severity: 'warning', text: w.message })),
+  ]
+
   return (
     <div>
       <div className="function-table-wrap">
@@ -65,8 +76,8 @@ export default function FunctionTable({ result }) {
               {Object.values(slot_module).map((v, i) => (
                 <td key={i}>
                   {docUrls[v]
-                    ? <a href={docUrls[v]} target="_blank" rel="noreferrer">{v.toUpperCase()}</a>
-                    : v.toUpperCase()
+                    ? <a href={docUrls[v]} target="_blank" rel="noreferrer">{v}</a>
+                    : v
                   }
                 </td>
               ))}
@@ -84,12 +95,12 @@ export default function FunctionTable({ result }) {
         </table>
       </div>
 
-      {(conflicts.notes.length > 0 || notes.length > 0) && (
+      {(allConflictNotes.length > 0 || notes.length > 0) && (
         <div className="notes">
           <h3>Notes</h3>
           <ul>
-            {conflicts.notes.map((n, i) => (
-              <li key={'c' + i} className="conflict-note">{n}</li>
+            {allConflictNotes.map((n, i) => (
+              <li key={'c' + i} className={n.severity === 'error' ? 'conflict-note' : 'warning-note'}>{n.text}</li>
             ))}
             {notes.map((n, i) => <li key={'n' + i}>{n}</li>)}
           </ul>

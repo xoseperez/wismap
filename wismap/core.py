@@ -552,10 +552,11 @@ _TYPE_TO_SLOT_PREFIX = {
 }
 
 # Module types exposed via /api/v1/modules. Cores have their own endpoint;
-# Bases have their own; Accessories are passive cables. WisModule covers
-# externally-connected modules (OLED, joysticks, keypads) that don't slot in
-# the standard way but are still part of the catalog.
-_MODULE_LISTING_TYPES = {'WisIO', 'WisSensor', 'WisPower', 'WisModule'}
+# Bases have their own. WisModule covers externally-connected modules (OLED,
+# joysticks, keypads) that don't slot in the standard way but are still part of
+# the catalog. Accessories (cables) are included so the frontend can show the
+# complete catalog from this single endpoint.
+_MODULE_LISTING_TYPES = {'WisIO', 'WisSensor', 'WisPower', 'WisModule', 'Accessories'}
 
 # Roles ignored when deriving signals / interfaces (power, ground, USB, NC, etc.).
 _STRUCTURAL_ROLES = {
@@ -807,6 +808,85 @@ def _derive_base_shared_buses(slot_pin_map):
     ]
 
 
+# ----- Extension-field derivations (frontend convenience, non-breaking) -----
+
+def _derive_pin_mapping(def_dict, show_nc=False):
+    """Return [{pin, function}] sorted by pin number, skipping NC unless show_nc=True."""
+    mapping = def_dict.get('mapping') or {}
+    if not isinstance(mapping, dict):
+        return []
+    pins_per_type = PINS_PER_TYPE.get(def_dict.get('type'), 0)
+    rows = []
+    if pins_per_type == 0:
+        # Modules without fixed pin counts (WisBase, WisModule) — show whatever's listed.
+        for k, v in mapping.items():
+            if v:
+                rows.append({'pin': str(k), 'function': v})
+    else:
+        for index in range(pins_per_type):
+            name = mapping.get(index + 1, 'NC')
+            if name != 'NC' or show_nc:
+                rows.append({'pin': str(index + 1), 'function': name})
+    return rows
+
+
+def _derive_base_pin_mapping_table(base_def, slot_def, show_nc=False):
+    """Return {columns: [slot names], rows: [{pin, [slot]: function, ...}]} for a base."""
+    slots = base_def.get('slots') or {}
+    if not slots:
+        return None
+    slot_columns = list(slots.keys())
+    resolved_slots = {}
+    for slot_name in slot_columns:
+        slot_overrides = slots[slot_name] or {}
+        if slot_name not in slot_def:
+            continue
+        resolved_slots[slot_name] = merge(
+            copy.deepcopy(slot_def[slot_name]),
+            slot_overrides,
+        )
+    rows = []
+    for i in range(1, 41):
+        row = {'pin': str(i)}
+        for slot_name in slot_columns:
+            resolved = resolved_slots.get(slot_name, {})
+            if i in resolved:
+                val = resolved[i]
+                row[slot_name] = '' if (val == 'NC' and not show_nc) else val
+            else:
+                row[slot_name] = ''
+        rows.append(row)
+    return {'columns': slot_columns, 'rows': rows}
+
+
+def _derive_base_slot_info(base_def):
+    """{SLOT_NAME: {double, double_blocks, accepts_type}} for combine-tool dropdowns."""
+    out = {}
+    for slot_name, overrides in (base_def.get('slots') or {}).items():
+        overrides = overrides or {}
+        out[slot_name] = {
+            'double': bool(overrides.get('double', False)),
+            'double_blocks': overrides.get('double_blocks'),
+            'accepts_type': _slot_expected_type(slot_name),
+        }
+    return out
+
+
+def _derive_base_notes(base_def):
+    """Combine static notes with dynamic 'Accepts long sensor on X' messages."""
+    notes = list(base_def.get('notes') or [])
+    for slot_name, overrides in (base_def.get('slots') or {}).items():
+        overrides = overrides or {}
+        if overrides.get('double_blocks'):
+            notes.append(
+                f"Accepts long sensor on {slot_name} slot but blocking "
+                f"{overrides['double_blocks']} slot"
+            )
+        elif overrides.get('double'):
+            notes.append(f"Accepts long sensor on {slot_name} slot")
+    return notes
+
+
 # ----- Compatible-slots index -----
 
 def _build_compatible_slots_index(definitions):
@@ -863,15 +943,18 @@ def get_cores(definitions, config):
         out.append({
             'id': _to_display_id(cid),
             'name': c.get('description', ''),
+            'type': 'WisCore',
+            'category': c.get('category'),
             'mcu': c.get('mcu'),
             'lora_chip': c.get('lora_chip'),
             'peripherals': _derive_core_peripherals(c, core_slot),
             'datasheet_url': c.get('documentation') or None,
+            'tags': c.get('tags') or [],
         })
     return out
 
 
-def get_core(definitions, config, core_id):
+def get_core(definitions, config, core_id, show_nc=False):
     """Get a single Core, full detail. Returns None if not found."""
     cid = _to_canonical_id(core_id)
     if cid not in definitions or definitions[cid].get('type') != 'WisCore':
@@ -889,6 +972,11 @@ def get_core(definitions, config, core_id):
         'compatible_bases': _derive_compatible_bases(definitions),
         'notes': c.get('notes') or [],
         'datasheet_url': c.get('documentation') or None,
+        # Frontend extension fields (non-breaking — clients can ignore):
+        'pin_mapping': _derive_pin_mapping(c, show_nc),
+        'images': c.get('images') or [],
+        'schematics': c.get('schematics') or [],
+        'tags': c.get('tags') or [],
     }
 
 
@@ -903,15 +991,18 @@ def get_bases(definitions):
         out.append({
             'id': _to_display_id(bid),
             'name': b.get('description', ''),
+            'type': 'WisBase',
+            'category': b.get('category'),
             'form_factor': b.get('form_factor'),
             'slots': slots,
             'core_socket': b.get('core_socket'),
             'datasheet_url': b.get('documentation') or None,
+            'tags': b.get('tags') or [],
         })
     return out
 
 
-def get_base(definitions, config, base_id):
+def get_base(definitions, config, base_id, show_nc=False):
     """Get a single Base, full detail. Returns None if not found."""
     bid = _to_canonical_id(base_id)
     if bid not in definitions or definitions[bid].get('type') != 'WisBase':
@@ -930,6 +1021,15 @@ def get_base(definitions, config, base_id):
         'slot_pin_map': slot_pin_map,
         'shared_buses': _derive_base_shared_buses(slot_pin_map),
         'datasheet_url': b.get('documentation') or None,
+        # Frontend extension fields (non-breaking):
+        'slot_info': _derive_base_slot_info(b),
+        'pin_mapping_table': _derive_base_pin_mapping_table(b, slot_def, show_nc),
+        'notes': _derive_base_notes(b),
+        'images': b.get('images') or [],
+        'schematics': b.get('schematics') or [],
+        'tags': b.get('tags') or [],
+        'i2c_address': b.get('i2c_address'),
+        'naming': b.get('naming') or {},
     }
 
 
@@ -964,11 +1064,12 @@ def get_modules_v1(definitions, compatible_slots_index, *,
             'compatible_slots': compat,
             'datasheet_url': m.get('documentation') or None,
             'tags': m.get('tags') or [],
+            'double': m.get('double', False) if mtype == 'WisSensor' else False,
         })
     return out
 
 
-def get_module_v1(definitions, compatible_slots_index, module_id):
+def get_module_v1(definitions, compatible_slots_index, module_id, show_nc=False):
     """Get a single module, full detail. Returns None if not found."""
     mid = _to_canonical_id(module_id)
     if mid not in definitions:
@@ -995,6 +1096,10 @@ def get_module_v1(definitions, compatible_slots_index, module_id):
         'tags': m.get('tags') or [],
         'images': m.get('images') or [],
         'schematics': m.get('schematics') or [],
+        # Frontend extension fields (non-breaking):
+        'pin_mapping': _derive_pin_mapping(m, show_nc),
+        'double': m.get('double', False) if m.get('type') == 'WisSensor' else None,
+        'notes': m.get('notes') or [],
     }
 
 
@@ -1118,29 +1223,37 @@ def resolve(definitions, config, rules, core_id, base_id, slot_assignments,
       - error_code: 'core_not_found' | 'base_not_found' | None
       - http_status: 200 on success, 404 on hard error
     """
-    core_canon = _to_canonical_id(core_id)
     base_canon = _to_canonical_id(base_id)
-
-    if not core_canon or core_canon not in definitions or \
-            definitions[core_canon].get('type') != 'WisCore':
-        return None, 'core_not_found', 404
     if not base_canon or base_canon not in definitions or \
             definitions[base_canon].get('type') != 'WisBase':
         return None, 'base_not_found', 404
 
-    core_def = definitions[core_canon]
     base_def = definitions[base_canon]
+    base_slots = base_def.get('slots') or {}
+    base_has_core_slot = 'CORE' in base_slots
+
+    core_canon = _to_canonical_id(core_id) if core_id else None
+    if base_has_core_slot:
+        if not core_canon or core_canon not in definitions or \
+                definitions[core_canon].get('type') != 'WisCore':
+            return None, 'core_not_found', 404
+    else:
+        # Coreless base (e.g. RAK6421 Pi Hat) — the host platform is the Core.
+        core_canon = None
+
+    core_def = definitions[core_canon] if core_canon else None
     slot_def_all = config.get('slots') or {}
     core_slot_def = slot_def_all.get('CORE', {})
 
-    base_slots = base_def.get('slots') or {}
     sorted_slot_names = sorted(
         base_slots.keys(),
         key=lambda x: SLOT_ORDER.index(x) if x in SLOT_ORDER else len(SLOT_ORDER)
     )
 
-    # Build slot_module dict; CORE is injected from top-level `core`.
-    slot_module = {'BASE': base_canon, 'CORE': core_canon}
+    # Build slot_module dict; CORE is injected from top-level `core` when present.
+    slot_module = {'BASE': base_canon}
+    if core_canon:
+        slot_module['CORE'] = core_canon
     structured_runtime = []  # slot_incompatibility / unknown_module conflicts
 
     for slot_name in sorted_slot_names:
@@ -1188,7 +1301,9 @@ def resolve(definitions, config, rules, core_id, base_id, slot_assignments,
             copy.deepcopy(overrides),
         )
 
-    core_role_to_mcu_pin = _build_core_role_to_mcu_pin(core_def, core_slot_def)
+    core_role_to_mcu_pin = (
+        _build_core_role_to_mcu_pin(core_def, core_slot_def) if core_def else {}
+    )
 
     # Build resolved.slots
     resolved_slots = {}
@@ -1216,7 +1331,7 @@ def resolve(definitions, config, rules, core_id, base_id, slot_assignments,
         }
 
     buses = _resolve_buses(slot_module, slot_pin_resolved, resolved_slots)
-    lorawan = _resolve_lorawan(core_def)
+    lorawan = _resolve_lorawan(core_def) if core_def else None
 
     # Rule-driven conflicts (re-use the legacy data flow)
     mapping_name = base_def.get('functions', 'default')
@@ -1235,18 +1350,46 @@ def resolve(definitions, config, rules, core_id, base_id, slot_assignments,
     resolved_block = None
     if valid:
         resolved_block = {
-            'core': _to_display_id(core_canon),
+            'core': _to_display_id(core_canon) if core_canon else None,
             'base': _to_display_id(base_canon),
             'slots': resolved_slots,
             'buses': buses,
             'lorawan': lorawan,
         }
 
+    # Frontend extension data — the legacy combine() output shape.
+    # The consumer contract ignores these fields per §2 forwards-compat.
+    columns = ['Function']
+    for k in slot_module:
+        columns.append(SLOT_NAMES.get(k, k))
+    documentation = []
+    legacy_notes = []
+    for k, v in slot_module.items():
+        if v in definitions:
+            documentation.append(
+                f"{definitions[v]['description']}: {definitions[v]['documentation']}"
+            )
+            for note in definitions[v].get('notes', []):
+                legacy_notes.append(f"{v.upper()}: {note}")
+    highlighted = []
+    for c in errors + warnings:
+        for h in c.get('_legacy_highlights', []):
+            if h and h not in highlighted:
+                highlighted.append(h)
+
     return {
         'valid': valid,
         'conflicts': [_strip_private(c) for c in errors],
         'warnings': [_strip_private(c) for c in warnings],
         'resolved': resolved_block,
+        # Frontend extension fields (non-breaking — clients can ignore):
+        'function_table': function_slot,
+        'columns': columns,
+        'slot_module': {k: (_to_display_id(v) if v in definitions else v)
+                        for k, v in slot_module.items()},
+        'highlighted_functions': highlighted,
+        'documentation': documentation,
+        'notes': legacy_notes,
     }, None, 200
 
 
@@ -1267,12 +1410,21 @@ def validate_v1(definitions, config, rules, request_body):
     slots = request_body.get('slots')
     options = request_body.get('options') or {}
 
-    if not isinstance(core, str) or not core:
-        return None, ('invalid_request', "Field `core` is required."), 400
     if not isinstance(base, str) or not base:
         return None, ('invalid_request', "Field `base` is required."), 400
     if not isinstance(slots, list):
         return None, ('invalid_request', "Field `slots` must be an array."), 400
+
+    # `core` is required when the base exposes a CORE slot, optional otherwise
+    # (e.g. RAK6421 Pi Hat, where the host Raspberry Pi plays the Core role).
+    base_canon = _to_canonical_id(base)
+    base_def = definitions.get(base_canon)
+    base_has_core = bool(base_def and 'CORE' in (base_def.get('slots') or {}))
+    if base_has_core:
+        if not isinstance(core, str) or not core:
+            return None, ('invalid_request', "Field `core` is required for this base."), 400
+    elif core is not None and (not isinstance(core, str) or not core):
+        return None, ('invalid_request', "Field `core` must be a string when provided."), 400
 
     # Normalize slot entries and enforce uniqueness.
     slot_assignments = {}
@@ -1297,6 +1449,12 @@ def validate_v1(definitions, config, rules, request_body):
     if len(core_entries) > 1:
         return None, ('duplicate_slot', "CORE appears more than once in slots[]."), 422
     if core_entries:
+        if not base_has_core:
+            return None, (
+                'duplicate_slot',
+                f"Base {base} does not expose a CORE slot; remove the CORE entry "
+                f"from slots[]."
+            ), 422
         top_canon = _to_canonical_id(core)
         slot_canon = _to_canonical_id(core_entries[0])
         if top_canon != slot_canon:

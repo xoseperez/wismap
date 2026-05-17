@@ -1,24 +1,29 @@
 import { useState, useEffect, useMemo } from 'react'
-import { fetchModules } from '../api'
+import { fetchAllItems } from '../api'
 
 const TYPES = ['All', 'WisBase', 'WisCore', 'WisIO', 'WisSensor', 'WisPower', 'WisModule', 'Accessories']
 
 export default function ModuleList({ onSelect, typeFilter, onTypeFilterChange, search, onSearchChange }) {
-  const [modules, setModules] = useState([])
+  const [items, setItems] = useState([])
 
   useEffect(() => {
-    fetchModules().then(setModules)
+    fetchAllItems().then(setItems)
   }, [])
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase()
-    return modules.filter(m => {
+    return items.filter(m => {
       if (typeFilter !== 'All' && m.type !== typeFilter) return false
-      if (q && !m.id.includes(q) && !m.description.toLowerCase().includes(q)
-          && !(m.tags || []).some(tag => tag.includes(q))) return false
+      if (q) {
+        const idLc = m.id.toLowerCase()
+        const nameLc = (m.name || '').toLowerCase()
+        const tags = m.tags || []
+        if (!idLc.includes(q) && !nameLc.includes(q)
+            && !tags.some(tag => tag.includes(q))) return false
+      }
       return true
     })
-  }, [modules, typeFilter, search])
+  }, [items, typeFilter, search])
 
   return (
     <div>
@@ -48,9 +53,9 @@ export default function ModuleList({ onSelect, typeFilter, onTypeFilterChange, s
         <tbody>
           {filtered.map(m => (
             <tr key={m.id} onClick={() => onSelect(m.id)} style={{ cursor: 'pointer' }}>
-              <td>{m.id.toUpperCase()}</td>
+              <td>{m.id}</td>
               <td>{m.type}</td>
-              <td>{m.description}</td>
+              <td>{m.name}</td>
             </tr>
           ))}
         </tbody>

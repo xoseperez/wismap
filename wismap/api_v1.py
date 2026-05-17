@@ -65,7 +65,8 @@ def list_cores():
 @bp.route("/cores/<core_id>")
 def get_one_core(core_id):
     definitions, config, _, _ = _data()
-    core = get_core(definitions, config, core_id)
+    show_nc = request.args.get("show_nc", "false").lower() == "true"
+    core = get_core(definitions, config, core_id, show_nc=show_nc)
     if core is None:
         return _error(
             "core_not_found",
@@ -89,7 +90,8 @@ def list_bases():
 @bp.route("/bases/<base_id>")
 def get_one_base(base_id):
     definitions, config, _, _ = _data()
-    base = get_base(definitions, config, base_id)
+    show_nc = request.args.get("show_nc", "false").lower() == "true"
+    base = get_base(definitions, config, base_id, show_nc=show_nc)
     if base is None:
         return _error(
             "base_not_found",
@@ -121,7 +123,8 @@ def list_modules_v1():
 @bp.route("/modules/<module_id>")
 def get_one_module(module_id):
     definitions, _, _, compat_idx = _data()
-    mod = get_module_v1(definitions, compat_idx, module_id)
+    show_nc = request.args.get("show_nc", "false").lower() == "true"
+    mod = get_module_v1(definitions, compat_idx, module_id, show_nc=show_nc)
     if mod is None:
         return _error(
             "module_not_found",

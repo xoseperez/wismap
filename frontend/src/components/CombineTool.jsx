@@ -1,105 +1,141 @@
-import { useState, useEffect, useRef } from 'react'
-import { fetchModules, fetchBaseSlots, postCombine } from '../api'
+import { useState, useEffect, useRef, useMemo } from 'react'
+import { fetchBases, fetchBase, fetchCores, fetchModules, validate } from '../api'
 import FunctionTable from './FunctionTable'
 
 export default function CombineTool({ initialConfig, onConfigConsumed }) {
   const [bases, setBases] = useState([])
+  const [cores, setCores] = useState([])
+  const [allModules, setAllModules] = useState([])
   const [selectedBase, setSelectedBase] = useState('')
-  const [slots, setSlots] = useState(null)       // { CORE: { double, double_blocks, eligible_modules }, ... }
-  const [assignments, setAssignments] = useState({}) // { CORE: 'rak4631', SENSOR_A: '', ... }
+  const [baseInfo, setBaseInfo] = useState(null)
+  const [assignments, setAssignments] = useState({}) // { SLOT_NAME: 'RAK4631' }
   const [blocked, setBlocked] = useState(new Set())
   const [result, setResult] = useState(null)
   const pendingConfig = useRef(null)
+  // Monotonic id so a slow validate() response from a previous base can't
+  // overwrite the cleared state.
+  const validateReqId = useRef(0)
 
-  // Load base boards
+  // Initial: load the catalog once.
   useEffect(() => {
-    fetchModules('WisBase').then(setBases)
+    fetchBases().then(setBases)
+    fetchCores().then(setCores)
+    fetchModules().then(setAllModules)
   }, [])
 
-  // When initialConfig arrives, store it and select the base
+  // Apply a pending #combine/... config once the base is known.
   useEffect(() => {
     if (!initialConfig) return
     pendingConfig.current = initialConfig
-    setSelectedBase(initialConfig.base)
+    setSelectedBase(initialConfig.base.toUpperCase())
     onConfigConsumed()
   }, [initialConfig, onConfigConsumed])
 
-  // When base changes, load its slots
+  // When base changes, clear every derived bit of state before fetching the
+  // new base — otherwise the validate effect can fire with the previous base's
+  // assignments while the new baseInfo is loading.
   useEffect(() => {
-    if (!selectedBase) { setSlots(null); setResult(null); return }
+    setBaseInfo(null)
     setResult(null)
-    fetchBaseSlots(selectedBase).then(data => {
-      setSlots(data)
-      const slotNames = Object.keys(data)
-
-      // Check if we have a pending config to apply
-      const config = pendingConfig.current
-      if (config && config.base === selectedBase && config.modules.length > 0) {
-        pendingConfig.current = null
-        const newAssignments = {}
-        const blockedSet = new Set()
-
-        for (let i = 0; i < slotNames.length; i++) {
-          const slotName = slotNames[i]
-          const moduleId = i < config.modules.length ? config.modules[i] : ''
-          newAssignments[slotName] = (moduleId && moduleId !== 'empty') ? moduleId : ''
-        }
-
-        // Recompute double-sensor blocking
-        for (const [sName, sInfo] of Object.entries(data)) {
-          const mid = newAssignments[sName]
-          if (!mid || !sInfo.double_blocks) continue
-          if (isModuleDouble(mid, sName, data)) {
-            blockedSet.add(sInfo.double_blocks)
-            newAssignments[sInfo.double_blocks] = ''
-          }
-        }
-
-        setAssignments(newAssignments)
-        setBlocked(blockedSet)
-      } else {
-        // Normal init: empty for all slots
-        const init = {}
-        for (const name of slotNames) init[name] = ''
-        setAssignments(init)
-        setBlocked(new Set())
-      }
-    })
+    setAssignments({})
+    setBlocked(new Set())
+    if (!selectedBase) return
+    fetchBase(selectedBase).then(setBaseInfo)
   }, [selectedBase])
 
-  const handleAssignment = (slotName, moduleId) => {
-    const newAssignments = { ...assignments, [slotName]: moduleId }
-
-    // Recompute blocked: look for double-sensor blocking
-    const blockedSet = new Set()
-    if (slots) {
-      for (const [sName, sInfo] of Object.entries(slots)) {
-        const mid = sName === slotName ? moduleId : newAssignments[sName]
-        if (!mid || !sInfo.double_blocks) continue
-        const isDouble = isModuleDouble(mid, sName, slots)
-        if (isDouble) {
-          blockedSet.add(sInfo.double_blocks)
-          newAssignments[sInfo.double_blocks] = ''
-        }
+  // Build per-slot eligibility from compatible_slots / cores list.
+  // For SENSOR/IO/POWER slots: modules whose compatible_slots[base][] includes this slot.
+  // For CORE slot: all Cores (the base has a CORE slot by definition for cores to apply).
+  const eligibleBySlot = useMemo(() => {
+    if (!baseInfo) return {}
+    const out = {}
+    const slotInfo = baseInfo.slot_info || {}
+    for (const slotName of baseInfo.slots) {
+      const accepts = slotInfo[slotName]?.accepts_type
+      if (accepts === 'WisCore') {
+        out[slotName] = cores
+      } else {
+        out[slotName] = allModules.filter(m => {
+          const slots = (m.compatible_slots || {})[baseInfo.id] || []
+          return slots.includes(slotName)
+        })
       }
     }
+    return out
+  }, [baseInfo, cores, allModules])
 
-    setAssignments(newAssignments)
+  // Once baseInfo + eligibility are ready, apply any pending #combine config
+  // OR reset to empty assignments.
+  useEffect(() => {
+    if (!baseInfo) return
+    const slotNames = baseInfo.slots
+    const config = pendingConfig.current
+    if (config && config.base.toUpperCase() === baseInfo.id && config.modules.length > 0) {
+      pendingConfig.current = null
+      const next = {}
+      for (let i = 0; i < slotNames.length; i++) {
+        const slotName = slotNames[i]
+        const moduleId = i < config.modules.length ? config.modules[i] : ''
+        next[slotName] = (moduleId && moduleId.toLowerCase() !== 'empty')
+          ? moduleId.toUpperCase()
+          : ''
+      }
+      const blockedSet = computeBlocked(next, baseInfo, allModules)
+      for (const b of blockedSet) next[b] = ''
+      setAssignments(next)
+      setBlocked(blockedSet)
+    } else {
+      const init = {}
+      for (const name of slotNames) init[name] = ''
+      setAssignments(init)
+      setBlocked(new Set())
+    }
+  }, [baseInfo, allModules])
+
+  const handleAssignment = (slotName, moduleId) => {
+    const next = { ...assignments, [slotName]: moduleId }
+    const blockedSet = computeBlocked(next, baseInfo, allModules)
+    for (const b of blockedSet) next[b] = ''
+    setAssignments(next)
     setBlocked(blockedSet)
   }
 
-  // Auto-analyze whenever assignments change
+  // Auto-validate whenever assignments change.
   useEffect(() => {
-    if (!selectedBase || !slots) { setResult(null); return }
-    const slotMap = {}
-    for (const [name, moduleId] of Object.entries(assignments)) {
-      slotMap[name] = moduleId || 'EMPTY'
+    // Bail (and clear) while the user is mid-switch: selectedBase has updated
+    // but the corresponding baseInfo hasn't loaded yet. Without this, the
+    // effect fires once before our `selectedBase` cleanup commits and would
+    // launch a stale validate against the previous base.
+    if (!baseInfo || !selectedBase || baseInfo.id !== selectedBase) {
+      setResult(null)
+      return
     }
-    for (const b of blocked) {
-      slotMap[b] = 'BLOCKED'
+    const slotInfo = baseInfo.slot_info || {}
+    const baseHasCoreSlot = baseInfo.slots.includes('CORE')
+    // Find the Core (CORE slot assignment) and pass it at top-level per §3.5.
+    let coreId = null
+    const slots = []
+    for (const [slotName, moduleId] of Object.entries(assignments)) {
+      if (!moduleId) continue
+      if (slotInfo[slotName]?.accepts_type === 'WisCore') {
+        coreId = moduleId
+        continue
+      }
+      slots.push({ slot: slotName, module: moduleId })
     }
-    postCombine(selectedBase, slotMap).then(setResult)
-  }, [selectedBase, slots, assignments, blocked])
+    // For bases with a CORE slot we need the user to pick a Core before we can
+    // resolve MCU pins. For coreless bases (RAK6421 Pi Hat) the host platform
+    // plays that role, so we validate without a Core.
+    if (baseHasCoreSlot && !coreId) {
+      setResult(null)
+      return
+    }
+    // Tag the request; only apply its result if it's still the most recent one.
+    const reqId = ++validateReqId.current
+    validate({ core: coreId, base: baseInfo.id, slots }).then(res => {
+      if (reqId === validateReqId.current) setResult(res)
+    })
+  }, [baseInfo, selectedBase, assignments, blocked])
 
   return (
     <div>
@@ -110,13 +146,15 @@ export default function CombineTool({ initialConfig, onConfigConsumed }) {
             <select value={selectedBase} onChange={e => setSelectedBase(e.target.value)}>
               <option value="">-- Select base --</option>
               {bases.map(b => (
-                <option key={b.id} value={b.id}>{b.description}</option>
+                <option key={b.id} value={b.id}>{b.name}</option>
               ))}
             </select>
           </label>
 
-          {slots && Object.entries(slots).map(([slotName, slotInfo]) => {
+          {baseInfo && baseInfo.slots.map(slotName => {
+            const slotInfo = (baseInfo.slot_info || {})[slotName] || {}
             const isBlocked = blocked.has(slotName)
+            const eligible = eligibleBySlot[slotName] || []
             return (
               <label key={slotName}>
                 {slotName}
@@ -128,8 +166,8 @@ export default function CombineTool({ initialConfig, onConfigConsumed }) {
                   disabled={isBlocked}
                 >
                   <option value="">Empty</option>
-                  {slotInfo.eligible_modules.map(m => (
-                    <option key={m.id} value={m.id}>{m.description}</option>
+                  {eligible.map(m => (
+                    <option key={m.id} value={m.id}>{m.name}</option>
                   ))}
                 </select>
               </label>
@@ -147,20 +185,23 @@ export default function CombineTool({ initialConfig, onConfigConsumed }) {
 }
 
 /**
- * Determine if a module is double-size by comparing eligible lists.
- * A double module appears in double-capable slot eligible lists but not
- * in non-double slot eligible lists of the same type.
+ * Recompute which slots are blocked by a double-sized sensor occupying its sibling.
+ * A double sensor placed in a slot with `double_blocks` set forces the named
+ * adjacent slot to BLOCKED.
  */
-function isModuleDouble(moduleId, currentSlot, slots) {
-  const currentType = currentSlot.split('_')[0] // e.g. "SENSOR"
-  // Find a non-double slot of the same type
-  for (const [name, info] of Object.entries(slots)) {
-    if (name === currentSlot) continue
-    if (!name.startsWith(currentType)) continue
-    if (info.double) continue
-    // This is a non-double slot of same type — check if module is NOT eligible
-    const found = info.eligible_modules.some(m => m.id === moduleId)
-    if (!found) return true // Module is not eligible in non-double slot → it's double
+function computeBlocked(assignments, baseInfo, allModules) {
+  const blockedSet = new Set()
+  if (!baseInfo) return blockedSet
+  const slotInfo = baseInfo.slot_info || {}
+  const moduleById = Object.fromEntries(allModules.map(m => [m.id, m]))
+  for (const [slotName, info] of Object.entries(slotInfo)) {
+    if (!info.double_blocks) continue
+    const mid = assignments[slotName]
+    if (!mid) continue
+    const mod = moduleById[mid]
+    if (mod && mod.double) {
+      blockedSet.add(info.double_blocks)
+    }
   }
-  return false
+  return blockedSet
 }
