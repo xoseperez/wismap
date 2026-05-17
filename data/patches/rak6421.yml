@@ -5,6 +5,9 @@ rak6421:
   - https://images.docs.rakwireless.com/wishat/rak6421/datasheet/rak6421-schematic-1.png
   - https://images.docs.rakwireless.com/wishat/rak6421/datasheet/rak6421-schematic-2.png
   type: WisBase
+  category: base
+  form_factor: normal
+  core_socket: null
   description: RAK6421 Pi Hat
   functions: raspberry
   documentation: https://docs.rakwireless.com/product-categories/wishat/rak6421-wisblock-pi-hat/overview/

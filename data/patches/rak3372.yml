@@ -35,6 +35,10 @@ rak3372:
     37: ADC5
     38: PA9 (NC)
   type: WisCore
+  category: core
+  mcu: STMicroelectronics STM32WLE5
+  power_pins:
+    3V3_S_control: PA8
   tags:
   - lorawan
   - lora

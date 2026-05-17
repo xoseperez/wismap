@@ -6,6 +6,9 @@ rak19001:
   - https://images.docs.rakwireless.com/wisblock/rak19001/datasheet/schematic2.png
   - https://images.docs.rakwireless.com/wisblock/rak19001/datasheet/schematic3.png
   type: WisBase
+  category: base
+  form_factor: large
+  core_socket: WB_CORE_S1
   description: RAK19001 Dual IO Base Board
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19001/overview/
   naming:

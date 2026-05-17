@@ -1,4 +1,6 @@
 rak12500:
+  category: sensor
+  chip: u-blox ZOE-M8Q
   images:
   - https://images.docs.rakwireless.com/wisblock/rak12500/rak12500.png
   schematics:

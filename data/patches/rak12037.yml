@@ -1,4 +1,6 @@
 rak12037:
+  category: sensor
+  chip: Sensirion SCD40
   images:
   - https://images.docs.rakwireless.com/wisblock/rak12037/rak12037.png
   schematics:

@@ -1,4 +1,6 @@
 rak18031:
+  category: io
+  chip: STMicroelectronics MP34DT06JTR
   images:
   - https://images.docs.rakwireless.com/wisblock/rak18031/rak18031.png
   schematics:

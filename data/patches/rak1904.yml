@@ -1,4 +1,6 @@
 rak1904:
+  category: sensor
+  chip: STMicroelectronics LIS3DH
   images:
   - https://images.docs.rakwireless.com/wisblock/rak1904/rak1904.png
   schematics:

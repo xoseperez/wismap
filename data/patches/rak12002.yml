@@ -1,4 +1,6 @@
 rak12002:
+  category: sensor
+  chip: Micro Crystal RV-3028
   images:
   - https://images.docs.rakwireless.com/wisblock/rak12002/rak12002.png
   schematics:

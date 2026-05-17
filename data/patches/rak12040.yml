@@ -1,4 +1,6 @@
 rak12040:
+  category: sensor
+  chip: Panasonic AMG8833
   images:
   - https://images.docs.rakwireless.com/wisblock/rak12040/rak12040.png
   schematics:

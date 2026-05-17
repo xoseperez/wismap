@@ -1,4 +1,5 @@
 rak1910:
+  category: sensor
   images:
   - https://images.docs.rakwireless.com/wisblock/rak1910/rak1910.png
   schematics:

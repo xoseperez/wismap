@@ -13,12 +13,16 @@
 rules:
 
   - name: i2c_address_conflict
+    code: i2c_address_collision
+    severity: error
     description: "Possible conflict with I2C addresses"
     match:
       function: I2C_ADDR
       condition: duplicates
 
   - name: ain0_adc_vbat
+    code: pin_contention
+    severity: warning
     description: "Possible conflict with ADC_VBAT if using AIN0"
     match:
       function: AIN0
@@ -27,6 +31,8 @@ rules:
       - rak6421
 
   - name: exclusive_signal
+    code: pin_contention
+    severity: error
     description: "Possible conflict with {function}"
     match:
       function_prefix:
@@ -40,6 +46,8 @@ rules:
       condition: multiple_used
 
   - name: io2_3v3s_enable
+    code: power_pin_conflict
+    severity: warning
     description: "Possible conflict with 3V3_S enable signal if using IO2"
     match:
       function: IO2

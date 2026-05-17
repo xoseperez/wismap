@@ -1,4 +1,6 @@
 rak5814:
+  category: io
+  chip: Microchip ATECC608A
   images:
   - https://images.docs.rakwireless.com/wisblock/rak5814/rak5814.png
   schematics:

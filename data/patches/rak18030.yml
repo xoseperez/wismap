@@ -1,4 +1,6 @@
 rak18030:
+  category: io
+  chip: Knowles SPK0641HT4H-1
   images:
   - https://images.docs.rakwireless.com/wisblock/rak18030/rak18030.png
   schematics:

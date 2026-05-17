@@ -1,4 +1,6 @@
 rak12039:
+  category: sensor
+  chip: Plantower PMSA003I
   images:
   - https://images.docs.rakwireless.com/wisblock/rak12039/rak12039.png
   schematics:

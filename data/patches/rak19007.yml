@@ -5,6 +5,9 @@ rak19007:
   - https://images.docs.rakwireless.com/wisblock/rak19007/datasheet/power-schematic.png
   - https://images.docs.rakwireless.com/wisblock/rak19007/datasheet/slots-schematic.png
   type: WisBase
+  category: base
+  form_factor: normal
+  core_socket: WB_CORE_S1
   description: RAK19007 Base Board 2nd Gen
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19007/overview/
   naming:

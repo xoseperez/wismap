@@ -1,4 +1,5 @@
 rak12033:
+  category: sensor
   images:
   - https://images.docs.rakwireless.com/wisblock/rak12033/rak12033.png
   schematics:

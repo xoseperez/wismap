@@ -43,6 +43,11 @@ rak11722:
     39: GND
     40: GND
   type: WisCore
+  category: core
+  mcu: Ambiq Apollo3 Blue
+  lora_chip: Semtech SX1262
+  power_pins:
+    3V3_S_control: GPIO4
   tags:
   - lorawan
   - lora

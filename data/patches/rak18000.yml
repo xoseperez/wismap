@@ -1,4 +1,5 @@
 rak18000:
+  category: io
   images:
   - https://images.docs.rakwireless.com/wisblock/rak18000/rak18000.png
   schematics:

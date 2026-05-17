@@ -4,6 +4,10 @@ rak3401:
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak3401/datasheet/schematic.svg
   description: RAK3401 nRF52840 BLE Module
+  category: core
+  mcu: Nordic nRF52840
+  power_pins:
+    3V3_S_control: P1.02
   tags:
   - ble
   - bluetooth

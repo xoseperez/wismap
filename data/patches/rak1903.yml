@@ -1,4 +1,6 @@
 rak1903:
+  category: sensor
+  chip: Texas Instruments OPT3001
   images:
   - https://images.docs.rakwireless.com/wisblock/rak1903/rak1903.png
   schematics:

@@ -1,4 +1,5 @@
 rak16002:
+  category: sensor
   images:
   - https://images.docs.rakwireless.com/wisblock/rak16002/rak16002.png
   schematics:

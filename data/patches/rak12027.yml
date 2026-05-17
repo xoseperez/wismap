@@ -1,4 +1,6 @@
 rak12027:
+  category: sensor
+  chip: Omron D7S
   images:
   - https://images.docs.rakwireless.com/wisblock/rak12027/rak12027.jpg
   schematics:

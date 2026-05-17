@@ -4,6 +4,9 @@ rak19010:
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak19010/datasheet/schematic.svg
   type: WisBase
+  category: base
+  form_factor: normal
+  core_socket: WB_CORE_S1
   description: RAK19010 Base Board with Power Slot
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19010/overview/
   naming:

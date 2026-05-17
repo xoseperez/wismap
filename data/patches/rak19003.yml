@@ -5,6 +5,9 @@ rak19003:
   - https://images.docs.rakwireless.com/wisblock/rak19003/datasheet/rak19003-schematic-diagram.png
   - https://images.docs.rakwireless.com/wisblock/rak19003/datasheet/rak19003-schematic-connectors-diagram.png
   type: WisBase
+  category: base
+  form_factor: mini
+  core_socket: WB_CORE_S1
   description: RAK19003 Mini Base Board
   documentation: https://docs.rakwireless.com/product-categories/wisblock/rak19003/overview/
   naming:

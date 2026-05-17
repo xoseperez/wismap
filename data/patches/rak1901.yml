@@ -1,4 +1,6 @@
 rak1901:
+  category: sensor
+  chip: Sensirion SHTC3
   images:
   - https://images.docs.rakwireless.com/wisblock/rak1901/rak1901.png
   schematics:

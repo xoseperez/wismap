@@ -1,4 +1,6 @@
 rak12003:
+  category: sensor
+  chip: Melexis MLX90632
   images:
   - https://images.docs.rakwireless.com/wisblock/rak12003/rak12003.png
   schematics:

@@ -1,4 +1,6 @@
 rak16000:
+  category: sensor
+  chip: Texas Instruments INA219
   images:
   - https://images.docs.rakwireless.com/wisblock/rak16000/rak16000.png
   schematics:

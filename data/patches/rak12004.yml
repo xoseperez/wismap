@@ -1,4 +1,6 @@
 rak12004:
+  category: sensor
+  chip: Winsen MQ-2
   images:
   - https://images.docs.rakwireless.com/wisblock/rak12004/rak12004.png
   schematics:

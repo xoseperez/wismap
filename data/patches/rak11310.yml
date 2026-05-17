@@ -4,6 +4,11 @@ rak11310:
   schematics:
   - https://images.docs.rakwireless.com/wisblock/rak11310/datasheet/schematic.png
   description: RAK11310 RP4020 LoRaWAN
+  category: core
+  mcu: Raspberry Pi RP2040
+  lora_chip: Semtech SX1262
+  power_pins:
+    3V3_S_control: GPIO22
   tags:
   - lorawan
   - lora

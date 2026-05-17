@@ -1,4 +1,6 @@
 rak12047:
+  category: sensor
+  chip: Sensirion SGP40
   images:
   - https://images.docs.rakwireless.com/wisblock/rak12047/rak12047.png
   schematics:

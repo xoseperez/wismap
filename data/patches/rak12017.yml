@@ -1,4 +1,6 @@
 rak12017:
+  category: sensor
+  chip: STMicroelectronics VL53L1X
   images:
   - https://images.docs.rakwireless.com/wisblock/rak12017/rak12017.png
   schematics:

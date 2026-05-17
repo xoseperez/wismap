@@ -1,4 +1,6 @@
 rak12008:
+  category: sensor
+  chip: Sensirion SCD30
   images:
   - https://images.docs.rakwireless.com/wisblock/rak12008/rak12008.png
   schematics:
