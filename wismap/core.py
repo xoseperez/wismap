@@ -259,9 +259,13 @@ def _check_condition(condition, values):
     return False
 
 
-def _detect_conflicts(definitions, slot_module, function_slot, rules):
-    functions = []
-    notes = []
+def _evaluate_rules_v2(definitions, slot_module, function_slot, rules, i2c_overrides=None):
+    """Walk rules.yml, return structured List[Conflict].
+
+    Each conflict has v1 fields plus `_legacy_highlights` (private) so the
+    legacy adapter can preserve the existing combine() behavior.
+    """
+    structured = []
 
     mapping_name = definitions[slot_module['BASE']].get('functions', 'default')
     base_id = slot_module['BASE']
@@ -272,14 +276,16 @@ def _detect_conflicts(definitions, slot_module, function_slot, rules):
     if 'POWER' in slot_module:
         skip_columns += 1
 
+    # function_slot rows are [function_name, val_slot_0, val_slot_1, ...].
+    # `skip_columns` skips the header + the first N slot values (BASE, CORE, ...).
+    # The matching slice into slot_module.keys() is offset by 1 (no header).
+    slot_names_all = list(slot_module.keys())[skip_columns - 1:]
+
     for rule in rules:
         exclude = rule.get('exclude', [])
-
-        # If the base board is excluded, skip the rule entirely
         if base_id in exclude:
             continue
 
-        # Determine which functions this rule applies to
         match = rule['match']
         if 'function' in match:
             target_functions = [match['function']]
@@ -297,20 +303,27 @@ def _detect_conflicts(definitions, slot_module, function_slot, rules):
             if func not in function_slot:
                 continue
 
-            values = function_slot[func][skip_columns:]
+            values_all = function_slot[func][skip_columns:]
 
-            # Filter out values from excluded slot modules
             if exclude:
-                slot_names = list(slot_module.keys())[skip_columns:]
+                pairs = [(v, s) for v, s in zip(values_all, slot_names_all)
+                         if slot_module.get(s) not in exclude]
+                values = [p[0] for p in pairs]
+                slot_names_active = [p[1] for p in pairs]
+            else:
+                values = list(values_all)
+                slot_names_active = list(slot_names_all)
+
+            # I2C address override applies before the duplicates check.
+            if func == 'I2C_ADDR' and i2c_overrides:
                 values = [
-                    v for v, slot in zip(values, slot_names)
-                    if slot_module.get(slot) not in exclude
+                    _i2c_override_for_slot(slot_module.get(s), s, i2c_overrides) or v
+                    for v, s in zip(values, slot_names_active)
                 ]
 
             if not _check_condition(condition, values):
                 continue
 
-            # Check also_requires (cross-reference)
             if 'also_requires' in match:
                 ref = match['also_requires']
                 ref_func = ref['function']
@@ -320,13 +333,73 @@ def _detect_conflicts(definitions, slot_module, function_slot, rules):
                 if not _check_condition(ref['condition'], ref_values):
                     continue
 
-            # Rule fires
-            description = rule['description'].format(function=func)
-            notes.append(description)
+            involves = []
+            for v, s in zip(values, slot_names_active):
+                if not v or '(NC)' in str(v):
+                    continue
+                mod = slot_module.get(s)
+                if mod and mod not in ('EMPTY', 'BLOCKED'):
+                    involves.append({'module': _to_display_id(mod), 'slot': s})
 
-            highlights = rule.get('highlights', [func])
-            functions.extend(h for h in highlights if h not in functions)
+            code = rule.get('code', 'pin_contention')
+            severity = rule.get('severity', 'error')
+            context = {'function': func}
+            if code == 'i2c_address_collision':
+                from collections import Counter
+                items = []
+                for v in values:
+                    if v and '(NC)' not in str(v):
+                        items.extend(item.strip() for item in str(v).split(','))
+                duplicates = sorted({a for a, c in Counter(items).items() if c > 1})
+                if duplicates:
+                    context['addresses'] = duplicates
+                context['bus'] = 'I2C1'
+            elif code == 'pin_contention':
+                context['pin'] = func
+            elif code == 'power_pin_conflict':
+                context['pin'] = 'IO2'
+                context['rail'] = '3V3_S'
 
+            structured.append({
+                'code': code,
+                'message': rule['description'].format(function=func),
+                'severity': severity,
+                'involves': involves,
+                'context': context,
+                '_legacy_highlights': rule.get('highlights', [func]),
+            })
+
+    return structured
+
+
+def _i2c_override_for_slot(module_id, slot_name, overrides):
+    """Look up an i2c_address_override by `<MODULE>@<SLOT>` key. Returns None if no match."""
+    if not module_id or module_id in ('EMPTY', 'BLOCKED'):
+        return None
+    if not isinstance(module_id, str):
+        return None
+    key = f'{_to_display_id(module_id)}@{slot_name}'
+    return overrides.get(key)
+
+
+def _strip_private(conflict):
+    """Drop underscore-prefixed fields before JSON serialization."""
+    return {k: v for k, v in conflict.items() if not k.startswith('_')}
+
+
+def _detect_conflicts(definitions, slot_module, function_slot, rules):
+    """Legacy shape adapter — returns (highlighted_functions, free_text_notes).
+
+    Kept for the legacy combine() path until the frontend migrates in Phase 4.
+    """
+    structured = _evaluate_rules_v2(definitions, slot_module, function_slot, rules, None)
+    functions = []
+    notes = []
+    for c in structured:
+        notes.append(c['message'])
+        for h in c.get('_legacy_highlights', []):
+            if h and h not in functions:
+                functions.append(h)
     return functions, notes
 
 # -----------------------------------------------------------------------------
@@ -923,3 +996,329 @@ def get_module_v1(definitions, compatible_slots_index, module_id):
         'images': m.get('images') or [],
         'schematics': m.get('schematics') or [],
     }
+
+
+# =============================================================================
+# v1 validate — resolve + structured conflicts
+# =============================================================================
+
+def _build_core_role_to_mcu_pin(core_def, core_slot_def):
+    """Map each role assigned in the CORE slot to the Core's MCU pin at that pin number."""
+    mapping = core_def.get('mapping') or {}
+    out = {}
+    for pin_num, role in core_slot_def.items():
+        if not isinstance(pin_num, int):
+            continue
+        clean = _clean_role(role)
+        if clean is None:
+            continue
+        mcu = mapping.get(pin_num)
+        if isinstance(mcu, str) and mcu.strip() and '(NC)' not in mcu:
+            if clean not in out:
+                out[clean] = mcu.strip()
+    return out
+
+
+def _resolve_module_pins(module_def, slot_pin_resolved, core_role_to_mcu_pin):
+    """For one module placed in one slot: signal_alias -> {role, wisblock_pin, mcu_pin}."""
+    module_mapping = module_def.get('mapping') or {}
+    pins = {}
+    for pin_num, module_role in module_mapping.items():
+        if not isinstance(pin_num, int):
+            continue
+        clean_mod_role = _clean_role(module_role)
+        if clean_mod_role is None or not _interesting_role(clean_mod_role):
+            continue
+        alias = _MODULE_ROLE_TO_SIGNAL.get(clean_mod_role)
+        if not alias:
+            continue
+        slot_role = _clean_role(slot_pin_resolved.get(pin_num))
+        if slot_role is None:
+            continue
+        pins[alias] = {
+            'role': slot_role,
+            'wisblock_pin': f'WB_{slot_role}',
+            'mcu_pin': core_role_to_mcu_pin.get(slot_role),
+        }
+    return pins
+
+
+def _resolve_buses(slot_module, slot_pin_resolved, resolved_slots):
+    """Group occupied slots by bus instance; attach I2C device records."""
+    buses = {}
+    for slot_name, pin_map in slot_pin_resolved.items():
+        module_id = slot_module.get(slot_name)
+        if not module_id or module_id in ('EMPTY', 'BLOCKED'):
+            continue
+        if isinstance(module_id, str) and module_id.startswith('UNKNOWN:'):
+            continue
+        seen = set()
+        for pin_num, role in pin_map.items():
+            if not isinstance(pin_num, int):
+                continue
+            bus = _role_to_bus_instance(_clean_role(role))
+            if bus and bus not in ('GPIO', 'analog'):
+                seen.add(bus)
+        for bus in seen:
+            entry = buses.setdefault(bus, {'slots': set(), 'devices': []})
+            entry['slots'].add(slot_name)
+
+    for slot_name, info in resolved_slots.items():
+        if not info.get('i2c_address'):
+            continue
+        pin_map = slot_pin_resolved.get(slot_name, {})
+        i2c_bus = None
+        for pin_num, role in pin_map.items():
+            bus = _role_to_bus_instance(_clean_role(role))
+            if bus and bus.startswith('I2C'):
+                i2c_bus = bus
+                break
+        if i2c_bus and i2c_bus in buses:
+            buses[i2c_bus]['devices'].append({
+                'module': info['module'],
+                'slot': slot_name,
+                'address': info['i2c_address'],
+            })
+
+    return {
+        bus: {'slots': sorted(b['slots']), 'devices': b['devices']}
+        for bus, b in sorted(buses.items())
+    }
+
+
+def _resolve_lorawan(core_def):
+    if not core_def.get('lora_chip'):
+        return None
+    return {
+        'chip': core_def.get('lora_chip'),
+        'spi': 'SPI1',
+        'pins': core_def.get('lora_pins'),
+    }
+
+
+def _slot_expected_type(slot_name):
+    """Which module type a slot accepts."""
+    if slot_name == 'CORE':
+        return 'WisCore'
+    if slot_name.startswith('IO_'):
+        return 'WisIO'
+    if slot_name.startswith('SENSOR_'):
+        return 'WisSensor'
+    if slot_name.startswith('POWER'):
+        return 'WisPower'
+    return None
+
+
+def resolve(definitions, config, rules, core_id, base_id, slot_assignments,
+            i2c_overrides=None):
+    """Build the v1 ValidateResponse for a given configuration.
+
+    Returns (response_dict, error_code, http_status):
+      - response_dict: v1 shape `{valid, conflicts, warnings, resolved}` (or None on hard error)
+      - error_code: 'core_not_found' | 'base_not_found' | None
+      - http_status: 200 on success, 404 on hard error
+    """
+    core_canon = _to_canonical_id(core_id)
+    base_canon = _to_canonical_id(base_id)
+
+    if not core_canon or core_canon not in definitions or \
+            definitions[core_canon].get('type') != 'WisCore':
+        return None, 'core_not_found', 404
+    if not base_canon or base_canon not in definitions or \
+            definitions[base_canon].get('type') != 'WisBase':
+        return None, 'base_not_found', 404
+
+    core_def = definitions[core_canon]
+    base_def = definitions[base_canon]
+    slot_def_all = config.get('slots') or {}
+    core_slot_def = slot_def_all.get('CORE', {})
+
+    base_slots = base_def.get('slots') or {}
+    sorted_slot_names = sorted(
+        base_slots.keys(),
+        key=lambda x: SLOT_ORDER.index(x) if x in SLOT_ORDER else len(SLOT_ORDER)
+    )
+
+    # Build slot_module dict; CORE is injected from top-level `core`.
+    slot_module = {'BASE': base_canon, 'CORE': core_canon}
+    structured_runtime = []  # slot_incompatibility / unknown_module conflicts
+
+    for slot_name in sorted_slot_names:
+        if slot_name == 'CORE':
+            continue
+        assigned_raw = slot_assignments.get(slot_name, 'EMPTY')
+        if not assigned_raw or str(assigned_raw).strip().lower() in ('empty', 'blocked'):
+            slot_module[slot_name] = 'EMPTY'
+            continue
+        canon = _to_canonical_id(assigned_raw)
+        if canon not in definitions:
+            structured_runtime.append({
+                'code': 'unknown_module',
+                'message': f"Module '{assigned_raw}' is not known to WisMAP.",
+                'severity': 'error',
+                'involves': [{'module': str(assigned_raw), 'slot': slot_name}],
+                'context': {'slot': slot_name},
+            })
+            slot_module[slot_name] = 'EMPTY'
+            continue
+        # Type compatibility check
+        expected = _slot_expected_type(slot_name)
+        actual = definitions[canon].get('type')
+        if expected and actual != expected:
+            structured_runtime.append({
+                'code': 'slot_incompatibility',
+                'message': (f"Module {_to_display_id(canon)} ({actual}) cannot fit "
+                            f"slot {slot_name} (accepts {expected})."),
+                'severity': 'error',
+                'involves': [{'module': _to_display_id(canon), 'slot': slot_name}],
+                'context': {'slot': slot_name, 'expected_type': expected, 'actual_type': actual},
+            })
+            slot_module[slot_name] = 'EMPTY'  # skip in resolved view
+            continue
+        slot_module[slot_name] = canon
+
+    # Resolve every slot's pin map (config + base overrides).
+    slot_pin_resolved = {}
+    for slot_name in sorted_slot_names:
+        if slot_name not in slot_def_all:
+            continue
+        overrides = base_slots.get(slot_name) or {}
+        slot_pin_resolved[slot_name] = merge(
+            copy.deepcopy(slot_def_all[slot_name]),
+            copy.deepcopy(overrides),
+        )
+
+    core_role_to_mcu_pin = _build_core_role_to_mcu_pin(core_def, core_slot_def)
+
+    # Build resolved.slots
+    resolved_slots = {}
+    for slot_name in sorted_slot_names:
+        if slot_name == 'CORE':
+            continue
+        module_id = slot_module.get(slot_name)
+        if not module_id or module_id in ('EMPTY', 'BLOCKED'):
+            continue
+        module_def = definitions[module_id]
+        addrs = _normalize_i2c_address(module_def.get('i2c_address')) or []
+        i2c_address = addrs[0] if addrs else None
+        override = _i2c_override_for_slot(module_id, slot_name, i2c_overrides or {})
+        if override:
+            i2c_address = override
+        resolved_slots[slot_name] = {
+            'module': _to_display_id(module_id),
+            'i2c_address': i2c_address,
+            'pins': _resolve_module_pins(
+                module_def,
+                slot_pin_resolved.get(slot_name, {}),
+                core_role_to_mcu_pin,
+            ),
+            'power': _derive_module_power(module_def),
+        }
+
+    buses = _resolve_buses(slot_module, slot_pin_resolved, resolved_slots)
+    lorawan = _resolve_lorawan(core_def)
+
+    # Rule-driven conflicts (re-use the legacy data flow)
+    mapping_name = base_def.get('functions', 'default')
+    function_slot = _function_mapping(
+        definitions, config, mapping_name, slot_module, slot_pin_resolved
+    )
+    rule_conflicts = _evaluate_rules_v2(
+        definitions, slot_module, function_slot, rules, i2c_overrides
+    )
+
+    all_conflicts = structured_runtime + rule_conflicts
+    errors = [c for c in all_conflicts if c.get('severity') == 'error']
+    warnings = [c for c in all_conflicts if c.get('severity') == 'warning']
+    valid = len(errors) == 0
+
+    resolved_block = None
+    if valid:
+        resolved_block = {
+            'core': _to_display_id(core_canon),
+            'base': _to_display_id(base_canon),
+            'slots': resolved_slots,
+            'buses': buses,
+            'lorawan': lorawan,
+        }
+
+    return {
+        'valid': valid,
+        'conflicts': [_strip_private(c) for c in errors],
+        'warnings': [_strip_private(c) for c in warnings],
+        'resolved': resolved_block,
+    }, None, 200
+
+
+def validate_v1(definitions, config, rules, request_body):
+    """Validate a `{core, base, slots, options}` request body.
+
+    Returns (response_dict, error_code, http_status):
+      - 200: response_dict is the v1 ValidateResponse; error_code is None.
+      - 400: malformed JSON shape.
+      - 404: unknown core or base.
+      - 422: duplicate slot, or CORE entry in slots[] that disagrees with top-level core.
+    """
+    if not isinstance(request_body, dict):
+        return None, ('invalid_request', "Request body must be a JSON object."), 400
+
+    core = request_body.get('core')
+    base = request_body.get('base')
+    slots = request_body.get('slots')
+    options = request_body.get('options') or {}
+
+    if not isinstance(core, str) or not core:
+        return None, ('invalid_request', "Field `core` is required."), 400
+    if not isinstance(base, str) or not base:
+        return None, ('invalid_request', "Field `base` is required."), 400
+    if not isinstance(slots, list):
+        return None, ('invalid_request', "Field `slots` must be an array."), 400
+
+    # Normalize slot entries and enforce uniqueness.
+    slot_assignments = {}
+    core_entries = []
+    for i, entry in enumerate(slots):
+        if not isinstance(entry, dict):
+            return None, ('invalid_request', f"slots[{i}] must be an object."), 400
+        slot_name = entry.get('slot')
+        module_id = entry.get('module')
+        if not isinstance(slot_name, str) or not slot_name:
+            return None, ('invalid_request', f"slots[{i}].slot is required."), 400
+        if not isinstance(module_id, str) or not module_id:
+            return None, ('invalid_request', f"slots[{i}].module is required."), 400
+        if slot_name == 'CORE':
+            core_entries.append(module_id)
+            continue
+        if slot_name in slot_assignments:
+            return None, ('duplicate_slot', f"Slot '{slot_name}' appears more than once."), 422
+        slot_assignments[slot_name] = module_id
+
+    # §3.5: CORE entry in slots[] tolerated only if it matches top-level `core`.
+    if len(core_entries) > 1:
+        return None, ('duplicate_slot', "CORE appears more than once in slots[]."), 422
+    if core_entries:
+        top_canon = _to_canonical_id(core)
+        slot_canon = _to_canonical_id(core_entries[0])
+        if top_canon != slot_canon:
+            return None, (
+                'duplicate_slot',
+                f"CORE entry in slots[] ({core_entries[0]}) disagrees with top-level "
+                f"core ({core}). Use the top-level `core` field only."
+            ), 422
+
+    i2c_overrides = options.get('i2c_address_overrides') if isinstance(options, dict) else None
+
+    response, err, status = resolve(
+        definitions, config, rules, core, base, slot_assignments, i2c_overrides
+    )
+    if err is not None:
+        return None, (err, _err_message(err, core, base)), status
+    return response, None, 200
+
+
+def _err_message(code, core, base):
+    if code == 'core_not_found':
+        return f"Core '{core}' is not known to WisMAP."
+    if code == 'base_not_found':
+        return f"Base '{base}' is not known to WisMAP."
+    return code
