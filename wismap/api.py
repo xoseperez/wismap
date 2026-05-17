@@ -12,7 +12,10 @@ from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
-from wismap.core import load_data, list_modules, get_module_info, get_base_slots, combine
+from wismap.core import (
+    load_data_v1, list_modules, get_module_info, get_base_slots, combine,
+)
+from wismap.api_v1 import bp as api_v1_bp
 
 # ---------------------------------------------------------------------------
 # App setup
@@ -23,11 +26,15 @@ _project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _data_folder = os.path.join(_project_root, "data")
 _frontend_dist = os.path.join(_project_root, "frontend", "dist")
 
-definitions, config, rules = load_data(_data_folder)
+definitions, config, rules, compat_slots_index = load_data_v1(_data_folder)
 
 app = Flask(__name__, static_folder=_frontend_dist, static_url_path="")
 app.json.sort_keys = False
 CORS(app)
+
+# Stash the loaded data on the app so the v1 blueprint can access it.
+app.config["WISMAP_DATA"] = (definitions, config, rules, compat_slots_index)
+app.register_blueprint(api_v1_bp)
 
 # ---------------------------------------------------------------------------
 # Rate limiting — configurable via environment variables
