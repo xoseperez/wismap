@@ -44,6 +44,9 @@ setup:
 serve: .venv/touchfile
 	set -e ; . .venv/bin/activate ; python -m wismap.api
 
+check-openapi: .venv/touchfile
+	set -e ; . .venv/bin/activate ; python tests/check_openapi_coverage.py
+
 # ---------------------------------------------------------------------------
 # Frontend
 # ---------------------------------------------------------------------------
@@ -73,5 +76,5 @@ docker-up:
 docker-down:
 	docker compose down
 
-.PHONY: clean freeze import serve frontend-install frontend-dev frontend-build docker-build docker-run docker-up docker-down
+.PHONY: clean freeze import serve check-openapi frontend-install frontend-dev frontend-build docker-build docker-run docker-up docker-down
 

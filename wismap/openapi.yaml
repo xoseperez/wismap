@@ -1,0 +1,1150 @@
+openapi: 3.1.0
+
+info:
+  title: WisMAP API
+  version: "0.3.1"      # MUST match wismap.__version__ — checked by tests/check_openapi_coverage.py
+  description: |
+    Versioned JSON API for the RAKwireless WisBlock pin-mapping tool.
+
+    This document is the **canonical machine-readable contract**. The
+    rationale and prose narrative live in the spec workflow under
+    `ai/specs/005-wismap-api-v1/` (consumer team's draft + our accepted
+    deviations). Read those before negotiating any breaking change.
+
+    ## Conventions
+
+    Deviations from the consumer team's Appendix A sketch are noted with
+    references into §`N` of `ai/specs/005-wismap-api-v1/review.md`.
+
+    - **Slot names** are descriptive (`SENSOR_A`, `IO_A`, `CORE`, `POWER`),
+      not single-letter. (§3.1)
+    - **Pin role names** are unprefixed (`I2C1_SDA`). The Arduino-style
+      `WB_*` alias is exposed alongside in
+      `resolved.slots[*].pins[*].wisblock_pin`. (§3.2)
+    - **Module taxonomy** exposes both `type` (WisMAP physical class:
+      `WisCore | WisIO | WisSensor | WisPower | WisModule | Accessories`)
+      and `category` (functional:
+      `sensor | io | display | communication | storage | power | core | base`).
+      (§3.3)
+    - **Module / Core / Base IDs** are uppercase in responses (`RAK1901`);
+      accepted case-insensitively on input. (§3.4)
+    - **`core` in `/validate`** is required only when the base exposes a
+      CORE slot. Coreless bases (e.g. RAK6421 Pi Hat) may omit it. (§3.5)
+
+    ## Extension fields
+
+    Every response also carries fields that the WisMAP frontend and
+    internal tools consume but that are not part of the consumer-team
+    contract. They are marked here with `x-extension: true` and a
+    description that begins `Convenience field; consumers may ignore.`
+    Per §2 forwards-compat, ignoring them is safe.
+
+    ## Versioning
+
+    Within `/api/v1` adding a field, endpoint, conflict code, or warning
+    code is **non-breaking**. Removing or renaming any of them requires a
+    new major prefix (`/api/v2/`). See `ai/constitution.md`.
+  contact:
+    name: WisMAP
+    url: https://github.com/RAKWireless
+
+servers:
+  - url: http://localhost:5000
+    description: Local development
+  # TODO — add the production server URL once hosting is decided
+  # (open question §12 Q1 of ai/specs/005-wismap-api-v1/spec.md).
+
+tags:
+  - name: Health
+    description: Liveness probe.
+  - name: Cores
+    description: WisBlock Core modules — the host MCU + optional LoRa radio.
+  - name: Bases
+    description: WisBlock Base boards — the host PCB that exposes slots.
+  - name: Modules
+    description: WisIO / WisSensor / WisModule / WisPower / Accessories.
+  - name: Validation
+    description: |
+      Given a `{core, base, slots[]}` proposal, return either a clean
+      resolution (with concrete pin assignments per module) or a list of
+      structured conflicts.
+
+# ============================================================================
+# Paths
+# ============================================================================
+
+paths:
+
+  /api/v1/healthz:
+    get:
+      operationId: healthz
+      summary: Liveness probe
+      tags: [Health]
+      responses:
+        "200":
+          description: Service is up.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/HealthResponse" }
+              example:
+                status: ok
+                version: "0.3.1"
+
+  # ─── Cores ──────────────────────────────────────────────────────────────
+
+  /api/v1/cores:
+    get:
+      operationId: listCores
+      summary: List WisBlock Cores
+      tags: [Cores]
+      responses:
+        "200":
+          description: Cores in summary form.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [cores]
+                properties:
+                  cores:
+                    type: array
+                    items: { $ref: "#/components/schemas/CoreSummary" }
+              example:
+                cores:
+                  - id: RAK4631
+                    name: RAK4631 nRF52840 LoRaWAN
+                    type: WisCore
+                    category: core
+                    mcu: Nordic nRF52840
+                    lora_chip: Semtech SX1262
+                    peripherals: [GPIO, I2C1, I2C2, SPI1, UART0, UART1, analog]
+                    datasheet_url: https://docs.rakwireless.com/product-categories/wisblock/rak4631/overview/
+                    tags: [lorawan, lora, ble, bluetooth, nrf52840, microcontroller, spi, i2c, uart]
+
+  /api/v1/cores/{id}:
+    get:
+      operationId: getCore
+      summary: Get one Core
+      tags: [Cores]
+      parameters:
+        - $ref: "#/components/parameters/CoreIdPath"
+        - $ref: "#/components/parameters/ShowNc"
+      responses:
+        "200":
+          description: Core detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Core" }
+              example:
+                id: RAK4631
+                name: RAK4631 nRF52840 LoRaWAN
+                mcu: Nordic nRF52840
+                lora_chip: Semtech SX1262
+                peripherals: [GPIO, I2C1, I2C2, SPI1, UART0, UART1, analog]
+                lora_pins: null
+                power_pins:
+                  3V3_S_control: P1.02
+                compatible_bases: [RAK19001, RAK19003, RAK19007, RAK19009, RAK19010, RAK19011, RAK5005-O]
+                notes: []
+                datasheet_url: https://docs.rakwireless.com/product-categories/wisblock/rak4631/overview/
+                pin_mapping:
+                  - { pin: "10", function: "P1.01" }
+                  - { pin: "11", function: "P0.20" }
+                images: []
+                schematics: []
+                tags: [lorawan, lora]
+        "404":
+          $ref: "#/components/responses/CoreNotFound"
+
+  # ─── Bases ──────────────────────────────────────────────────────────────
+
+  /api/v1/bases:
+    get:
+      operationId: listBases
+      summary: List WisBlock Base boards
+      tags: [Bases]
+      responses:
+        "200":
+          description: Bases in summary form.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [bases]
+                properties:
+                  bases:
+                    type: array
+                    items: { $ref: "#/components/schemas/BaseSummary" }
+              example:
+                bases:
+                  - id: RAK19007
+                    name: RAK19007 Base Board 2nd Gen
+                    type: WisBase
+                    category: base
+                    form_factor: normal
+                    slots: [CORE, IO_A, SENSOR_A, SENSOR_B, SENSOR_C, SENSOR_D]
+                    core_socket: WB_CORE_S1
+                    datasheet_url: https://docs.rakwireless.com/product-categories/wisblock/rak19007/overview/
+                    tags: [base-board]
+
+  /api/v1/bases/{id}:
+    get:
+      operationId: getBase
+      summary: Get one Base
+      tags: [Bases]
+      parameters:
+        - $ref: "#/components/parameters/BaseIdPath"
+        - $ref: "#/components/parameters/ShowNc"
+      responses:
+        "200":
+          description: Base detail with per-slot pin geometry.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Base" }
+              example:
+                id: RAK19007
+                name: RAK19007 Base Board 2nd Gen
+                form_factor: normal
+                slots: [CORE, IO_A, SENSOR_A, SENSOR_B, SENSOR_C, SENSOR_D]
+                core_socket: WB_CORE_S1
+                slot_pin_map:
+                  SENSOR_A:
+                    I2C1_SCL: I2C1_SCL
+                    I2C1_SDA: I2C1_SDA
+                    SPI_CS: SPI_CS
+                shared_buses:
+                  - { bus: I2C1, slots: [CORE, IO_A, SENSOR_A, SENSOR_B, SENSOR_C, SENSOR_D] }
+                datasheet_url: https://docs.rakwireless.com/product-categories/wisblock/rak19007/overview/
+                slot_info:
+                  CORE: { double: false, double_blocks: null, accepts_type: WisCore }
+                  IO_A: { double: false, double_blocks: null, accepts_type: WisIO }
+                  SENSOR_A: { double: true, double_blocks: SENSOR_B, accepts_type: WisSensor }
+                notes:
+                  - "Accepts long sensor on SENSOR_A slot but blocking SENSOR_B slot"
+        "404":
+          $ref: "#/components/responses/BaseNotFound"
+
+  # ─── Modules ────────────────────────────────────────────────────────────
+
+  /api/v1/modules:
+    get:
+      operationId: listModules
+      summary: List modules
+      tags: [Modules]
+      description: |
+        WisIO, WisSensor, WisModule, WisPower, and Accessories. Cores and
+        Bases have their own endpoints.
+      parameters:
+        - $ref: "#/components/parameters/Type"
+        - $ref: "#/components/parameters/Category"
+        - $ref: "#/components/parameters/Interface"
+        - $ref: "#/components/parameters/CompatibleWithCore"
+      responses:
+        "200":
+          description: Modules in summary form, filtered by the query parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [modules]
+                properties:
+                  modules:
+                    type: array
+                    items: { $ref: "#/components/schemas/ModuleSummary" }
+              example:
+                modules:
+                  - id: RAK1901
+                    name: RAK1901 Temperature and Humidity Sensor
+                    chip: Sensirion SHTC3
+                    type: WisSensor
+                    category: sensor
+                    interfaces: [I2C]
+                    i2c_addresses: ["0x70"]
+                    compatible_slots:
+                      RAK19007: [SENSOR_A, SENSOR_B, SENSOR_C, SENSOR_D]
+                    datasheet_url: https://docs.rakwireless.com/product-categories/wisblock/rak1901/overview/
+                    tags: [temperature, humidity, environmental, i2c]
+                    double: false
+
+  /api/v1/modules/{id}:
+    get:
+      operationId: getModule
+      summary: Get one module
+      tags: [Modules]
+      parameters:
+        - $ref: "#/components/parameters/ModuleIdPath"
+        - $ref: "#/components/parameters/ShowNc"
+      responses:
+        "200":
+          description: Module detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Module" }
+              example:
+                id: RAK1901
+                name: RAK1901 Temperature and Humidity Sensor
+                chip: Sensirion SHTC3
+                type: WisSensor
+                category: sensor
+                interfaces: [I2C]
+                i2c_addresses: ["0x70"]
+                i2c_alternate_addresses: []
+                signal_map:
+                  SDA: { role: I2C_SDA }
+                  SCL: { role: I2C_SCL }
+                compatible_slots:
+                  RAK19007: [SENSOR_A, SENSOR_B, SENSOR_C, SENSOR_D]
+                core_requirements:
+                  peripherals: [I2C1]
+                power:
+                  rail: 3V3
+                  control_pin: null
+                  warmup_ms: null
+                  current_typical_uA: null
+                  current_peak_mA: null
+                electrical_notes: null
+                datasheet_url: https://docs.rakwireless.com/product-categories/wisblock/rak1901/overview/
+                example_urls: []
+                tags: [temperature, humidity, environmental, i2c]
+                images: []
+                schematics: []
+                pin_mapping:
+                  - { pin: "2", function: GND }
+                  - { pin: "7", function: I2C_SCL }
+                  - { pin: "8", function: I2C_SDA }
+                double: false
+                notes: []
+        "404":
+          $ref: "#/components/responses/ModuleNotFound"
+
+  # ─── Validate ───────────────────────────────────────────────────────────
+
+  /api/v1/validate:
+    post:
+      operationId: validate
+      summary: Validate a configuration
+      tags: [Validation]
+      description: |
+        Returns 200 with `valid: true|false` for every well-formed request.
+        Conflicts are **not errors** — they appear in the `conflicts[]`
+        array. The 4xx responses are reserved for problems with the request
+        itself (malformed JSON, duplicate slot, unknown core/base, etc.).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ValidateRequest" }
+            examples:
+              valid-clean:
+                summary: Clean valid config (fixture 01)
+                value:
+                  core: RAK4631
+                  base: RAK19007
+                  slots:
+                    - { slot: SENSOR_A, module: RAK1901 }
+                    - { slot: SENSOR_B, module: RAK1902 }
+              i2c-collision:
+                summary: Same module twice — I2C address collision (fixture 02)
+                value:
+                  core: RAK4631
+                  base: RAK19007
+                  slots:
+                    - { slot: SENSOR_A, module: RAK1901 }
+                    - { slot: SENSOR_C, module: RAK1901 }
+              i2c-override:
+                summary: Collision resolved by jumper override (fixture 03)
+                value:
+                  core: RAK4631
+                  base: RAK19007
+                  slots:
+                    - { slot: SENSOR_A, module: RAK1901 }
+                    - { slot: SENSOR_C, module: RAK1901 }
+                  options:
+                    i2c_address_overrides:
+                      RAK1901@SENSOR_C: "0x71"
+              coreless-base:
+                summary: Coreless base (RAK6421 Pi Hat), core omitted (fixture 14)
+                value:
+                  base: RAK6421
+                  slots:
+                    - { slot: SENSOR_A, module: RAK1901 }
+      responses:
+        "200":
+          description: |
+            Validation completed. Check `valid` and the `conflicts[]` /
+            `warnings[]` arrays. `resolved` is null when `valid` is false.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ValidateResponse" }
+              examples:
+                valid:
+                  summary: "Clean config → valid:true, full resolved block"
+                  value:
+                    valid: true
+                    conflicts: []
+                    warnings: []
+                    resolved:
+                      core: RAK4631
+                      base: RAK19007
+                      slots:
+                        SENSOR_A:
+                          module: RAK1901
+                          i2c_address: "0x70"
+                          pins:
+                            SDA: { role: I2C1_SDA, wisblock_pin: WB_I2C1_SDA, mcu_pin: P0.13 }
+                            SCL: { role: I2C1_SCL, wisblock_pin: WB_I2C1_SCL, mcu_pin: P0.14 }
+                          power: { rail: 3V3, control_pin: null, warmup_ms: null, current_typical_uA: null, current_peak_mA: null }
+                      buses:
+                        I2C1:
+                          slots: [CORE, SENSOR_A, SENSOR_B]
+                          devices:
+                            - { module: RAK1901, slot: SENSOR_A, address: "0x70" }
+                      lorawan:
+                        chip: Semtech SX1262
+                        spi: SPI1
+                        pins: null
+                conflict:
+                  summary: "I2C address collision → valid:false, structured conflict"
+                  value:
+                    valid: false
+                    conflicts:
+                      - code: i2c_address_collision
+                        message: "Possible conflict with I2C addresses"
+                        severity: error
+                        involves:
+                          - { module: RAK1901, slot: SENSOR_A }
+                          - { module: RAK1901, slot: SENSOR_C }
+                        context:
+                          function: I2C_ADDR
+                          addresses: ["0x70"]
+                          bus: I2C1
+                    warnings: []
+                    resolved: null
+        "400":
+          description: Malformed request body (bad JSON, missing required field, wrong type).
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+              example:
+                error:
+                  code: invalid_request
+                  message: "Field `core` is required for this base."
+        "404":
+          description: Unknown core or base id.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+              example:
+                error:
+                  code: core_not_found
+                  message: "Core 'RAK9999' is not known to WisMAP."
+        "422":
+          description: |
+            Request shape valid but semantically rejectable: duplicate slot
+            in `slots[]`, or `CORE` entry in `slots[]` that disagrees with
+            the top-level `core`. See §3.5 of the consumer-contract review.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+              example:
+                error:
+                  code: duplicate_slot
+                  message: "Slot 'SENSOR_A' appears more than once."
+
+# ============================================================================
+# Components
+# ============================================================================
+
+components:
+
+  # ─── Parameters ─────────────────────────────────────────────────────────
+
+  parameters:
+    CoreIdPath:
+      name: id
+      in: path
+      required: true
+      description: Core id (case-insensitive on input; uppercase on output).
+      schema: { type: string, examples: [RAK4631] }
+    BaseIdPath:
+      name: id
+      in: path
+      required: true
+      description: Base id (case-insensitive on input; uppercase on output).
+      schema: { type: string, examples: [RAK19007] }
+    ModuleIdPath:
+      name: id
+      in: path
+      required: true
+      description: Module id (case-insensitive on input; uppercase on output).
+      schema: { type: string, examples: [RAK1901] }
+    ShowNc:
+      name: show_nc
+      in: query
+      required: false
+      description: |
+        When `true`, `pin_mapping` and `pin_mapping_table` include NC
+        (not-connected) pins. Default `false` for compact responses.
+      schema: { type: boolean, default: false }
+    Type:
+      name: type
+      in: query
+      required: false
+      description: Filter by WisMAP physical class.
+      schema:
+        type: string
+        enum: [WisIO, WisSensor, WisModule, WisPower, Accessories]
+    Category:
+      name: category
+      in: query
+      required: false
+      description: Filter by functional category.
+      schema:
+        type: string
+        enum: [sensor, io, display, communication, storage, power, core, base]
+    Interface:
+      name: interface
+      in: query
+      required: false
+      description: Filter by bus family the module uses.
+      schema:
+        type: string
+        enum: [I2C, SPI, UART, GPIO, analog, I2S, PDM]
+    CompatibleWithCore:
+      name: compatible_with_core
+      in: query
+      required: false
+      description: |
+        Filter to modules compatible with the named Core. Accepted in any case.
+      schema: { type: string, examples: [RAK4631] }
+
+  # ─── Responses ──────────────────────────────────────────────────────────
+
+  responses:
+    CoreNotFound:
+      description: Core id not in WisMAP catalog.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+          example:
+            error:
+              code: core_not_found
+              message: "Core 'RAK9999' is not known to WisMAP."
+              details: { core: "RAK9999" }
+    BaseNotFound:
+      description: Base id not in WisMAP catalog.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+          example:
+            error:
+              code: base_not_found
+              message: "Base 'RAK9999' is not known to WisMAP."
+              details: { base: "RAK9999" }
+    ModuleNotFound:
+      description: Module id not in WisMAP catalog (and not a Core or Base).
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+          example:
+            error:
+              code: module_not_found
+              message: "Module 'RAK9999' is not known to WisMAP."
+              details: { module: "RAK9999" }
+
+  # ─── Schemas ────────────────────────────────────────────────────────────
+
+  schemas:
+
+    # — Errors —
+
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              description: |
+                One of: `invalid_request`, `unauthorized`, `forbidden`,
+                `core_not_found`, `base_not_found`, `module_not_found`,
+                `duplicate_slot`, `unprocessable`, `rate_limited`,
+                `internal_error`, `service_unavailable`.
+            message: { type: string }
+            details:
+              type: object
+              additionalProperties: true
+
+    # — Health —
+
+    HealthResponse:
+      type: object
+      required: [status, version]
+      properties:
+        status:  { type: string, enum: [ok] }
+        version:
+          type: string
+          description: WisMAP build version (from `wismap.__version__`).
+
+    # — Cores —
+
+    CoreSummary:
+      type: object
+      required: [id, name, type, mcu, peripherals]
+      properties:
+        id:    { type: string, examples: [RAK4631] }
+        name:  { type: string }
+        type:  { type: string, enum: [WisCore] }
+        category:
+          type: [string, "null"]
+          enum: [core, null]
+        mcu:
+          type: string
+          description: Manufacturer-prefixed MCU name. Example `Nordic nRF52840`.
+        lora_chip:
+          type: [string, "null"]
+          description: |
+            Manufacturer-prefixed LoRa chip name. `null` for cores without an
+            external LoRa radio (e.g. RAK11200) or cores with an integrated
+            sub-GHz radio in the MCU itself (e.g. STM32WLE5).
+        peripherals:
+          type: array
+          description: |
+            Bus instances exposed via the CORE slot, derived from the Core's
+            pin mapping at boot. Example: `["GPIO", "I2C1", "SPI1", "UART0"]`.
+          items: { type: string }
+        datasheet_url:
+          type: [string, "null"]
+          format: uri
+        tags:
+          type: array
+          items: { type: string }
+
+    Core:
+      allOf:
+        - $ref: "#/components/schemas/CoreSummary"
+        - type: object
+          properties:
+            lora_pins:
+              type: [object, "null"]
+              description: |
+                MCU-pin map for the on-board LoRa SPI. `null` in v1 until
+                Phase 6 of the data-backfill spec populates them.
+              additionalProperties: { type: string }
+            power_pins:
+              type: [object, "null"]
+              description: |
+                MCU pins for power-rail control. Currently only
+                `3V3_S_control` is populated.
+              additionalProperties: { type: string }
+            compatible_bases:
+              type: array
+              items: { type: string }
+              description: Bases that expose a CORE slot.
+            notes:
+              type: array
+              items: { type: string }
+            pin_mapping:
+              type: array
+              items: { $ref: "#/components/schemas/PinMappingEntry" }
+              description: |
+                **Convenience field; consumers may ignore.** Per-pin function
+                map of the Core (pin number → MCU pin or signal name) used by
+                the WisMAP frontend's ModuleDetail view.
+            images:
+              type: array
+              items: { type: string, format: uri }
+            schematics:
+              type: array
+              items: { type: string, format: uri }
+
+    # — Bases —
+
+    BaseSummary:
+      type: object
+      required: [id, name, type, slots]
+      properties:
+        id:   { type: string, examples: [RAK19007] }
+        name: { type: string }
+        type: { type: string, enum: [WisBase] }
+        category:
+          type: [string, "null"]
+          enum: [base, null]
+        form_factor:
+          type: [string, "null"]
+          enum: [mini, normal, large, null]
+        slots:
+          type: array
+          items: { type: string }
+          description: |
+            Descriptive slot ids in canonical order
+            (`CORE`, `POWER`, `IO_A`, `IO_B`, `SENSOR_A`…`SENSOR_F`).
+        core_socket:
+          type: [string, "null"]
+          description: |
+            Identifier of the connector the Core sits in. `null` for
+            coreless bases like RAK6421 (Pi Hat).
+        datasheet_url:
+          type: [string, "null"]
+          format: uri
+        tags:
+          type: array
+          items: { type: string }
+
+    Base:
+      allOf:
+        - $ref: "#/components/schemas/BaseSummary"
+        - type: object
+          properties:
+            slot_pin_map:
+              type: object
+              description: |
+                Per-slot pin-role map. Key is the slot name, value is a dict
+                where both keys and values are role names. Example:
+                `{ "SENSOR_A": { "I2C1_SDA": "I2C1_SDA", "SPI_CS": "SPI_CS" } }`.
+              additionalProperties:
+                type: object
+                additionalProperties: { type: string }
+            shared_buses:
+              type: array
+              description: Which slots share each bus instance.
+              items:
+                type: object
+                properties:
+                  bus:   { type: string }
+                  slots:
+                    type: array
+                    items: { type: string }
+            slot_info:
+              type: object
+              description: |
+                **Convenience field; consumers may ignore.** Per-slot
+                double/blocking/accepts-type metadata used by the frontend's
+                combine-tool dropdowns.
+              additionalProperties: { $ref: "#/components/schemas/SlotInfo" }
+            pin_mapping_table:
+              type: [object, "null"]
+              description: |
+                **Convenience field; consumers may ignore.** Wide-format
+                pin-by-slot table used by the frontend's ModuleDetail view.
+              properties:
+                columns:
+                  type: array
+                  items: { type: string }
+                rows:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: { type: string }
+            notes:
+              type: array
+              items: { type: string }
+            images:
+              type: array
+              items: { type: string, format: uri }
+            schematics:
+              type: array
+              items: { type: string, format: uri }
+            i2c_address:
+              type: [string, "null"]
+              description: |
+                Some bases (e.g. RAK6421 Pi Hat) embed their own I2C device.
+                When present, this is its address.
+            naming:
+              type: object
+              description: Per-base role-name overrides (legacy field).
+              additionalProperties: { type: string }
+
+    SlotInfo:
+      type: object
+      properties:
+        double:
+          type: boolean
+          description: True when the slot can host a double-size sensor.
+        double_blocks:
+          type: [string, "null"]
+          description: |
+            When `double: true`, the name of the adjacent slot that becomes
+            BLOCKED when a double-size sensor is placed here.
+        accepts_type:
+          type: [string, "null"]
+          description: |
+            Which module type fits this slot
+            (`WisCore` | `WisIO` | `WisSensor` | `WisPower`).
+
+    # — Modules —
+
+    ModuleSummary:
+      type: object
+      required: [id, name, type]
+      properties:
+        id:   { type: string, examples: [RAK1901] }
+        name: { type: string }
+        chip:
+          type: [string, "null"]
+          description: |
+            Manufacturer-prefixed primary chip name where known
+            (e.g. `Sensirion SHTC3`). Many modules are not yet populated;
+            see `ai/specs/007-power-data-backfill/`.
+        type:
+          type: string
+          enum: [WisIO, WisSensor, WisModule, WisPower, Accessories]
+        category:
+          type: [string, "null"]
+          enum: [sensor, io, display, communication, storage, power, null]
+        interfaces:
+          type: array
+          description: Bus families used by this module.
+          items:
+            type: string
+            enum: [I2C, SPI, UART, GPIO, analog, I2S, PDM]
+        i2c_addresses:
+          type: array
+          items: { type: string, examples: ["0x70"] }
+        compatible_slots:
+          type: object
+          description: |
+            For each base id, the list of slot ids on that base where this
+            module fits. Slot-type compatibility and double-sensor blocking
+            are pre-resolved here.
+          additionalProperties:
+            type: array
+            items: { type: string }
+        datasheet_url:
+          type: [string, "null"]
+          format: uri
+        tags:
+          type: array
+          items: { type: string }
+        double:
+          type: boolean
+          description: |
+            True for double-size sensors (occupy two adjacent sensor slots).
+            Always false for non-WisSensor types.
+
+    Module:
+      allOf:
+        - $ref: "#/components/schemas/ModuleSummary"
+        - type: object
+          properties:
+            i2c_alternate_addresses:
+              type: array
+              items: { type: string }
+              description: Jumper- or strap-selectable alternate addresses.
+            signal_map:
+              type: object
+              description: |
+                Module-side signal alias → role. Used by the validator to
+                resolve `resolved.slots[*].pins`. Example:
+                `{ "SDA": { "role": "I2C_SDA" } }`.
+              additionalProperties:
+                type: object
+                properties:
+                  role: { type: string }
+            core_requirements:
+              type: object
+              properties:
+                peripherals:
+                  type: array
+                  items: { type: string }
+                  description: |
+                    Numbered peripherals the module needs
+                    (`I2C1`, `SPI1`, `UART`, `GPIO`, etc.).
+            power:
+              $ref: "#/components/schemas/PowerInfo"
+            electrical_notes:
+              type: [string, "null"]
+            example_urls:
+              type: array
+              items: { type: string, format: uri }
+            images:
+              type: array
+              items: { type: string, format: uri }
+            schematics:
+              type: array
+              items: { type: string, format: uri }
+            pin_mapping:
+              type: array
+              items: { $ref: "#/components/schemas/PinMappingEntry" }
+              description: |
+                **Convenience field; consumers may ignore.** Per-pin function
+                map used by the frontend's ModuleDetail view.
+            notes:
+              type: array
+              items: { type: string }
+
+    PowerInfo:
+      type: object
+      properties:
+        rail:
+          type: string
+          enum: [3V3, 3V3_S]
+          description: |
+            `3V3_S` for modules behind the switched rail (controlled by IO2);
+            `3V3` otherwise.
+        control_pin:
+          type: [string, "null"]
+          description: |
+            `IO2` for modules on `3V3_S`; `null` for modules on always-on `3V3`.
+        warmup_ms:
+          type: [integer, "null"]
+          description: |
+            Time after enabling `3V3_S` before the module is ready to talk.
+            `null` in v1 — see `ai/specs/007-power-data-backfill/`.
+        current_typical_uA:
+          type: [integer, "null"]
+          description: Typical active-mode current draw, microamps. `null` in v1.
+        current_peak_mA:
+          type: [integer, "null"]
+          description: |
+            Peak current draw, milliamps. Used by the future
+            `high_current_estimate` warning rule. `null` in v1.
+
+    PinMappingEntry:
+      type: object
+      required: [pin, function]
+      properties:
+        pin:      { type: string, examples: ["8"] }
+        function: { type: string, examples: [I2C_SDA] }
+
+    # — Validate —
+
+    ValidateRequest:
+      type: object
+      required: [base, slots]
+      properties:
+        core:
+          type: [string, "null"]
+          description: |
+            Core id. Required for bases that expose a `CORE` slot
+            (the common case). Optional/null for coreless bases
+            (e.g. RAK6421 Pi Hat). See §3.5 of `005-wismap-api-v1/review.md`.
+        base:
+          type: string
+          examples: [RAK19007]
+        slots:
+          type: array
+          description: |
+            Slot assignments for non-CORE slots. Do **not** include a
+            `{slot: "CORE", ...}` entry — use the top-level `core` field.
+            A matching `CORE` entry is silently dropped (tolerated);
+            a disagreeing one returns 422.
+          items:
+            type: object
+            required: [slot, module]
+            properties:
+              slot:   { type: string, examples: [SENSOR_A] }
+              module: { type: string, examples: [RAK1901] }
+        options:
+          type: object
+          properties:
+            i2c_address_overrides:
+              type: object
+              description: |
+                Declare a strap-modified I2C address.
+                Key format: `<MODULE>@<SLOT>` (display ids).
+                Example: `{"RAK1906@SENSOR_B": "0x77"}`.
+              additionalProperties: { type: string }
+
+    ValidateResponse:
+      type: object
+      required: [valid, conflicts, warnings]
+      properties:
+        valid:
+          type: boolean
+          description: |
+            `true` iff no `severity: error` conflicts. Warnings do not
+            block validity.
+        conflicts:
+          type: array
+          items: { $ref: "#/components/schemas/Conflict" }
+          description: |
+            Severity `error`. Each conflict blocks code generation.
+        warnings:
+          type: array
+          items: { $ref: "#/components/schemas/Conflict" }
+          description: |
+            Severity `warning`. Surfaced to the user but do not block.
+        resolved:
+          oneOf:
+            - { $ref: "#/components/schemas/Resolved" }
+            - { type: "null" }
+          description: "Concrete pin/bus/lorawan resolution; null if valid is false."
+        # Extension fields below — frontend convenience, consumers may ignore.
+        function_table:
+          type: object
+          description: |
+            **Convenience field; consumers may ignore.** Full function-by-slot
+            grid the WisMAP UI uses to render the combine result. Keys are
+            function names (`I2C1_SDA`, `IO5`, …); values are arrays whose
+            indices align with `columns`.
+          additionalProperties:
+            type: array
+            items: { type: string }
+        columns:
+          type: array
+          description: |
+            **Convenience field; consumers may ignore.** Header row for
+            `function_table`. First entry is always `Function`; remaining
+            entries name `Base board`, `Core module`, then per-slot columns.
+          items: { type: string }
+        slot_module:
+          type: object
+          description: |
+            **Convenience field; consumers may ignore.** Slot → display
+            module-id mapping including `BASE`, `CORE`, and `EMPTY` /
+            `BLOCKED` placeholders.
+          additionalProperties: { type: string }
+        highlighted_functions:
+          type: array
+          description: |
+            **Convenience field; consumers may ignore.** Function names the
+            frontend should highlight as conflicting (derived from rule
+            firings).
+          items: { type: string }
+        documentation:
+          type: array
+          description: |
+            **Convenience field; consumers may ignore.** `"<name>: <url>"`
+            strings for each module in the config.
+          items: { type: string }
+        notes:
+          type: array
+          description: |
+            **Convenience field; consumers may ignore.** Free-text notes
+            from each module's `notes:` field, prefixed with the module id.
+          items: { type: string }
+
+    Resolved:
+      type: object
+      properties:
+        core:
+          type: [string, "null"]
+          description: |
+            `null` for coreless bases (RAK6421); display id otherwise.
+        base: { type: string }
+        slots:
+          type: object
+          additionalProperties: { $ref: "#/components/schemas/ResolvedSlot" }
+        buses:
+          type: object
+          description: One entry per bus instance the config uses.
+          additionalProperties: { $ref: "#/components/schemas/ResolvedBus" }
+        lorawan:
+          oneOf:
+            - { $ref: "#/components/schemas/Lorawan" }
+            - { type: "null" }
+          description: |
+            Populated for cores that have a LoRa chip (`lora_chip != null`).
+            `null` for coreless bases and for BLE-only / WiFi-only cores.
+
+    ResolvedSlot:
+      type: object
+      properties:
+        module:      { type: string, description: Display module id. }
+        i2c_address:
+          type: [string, "null"]
+          description: |
+            Effective address — the module's default, or an override applied
+            via `options.i2c_address_overrides`.
+        pins:
+          type: object
+          description: Module signal → resolved pin info.
+          additionalProperties: { $ref: "#/components/schemas/ResolvedPin" }
+        power:
+          $ref: "#/components/schemas/PowerInfo"
+
+    ResolvedPin:
+      type: object
+      properties:
+        role:
+          type: string
+          description: |
+            WisMAP canonical role name on the slot's pin
+            (e.g. `I2C1_SDA`, `SPI_CS`).
+        wisblock_pin:
+          type: string
+          description: |
+            Arduino-style `WB_` prefixed alias of `role`. Exposed for
+            consumers that consume the WisBlock BSP defines verbatim.
+        mcu_pin:
+          type: [string, "null"]
+          description: |
+            Chosen Core's MCU pin at this slot pin. `null` for coreless
+            bases or when the Core's mapping is incomplete.
+
+    ResolvedBus:
+      type: object
+      properties:
+        slots:
+          type: array
+          items: { type: string }
+          description: Slots whose modules use this bus instance.
+        devices:
+          type: array
+          description: I2C devices on this bus (omitted for non-I2C buses).
+          items: { $ref: "#/components/schemas/ResolvedBusDevice" }
+
+    ResolvedBusDevice:
+      type: object
+      properties:
+        module:  { type: string }
+        slot:    { type: string }
+        address: { type: string, examples: ["0x70"] }
+
+    Lorawan:
+      type: object
+      properties:
+        chip: { type: string, examples: [Semtech SX1262] }
+        spi:  { type: string, enum: [SPI1] }
+        pins:
+          type: [object, "null"]
+          additionalProperties: { type: string }
+
+    # — Conflicts —
+
+    Conflict:
+      type: object
+      required: [code, message, severity, involves]
+      properties:
+        code:
+          type: string
+          enum:
+            - slot_incompatibility
+            - core_incompatibility
+            - pin_contention
+            - i2c_address_collision
+            - power_pin_conflict
+            - bus_oversubscription
+            - duplicate_slot
+            - unknown_module
+            - high_current_estimate
+          description: |
+            Closed enum. Adding a new code is non-breaking; renaming or
+            removing one requires a new major version. `high_current_estimate`
+            is reserved but dormant until `ai/specs/007-power-data-backfill/`
+            ships.
+        message: { type: string }
+        severity:
+          type: string
+          enum: [error, warning]
+        involves:
+          type: array
+          description: |
+            Modules and/or slots referenced by this conflict.
+            Each entry is `{module, slot}`, `{core}`, or `{base}`.
+          items:
+            type: object
+            additionalProperties: { type: string }
+        context:
+          type: object
+          description: |
+            Conflict-specific context (e.g. `{bus, addresses}` for
+            `i2c_address_collision`; `{pin}` for `pin_contention`).
+          additionalProperties: true
+        hint:
+          type: [string, "null"]
+          description: Optional remediation hint.

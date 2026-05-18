@@ -65,9 +65,16 @@ limiter = Limiter(
 
 @app.after_request
 def set_security_headers(response):
+    # Swagger UI's bootstrap is an inline <script> in our vendored index.html.
+    # Loosen `script-src` with 'unsafe-inline' for /api/v1/docs* only.
+    # SECURITY: do NOT render any user-controlled content into the Swagger UI
+    # page or its assets — the carve-out below assumes the page contains only
+    # static HTML that boots SwaggerUIBundle against /api/v1/openapi.yaml.
+    is_docs = request.path.startswith("/api/v1/docs")
+    script_src = "script-src 'self' 'unsafe-inline'; " if is_docs else "script-src 'self'; "
     response.headers["Content-Security-Policy"] = (
         "default-src 'self'; "
-        "script-src 'self'; "
+        + script_src +
         "style-src 'self' 'unsafe-inline'; "
         "img-src 'self' data: https://images.docs.rakwireless.com; "
         "connect-src 'self'; "

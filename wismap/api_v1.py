@@ -9,14 +9,19 @@ Endpoints (all mounted under /api/v1 by the host Flask app):
   GET  /bases/<id>
   GET  /modules
   GET  /modules/<id>
+  POST /validate
 
-POST /validate is added in Phase 3.
+  GET  /openapi.yaml          → canonical contract (hand-authored)
+  GET  /docs                  → Swagger UI browser (vendored assets)
+  GET  /docs/<asset>          → vendored Swagger UI CSS/JS
 
 Error responses follow the spec's envelope:
   { "error": { "code": "<code>", "message": "<msg>", "details": {...} } }
 """
 
-from flask import Blueprint, jsonify, request, current_app
+import os
+
+from flask import Blueprint, jsonify, request, current_app, send_from_directory, Response
 
 from wismap import __version__
 from wismap.core import (
@@ -27,6 +32,10 @@ from wismap.core import (
 )
 
 bp = Blueprint("api_v1", __name__, url_prefix="/api/v1")
+
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_OPENAPI_FILE = os.path.join(_HERE, "openapi.yaml")
+_SWAGGER_DIR = os.path.join(_HERE, "static", "swagger-ui")
 
 
 def _error(code, message, status, details=None):
@@ -151,3 +160,26 @@ def validate():
         code, message = err
         return _error(code, message, status)
     return jsonify(response), status
+
+
+# ---------------------------------------------------------------------------
+# OpenAPI doc + Swagger UI
+# ---------------------------------------------------------------------------
+
+@bp.route("/openapi.yaml")
+def openapi_doc():
+    """Serve the canonical OpenAPI 3.1 document (hand-authored)."""
+    with open(_OPENAPI_FILE, encoding="utf-8") as f:
+        return Response(f.read(), mimetype="application/yaml")
+
+
+@bp.route("/docs")
+def swagger_docs():
+    """Swagger UI single-page browser, loads /api/v1/openapi.yaml."""
+    return send_from_directory(_SWAGGER_DIR, "index.html")
+
+
+@bp.route("/docs/<path:filename>")
+def swagger_assets(filename):
+    """Serve vendored Swagger UI static assets (css/js)."""
+    return send_from_directory(_SWAGGER_DIR, filename)
