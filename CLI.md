@@ -1,7 +1,9 @@
 WisBlock PIN Mapper CLI
 ==========================
 
-WisMAP is a CLI port written in python for the RAKwireles Pin Mapper spreadsheet that allows the user to identify potential conflicts between modules in their WisBlock integrations.
+WisMAP is a CLI port written in Python for the RAKwireless Pin Mapper spreadsheet that allows the user to identify potential conflicts between modules in their WisBlock integrations.
+
+The CLI shares its business logic (catalog, slot resolution, conflict detection) with the HTTP API documented in [README.md](README.md#http-api). The CLI is the most direct way to script combine analyses or scan the catalog from a terminal; the HTTP API is for integrations and for the bundled web UI.
 
 ## Install / Update
 
@@ -78,10 +80,10 @@ Example output:
 Importing data from original spreadheet
 ---------------------------------------
 Using cached spreadsheet
-Found 90 products
+Found 101 products
 Applying patches
 Filtering and sorting
-Final list has 137 products
+Final list has 141 products
 Saving definitions
 
 ```
@@ -147,7 +149,7 @@ Example output:
 └─────────┴───────┴────────────────────────────────┴───────────────────────────────────────────────────────────────────────────┘
 ```
 
-Tags cover protocol/interface (i2c, spi, uart, rs485, modbus, can), communication (lorawan, ble, wifi, nb-iot, gnss), sensor type (temperature, humidity, pressure, co2, voc), and use case (environmental, motion, industrial, audio, display, storage).
+Tags cover protocol/interface (i2c, spi, uart, rs485, modbus, can), communication (lorawan, ble, wifi, nb-iot, gnss, nfc, uwb, ethernet), sensor type (temperature, humidity, pressure, co2, voc, accelerometer, gyroscope), and use case (environmental, motion, industrial, audio, display, storage, power).
 
 ### Info
 

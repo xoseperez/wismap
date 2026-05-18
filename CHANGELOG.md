@@ -4,6 +4,79 @@ Changelog
 All notable changes to this project will be documented in this file.
 
 
+## 0.4.0 — 2026-05-18
+
+Major release: new consumer-facing API contract, frontend migrated, and a
+formal OpenAPI document with an interactive Swagger UI.
+
+### API
+
+* New versioned JSON API under `/api/v1/*`, designed against the WisBlock
+  Code Generator team's draft and the negotiated review document
+  (see `ai/specs/005-wismap-api-v1/`):
+  - `GET /api/v1/healthz`
+  - `GET /api/v1/cores` and `GET /api/v1/cores/:id`
+  - `GET /api/v1/bases` and `GET /api/v1/bases/:id`
+  - `GET /api/v1/modules` (filter by `type`, `category`, `interface`,
+    `compatible_with_core`) and `GET /api/v1/modules/:id`
+  - `POST /api/v1/validate` returns structured `conflicts[]` / `warnings[]`
+    with `{code, severity, involves, context, hint}`, a `resolved` block
+    that includes per-pin `role` / `wisblock_pin` / `mcu_pin`, plus a
+    `buses` map and `lorawan` block
+* Legacy non-versioned endpoints removed: `GET /api/modules`,
+  `GET /api/modules/:id`, `GET /api/bases/:id/slots`, `POST /api/combine`.
+  Frontend uses `/api/v1/*` exclusively.
+* `/api/image-proxy` retained as an internal utility for the frontend's
+  PDF-export flow (not part of the consumer contract).
+* Coreless bases (e.g. RAK6421 Pi Hat): `core` is optional in
+  `POST /api/v1/validate` when the base has no CORE slot; `resolved.core`
+  and `resolved.lorawan` are `null` in that case.
+
+### Documentation
+
+* Canonical OpenAPI 3.1 doc at `wismap/openapi.yaml`, served verbatim at
+  `GET /api/v1/openapi.yaml`.
+* Interactive Swagger UI at `GET /api/v1/docs` (vendored static assets,
+  CSP carve-out scoped to that path only).
+* Test fixtures at `tests/fixtures/validate/` (15 canonical request/
+  response pairs) for downstream-consumer CI; regeneratable via
+  `python tests/fixtures/_generate.py`.
+* `make check-openapi` drift check asserts every registered v1 route has
+  a documented path and `info.version` matches `wismap.__version__`.
+
+### Data enrichment
+
+* All Cores now carry `mcu`, `lora_chip` (where applicable), and
+  `power_pins.3V3_S_control`.
+* All Bases carry `form_factor` (`mini | normal | large`) and
+  `core_socket`.
+* All non-Core/Base modules carry a `category`
+  (`sensor | io | display | communication | storage | power`); 22 modules
+  carry a concrete `chip` name (more populated incrementally — see
+  `ai/specs/007-power-data-backfill/`).
+* `rules.yml` gained `code` + `severity` per rule for structured conflict
+  output.
+
+### Frontend
+
+* Migrated from the legacy `/api/*` to `/api/v1/*` exclusively.
+* New unified browse view fetches Cores, Bases, and Modules in parallel.
+* Module detail dispatches by type to the appropriate `/api/v1/*` endpoint.
+* Combine tool derives slot eligibility from `module.compatible_slots` and
+  `base.slot_info`; passes `core` at the top level per the spec contract.
+* Conflict rendering uses structured `{code, severity, message, involves}`
+  items; warnings styled distinctly from errors.
+
+### Fixes
+
+* Slot-names slicing in `_detect_conflicts` was off-by-one (latent because
+  the legacy `exclude:` filter rarely fired); now corrected — `involves[]`
+  in structured conflicts is populated correctly.
+* Combine tool stale-state on base switch: `result` is cleared and the
+  validate effect bails until `baseInfo.id === selectedBase`; a monotonic
+  request id drops late responses from previous bases.
+
+
 ## 0.3.1 — 2026-03-14
 
 * Add export options (PDF, Markdown) to the module detail page

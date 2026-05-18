@@ -5,13 +5,14 @@ WisMAP identifies potential pin conflicts between modules in [RAKwireless WisBlo
 
 Features:
 
-* Browse all WisBlock modules with filtering by type (filters persist across navigation)
+* Browse all WisBlock modules with filtering by type and category (filters persist across navigation)
 * Search modules by name, description, or tags (protocol, sensor type, communication, use case)
 * View detailed pin mappings, documentation links, and clickable tags for any module
 * Combine modules on a base board and detect pin conflicts, I2C address collisions, and signal incompatibilities
 * Export combine results to Markdown or PDF
 * Shareable URLs for combine configurations
-* Supports ~140 modules across all WisBlock types (Base, Core, IO, Sensor, Power)
+* Versioned JSON API (`/api/v1/*`) with interactive Swagger UI documentation at `/api/v1/docs`
+* Supports ~140 modules across all WisBlock types (Base, Core, IO, Sensor, Power, Module, Accessories)
 
 The REST API (Flask) and the web frontend (React) have been developed with the assistance of [Claude Code](https://claude.ai/code), Anthropic's AI coding tool.
 
@@ -93,6 +94,27 @@ python wismap.py info rak12008   # show module details
 python wismap.py combine rak6421 rak5802 rak5801 empty empty rak12002 rak18001
 ```
 
+## HTTP API
+
+WisMAP exposes a versioned JSON API at `/api/v1/*`. The full contract is
+machine-readable as OpenAPI 3.1:
+
+* **Interactive browser**: http://localhost:5000/api/v1/docs (Swagger UI)
+* **Raw OpenAPI document**: http://localhost:5000/api/v1/openapi.yaml
+
+Endpoints:
+
+| Method | Path | Description |
+|---|---|---|
+| `GET` | `/api/v1/healthz` | Liveness probe |
+| `GET` | `/api/v1/cores` · `/cores/:id` | List / get a Core |
+| `GET` | `/api/v1/bases` · `/bases/:id` | List / get a Base |
+| `GET` | `/api/v1/modules` · `/modules/:id` | List / get a non-Core, non-Base module |
+| `POST` | `/api/v1/validate` | Validate a `{core, base, slots[]}` configuration; returns structured conflicts and a resolved pin map |
+
+Test fixtures (canonical valid + invalid validate requests with expected
+responses) live in `tests/fixtures/validate/` for downstream-consumer CI.
+
 ## Environment variables
 
 The following environment variables can be used to configure the server:
@@ -102,7 +124,6 @@ The following environment variables can be used to configure the server:
 | `FLASK_DEBUG` | `false` | Enable Flask debug mode (`true`, `1`, or `yes` to enable) |
 | `RATELIMIT_ENABLED` | `true` | Enable API rate limiting (`false` to disable, e.g. during development) |
 | `RATELIMIT_DEFAULT` | `120/minute` | Default rate limit for all API endpoints |
-| `RATELIMIT_COMBINE` | `30/minute` | Rate limit for `POST /api/combine` |
 | `RATELIMIT_PROXY` | `60/minute` | Rate limit for `GET /api/image-proxy` |
 | `RATELIMIT_STORAGE_URI` | `memory://` | Storage backend for rate limit counters (use `redis://host:6379` for multi-worker deployments) |
 
@@ -111,7 +132,7 @@ Rate limit values use the format `<amount>/<period>` where period is `second`, `
 When running with Docker Compose, set these in a `.env` file or pass them directly:
 
 ```
-docker compose up -d -e RATELIMIT_COMBINE=60/minute
+docker compose up -d -e RATELIMIT_DEFAULT=240/minute
 ```
 
 ## Roadmap
