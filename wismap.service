@@ -1,0 +1,24 @@
+# systemctl --user daemon-reload
+# systemctl --user start wismap.service
+# systemctl --user enable wismap.service
+# systemctl --user status wismap.service
+# journalctl --user -u wismap.service -f
+# sudo loginctl enable-linger $USER
+
+[Unit]
+Description=WisMAP (podman compose)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=exec
+WorkingDirectory=%h/services/wismap
+ExecStartPre=/usr/bin/podman-compose -f docker-compose-fedora.yml down
+ExecStartPre=/usr/bin/podman-compose -f docker-compose-fedora.yml pull
+ExecStart=/usr/bin/podman-compose -f docker-compose-fedora.yml up
+ExecStop=/usr/bin/podman-compose -f docker-compose-fedora.yml down
+Restart=on-failure
+TimeoutStopSec=30
+
+[Install]
+WantedBy=default.target
